@@ -7,14 +7,15 @@
 */
 
 #include "Chassis.h"
+#include <iostream>
 
 Chassis::Chassis() {
   ahrs.Calibrate();
   std::this_thread::sleep_for(std::chrono::seconds(1));
-  double startTime = frc::Timer::GetFPGATimestamp();
+  double startTime = frc::Timer::GetFPGATimestamp().value();
   while (ahrs.IsCalibrating())
   {
-    double timePassed = frc::Timer::GetFPGATimestamp() - startTime;
+    double timePassed = frc::Timer::GetFPGATimestamp().value() - startTime;
     if (timePassed > 10)
     {
       std::cout<< "ERROR!!!!: NavX took too long to calibrate." <<std::endl;
@@ -57,8 +58,7 @@ Chassis::Chassis() {
     config.AddConstraint(kinematicsConstraints);
 
     auto targetTrajectory = frc::TrajectoryGenerator::GenerateTrajectory(waypoints, config);
-    auto ramseteController = frc::RamseteController(2.0,
-                                                    0.7);
+    auto ramseteController = frc::RamseteController();
     auto commandGroup = frc2::SequentialCommandGroup();
 
     commandGroup.AddCommands(
@@ -73,9 +73,9 @@ Chassis::Chassis() {
           
               setVelocities(kinematics.ToChassisSpeeds(wheelSpeeds)); 
             },
-            this),
+            {this}),
         frc2::InstantCommand(
-            [this]() { setVelocities({}); }, this));
+            [this]() { setVelocities({}); }, {this}));
             
     return commandGroup;
   }

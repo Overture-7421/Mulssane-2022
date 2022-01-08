@@ -25,7 +25,7 @@ deploy {
 
                 // Static files artifact
                 frcStaticFileDeploy(getArtifactTypeClass('FileTreeArtifact')) {
-                    files = project.fileTree('src/main/deploy')
+                    files = project.fileTree('deploy')
                     directory = '/home/lvuser/deploy'
                 }
             }
@@ -36,7 +36,7 @@ deploy {
 def deployArtifact = deploy.targets.roborio.artifacts.frcCpp
 
 // Set this to true to enable desktop support.
-def includeDesktopSupport = false
+def includeDesktopSupport = true
 
 // Set to true to run simulation in debug mode
 wpi.cpp.debugSimulation = false
@@ -56,11 +56,11 @@ model {
 
             sources.cpp {
                 source {
-                    srcDir 'src/main/cpp'
-                    include '**/*.cpp', '**/*.cc'
+                    srcDir 'src/'
+                    include '**/*.cpp', '*.cpp'
                 }
                 exportedHeaders {
-                    srcDir 'src/main/include'
+                    srcDir 'src/'
                 }
             }
 
@@ -76,6 +76,9 @@ model {
             wpi.cpp.vendor.cpp(it)
             wpi.cpp.deps.wpilib(it)
         }
+
+        
+
     }
     testSuites {
         frcUserProgramTest(GoogleTestTestSuiteSpec) {
@@ -83,8 +86,8 @@ model {
 
             sources.cpp {
                 source {
-                    srcDir 'src/test/cpp'
-                    include '**/*.cpp'
+                    srcDir 'tests/'
+                    include '*.cpp','**/*.cpp'
                 }
             }
 
