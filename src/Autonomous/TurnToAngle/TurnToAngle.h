@@ -8,6 +8,7 @@
 #include <frc2/command/CommandHelper.h>
 #include "Subsystems/Chassis.h"
 #include <frc/controller/PIDController.h>
+#include <frc/controller/ProfiledPIDController.h>
 #include <frc/smartdashboard/SmartDashboard.h>
 
 /**
@@ -33,7 +34,11 @@ class TurnToAngle
   private:
   double angleObjective;
   Chassis* chassis;
-  frc2::PIDController turnToAnglePID {0.1, 0.5, 0.0002};
+  ///frc2::PIDController turnToAnglePID {0.1, 0.5, 0.0002};
+  /**
+   * Limit Turn To Angle PID with a Trapezoidal Profile
+   **/
+  frc::ProfiledPIDController<units::degree> turnToAnglePID {0.1, 0.5, 0.0002, {units::degrees_per_second_t(2 * M_PI), units::degrees_per_second_squared_t(4 * M_PI)}};
   double tolerance = 2;
   double currentAngle;
 
