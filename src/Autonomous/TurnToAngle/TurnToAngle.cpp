@@ -14,7 +14,7 @@ TurnToAngle::TurnToAngle(Chassis* chassis, double angleObjective) {
 // Called when the command is initially scheduled.
 void TurnToAngle::Initialize() {
 
-  turnToAnglePID.EnableContinuousInput(-180, 180);
+  turnToAnglePID.EnableContinuousInput(-180_deg, 180_deg);
   //frc::SmartDashboard::PutNumber("P", 0);
   //frc::SmartDashboard::PutNumber("I", 0);
   //frc::SmartDashboard::PutNumber("D", 0);
@@ -23,10 +23,9 @@ void TurnToAngle::Initialize() {
 
 // Called repeatedly when this Command is scheduled to run
 void TurnToAngle::Execute() {
-  turnToAnglePID.SetSetpoint(angleObjective);
   currentAngle = chassis->getPose().Rotation().Degrees().value();
 
-  double angularVelocity = turnToAnglePID.Calculate(currentAngle);
+  double angularVelocity = turnToAnglePID.Calculate(units::degree_t(currentAngle), units::degree_t(angleObjective));
 
   frc::ChassisSpeeds vels;
   vels.omega = units::radians_per_second_t(angularVelocity);
