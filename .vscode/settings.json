@@ -77,5 +77,6 @@
     "cinttypes": "cpp",
     "typeinfo": "cpp"
   },
-  "C_Cpp.default.configurationProvider": "vscode-wpilib"
+  "C_Cpp.default.configurationProvider": "vscode-wpilib",
+  "C_Cpp.errorSquiggles": "Disabled"
 }
