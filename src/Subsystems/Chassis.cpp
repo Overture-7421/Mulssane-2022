@@ -88,6 +88,8 @@ Chassis::Chassis() {
 
 void Chassis::resetOdometry(frc::Pose2d pose){
   odometry.ResetPosition(pose, units::degree_t(-ahrs.GetYaw()));
+  rightMaster.SetSelectedSensorPosition(0.0);
+  leftMaster.SetSelectedSensorPosition(0.0);
 }
 
 // This method will be called once per scheduler run
