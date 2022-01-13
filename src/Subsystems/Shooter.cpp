@@ -3,64 +3,60 @@
 // the WPILib BSD license file in the root directory of this project.
 
 #include "Shooter.h"
-#define M_2_PI 6.2831852
+
+#include <frc/Timer.h>
+#include <frc/smartdashboard/SmartDashboard.h>
 
 Shooter::Shooter() {
-    rightShooter.SetInverted(InvertType::InvertMotorOutput);
+  rightShooter.SetInverted(InvertType::InvertMotorOutput);
 
-    rightShooter.ConfigOpenloopRamp(0.01);
-    leftShooter.ConfigOpenloopRamp(0.01);
+  rightShooter.ConfigOpenloopRamp(0.01);
+  leftShooter.ConfigOpenloopRamp(0.01);
 
-    rightShooter.ConfigSelectedFeedbackSensor(TalonFXFeedbackDevice::IntegratedSensor);
-    leftShooter.ConfigSelectedFeedbackSensor(TalonFXFeedbackDevice::IntegratedSensor); 
+  leftShooter.Follow(rightShooter);
 
-    rightShooter.SetSelectedSensorPosition(0.0);
-    leftShooter.SetSelectedSensorPosition(0.0);
+  rightShooter.ConfigSelectedFeedbackSensor(FeedbackDevice::IntegratedSensor);
+  leftShooter.ConfigSelectedFeedbackSensor(FeedbackDevice::IntegratedSensor);
+
+  rightShooter.SetSelectedSensorPosition(0.0);
+  leftShooter.SetSelectedSensorPosition(0.0);
+  frc2::CommandScheduler::GetInstance().RegisterSubsystem(this);
 }
 
 // This method will be called once per scheduler run
 void Shooter::Periodic() {
-    frc::SmartDashboard::PutNumber("Shooter/Velocity", getCurrentRPS());
-    frc::SmartDashboard::PutNumber("Shooter/Position", rightShooter.GetSelectedSensorPosition());
-    frc::SmartDashboard::PutBoolean("Shooter/ObjectiveReached", rpsObjectiveReached());
+  frc::SmartDashboard::PutNumber("Shooter/Velocity", getVelocity());
+  frc::SmartDashboard::PutNumber("Shooter/Position",
+                                 rightShooter.GetSelectedSensorPosition());
+  frc::SmartDashboard::PutBoolean("Shooter/ObjectiveReached",
+                                  reachedVelocityTarget());
+  frc::SmartDashboard::PutBoolean("Shooter/VoltageApplied",
+                                  rightShooter.GetMotorOutputVoltage());
 
-    double targetRPS = rpsRateLimiter.Calculate(units::radians_per_second_t(radsPerSecond)).to<double>();
-    frc::SmartDashboard::PutNumber("Shooter/RateLimitedRPS", targetRPS);
-    double pulsesPerSecond = encoder_CodesPerRev * targetRPS / M_2_PI;
-    ShooterMaster.Set(ControlMode::Velocity, pulsesPerSecond / 10.0);
+  m_loop.SetNextR(Eigen::Vector<double, 1>{radsPerSecond});
+  m_loop.Correct(Eigen::Vector<double, 1>{getVelocity()});
+  m_loop.Predict(20_ms);
+  rightShooter.SetVoltage(units::volt_t(m_loop.U(0)));
 }
 
-void Shooter::TestShoot(){
+void Shooter::setVelocity(double radsPerS) { this->radsPerSecond = radsPerS; }
 
-    leftShooter.Set(ControlMode::PercentOutput,0.3);
-    rightShooter.Set(ControlMode::PercentOutput,0.3);
+bool Shooter::reachedVelocityTarget() {
+  double error = m_loop.Error()(0);
+  double currentTime = frc::Timer::GetFPGATimestamp().value();
+  bool onTarget = abs(error) < tolerance;
+
+  bool onTargetChanged = onTarget != lastOnTargetState;
+
+  if (onTarget && onTargetChanged) {
+    lastTimeStable = currentTime;
+  }
+
+  lastOnTargetState = onTarget;
+  return currentTime - lastTimeStable > timeToStableRPS && onTarget;
 }
 
-void Shooter::setRPS(double rps)
-{
-    this->radsPerSecond = rps;
+double Shooter::getVelocity() {
+  double encoderCodesPerSec = rightShooter.GetSelectedSensorVelocity() * 10;
+  return (encoderCodesPerSec / encoder_CodesPerRev) * 2.0 * M_PI;
 }
-
-bool Shooter::rpsObjectiveReached()
-{
-    double currentVelocity = getCurrentRPS();
-    double error = radsPerSecond - currentVelocity;
-    double currentTime = frc::Timer::GetFPGATimestamp();
-    bool onTarget = abs(error) < tolerance;
-
-    bool onTargetChanged = onTarget != lastOnTargetState;
-
-    if (onTarget && onTargetChanged)
-    {
-        lastTimeStable = currentTime;
-    }
-
-    lastOnTargetState = onTarget;
-    return currentTime - lastTimeStable > timeToStableRPS && onTarget;
-}
-
-double Shooter::getCurrentRPS()
-{
-    return (rightShooter.GetSelectedSensorVelocity() / encoder_CodesPerRev) * M_2_PI * 10;
-}
-
