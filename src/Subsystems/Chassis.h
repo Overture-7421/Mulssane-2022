@@ -37,6 +37,8 @@ class Chassis : public frc2::SubsystemBase {
   frc2::SequentialCommandGroup getRamseteCommand(const std::vector<frc::Pose2d>& waypoints , frc::TrajectoryConfig config, bool reversed = false);
 
   void setVelocities(frc::ChassisSpeeds vels); // Speed has no direction D:
+
+  void resetOdometry(frc::Pose2d pose = {});
   /**
    * Will be called periodically whenever the CommandScheduler runs.
    */

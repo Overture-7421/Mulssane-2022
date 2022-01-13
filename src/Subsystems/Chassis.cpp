@@ -86,6 +86,10 @@ Chassis::Chassis() {
     leftTargetVel = wheelVels.left.value();
  }
 
+void Chassis::resetOdometry(frc::Pose2d pose){
+  odometry.ResetPosition(pose, units::degree_t(-ahrs.GetYaw()));
+}
+
 // This method will be called once per scheduler run
 void Chassis::Periodic() {
   updatePIDs();
