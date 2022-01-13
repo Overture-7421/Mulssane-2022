@@ -34,7 +34,7 @@ class Shooter : public frc2::SubsystemBase {
   const double timeToStableRPS = 0.2;  // Seconds
   double lastTimeStable = 0;
   bool lastOnTargetState = false;
-
+  bool stabilizedOnTarget = false;
   
   // TODO Caracterizar disparador
   

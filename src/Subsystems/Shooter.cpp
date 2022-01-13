@@ -37,14 +37,9 @@ void Shooter::Periodic() {
   m_loop.Correct(Eigen::Vector<double, 1>{getVelocity()});
   m_loop.Predict(20_ms);
   rightShooter.SetVoltage(units::volt_t(m_loop.U(0)));
-}
 
-void Shooter::setVelocity(double radsPerS) { this->radsPerSecond = radsPerS; }
-
-bool Shooter::reachedVelocityTarget() {
-  double error = m_loop.Error()(0);
   double currentTime = frc::Timer::GetFPGATimestamp().value();
-  bool onTarget = abs(error) < tolerance;
+  bool onTarget = abs(m_loop.Error()(0)) < tolerance;
 
   bool onTargetChanged = onTarget != lastOnTargetState;
 
@@ -53,7 +48,13 @@ bool Shooter::reachedVelocityTarget() {
   }
 
   lastOnTargetState = onTarget;
-  return currentTime - lastTimeStable > timeToStableRPS && onTarget;
+  stabilizedOnTarget = currentTime - lastTimeStable > timeToStableRPS && onTarget;
+}
+
+void Shooter::setVelocity(double radsPerS) { this->radsPerSecond = radsPerS; }
+
+bool Shooter::reachedVelocityTarget() {
+  return stabilizedOnTarget;
 }
 
 double Shooter::getVelocity() {
