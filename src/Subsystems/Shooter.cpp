@@ -8,7 +8,8 @@
 #include <frc/smartdashboard/SmartDashboard.h>
 
 Shooter::Shooter() {
-  rightShooter.SetInverted(InvertType::InvertMotorOutput);
+  leftShooter
+  .SetInverted(InvertType::InvertMotorOutput);
 
   rightShooter.ConfigOpenloopRamp(0.01);
   leftShooter.ConfigOpenloopRamp(0.01);
@@ -20,26 +21,27 @@ Shooter::Shooter() {
 
   rightShooter.SetSelectedSensorPosition(0.0);
   leftShooter.SetSelectedSensorPosition(0.0);
+
   frc2::CommandScheduler::GetInstance().RegisterSubsystem(this);
 }
 
 // This method will be called once per scheduler run
 void Shooter::Periodic() {
-  frc::SmartDashboard::PutNumber("Shooter/Velocity", getVelocity());
+  double currentVel = getVelocity();
+  frc::SmartDashboard::PutNumber("Shooter/Velocity", currentVel);
   frc::SmartDashboard::PutNumber("Shooter/Position",
                                  rightShooter.GetSelectedSensorPosition());
   frc::SmartDashboard::PutBoolean("Shooter/ObjectiveReached",
                                   reachedVelocityTarget());
-  frc::SmartDashboard::PutBoolean("Shooter/VoltageApplied",
+  frc::SmartDashboard::PutNumber("Shooter/VoltageApplied",
                                   rightShooter.GetMotorOutputVoltage());
 
-  m_loop.SetNextR(Eigen::Vector<double, 1>{radsPerSecond});
-  m_loop.Correct(Eigen::Vector<double, 1>{getVelocity()});
-  m_loop.Predict(20_ms);
-  rightShooter.SetVoltage(units::volt_t(m_loop.U(0)));
+  shooterController.SetSetpoint(limiter.Calculate(units::radian_t(radsPerSecond)).value());
+  const auto pidOut = units::volt_t(shooterController.Calculate(getVelocity()));
+  rightShooter.SetVoltage(pidOut + shooterFF.Calculate(units::radians_per_second_t(currentVel)));
 
   double currentTime = frc::Timer::GetFPGATimestamp().value();
-  bool onTarget = abs(m_loop.Error()(0)) < tolerance;
+  bool onTarget = abs(radsPerSecond - currentVel) < tolerance;
 
   bool onTargetChanged = onTarget != lastOnTargetState;
 

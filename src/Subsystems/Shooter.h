@@ -11,7 +11,9 @@
 #include <frc/estimator/KalmanFilter.h>
 #include <frc/system/LinearSystemLoop.h>
 #include <frc/controller/LinearQuadraticRegulator.h>
-
+#include <frc/filter/SlewRateLimiter.h>
+#include <frc/controller/PIDController.h>
+#include <frc/controller/SimpleMotorFeedforward.h>
 
 using namespace ctre::phoenix::motorcontrol::can;
 class Shooter : public frc2::SubsystemBase {
@@ -30,47 +32,24 @@ class Shooter : public frc2::SubsystemBase {
 
 
   double radsPerSecond = 0.0;
-  double tolerance = 8;
+  double tolerance = 5;
   const double timeToStableRPS = 0.2;  // Seconds
   double lastTimeStable = 0;
   bool lastOnTargetState = false;
   bool stabilizedOnTarget = false;
   
   // TODO Caracterizar disparador
+  frc::SlewRateLimiter<units::radian> limiter {150_rad_per_s};
   
+  // Volts 
+  static constexpr auto kFlywheelKs = 0.56271_V; 
+
   // Volts per (radian per second)
-  static constexpr auto kFlywheelKv = 0.0_V / 1_rad_per_s; 
+  static constexpr auto kFlywheelKv = 0.017124_V / 1_rad_per_s; 
 
   // Volts per (radian per second squared)
-  static constexpr auto kFlywheelKa = 0.0_V / 1_rad_per_s_sq;
+  static constexpr auto kFlywheelKa = 0.0017331_V / 1_rad_per_s_sq;
 
-  frc::LinearSystem<1, 1, 1> m_flywheelPlant =
-      frc::LinearSystemId::IdentifyVelocitySystem<units::radian>(kFlywheelKv,
-                                                                 kFlywheelKa);
-  frc::KalmanFilter<1, 1, 1> m_observer{
-      m_flywheelPlant,
-      {3.0},   // How accurate we think our model is
-      {0.01},  // How accurate we think our encoder data is
-      20_ms};
-
-  // A LQR uses feedback to create voltage commands.
-  frc::LinearQuadraticRegulator<1, 1> m_controller{
-      m_flywheelPlant,
-      // qelms. Velocity error tolerance, in radians per second. Decrease this
-      // to more heavily penalize state excursion, or make the controller behave
-      // more aggressively.
-      {tolerance},
-      // relms. Control effort (voltage) tolerance. Decrease this to more
-      // heavily penalize control effort, or make the controller less
-      // aggressive. 12 is a good starting point because that is the
-      // (approximate) maximum voltage of a battery.
-      {12.0},
-      // Nominal time between loops. 20ms for TimedRobot, but can be lower if
-      // using notifiers.
-      20_ms};
-
-  // The state-space loop combines a controller, observer, feedforward and plant
-  // for easy control.
-  frc::LinearSystemLoop<1, 1, 1> m_loop{m_flywheelPlant, m_controller,
-                                        m_observer, 12_V, 20_ms};
+   frc2::PIDController shooterController {0.036728, 0, 0};
+frc::SimpleMotorFeedforward<units::radian> shooterFF {kFlywheelKs, kFlywheelKv, kFlywheelKa};
 };
