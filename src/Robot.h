@@ -17,6 +17,7 @@
 #include "Autonomous/RamseteTests/RamseteTests.h"
 #include "Teleop/DefaultDrive.h"
 #include "Autonomous/TurnToAngle/TurnToAngle.h"
+#include "Autonomous/CommandTest/CommandTest.h"
 
 class Robot : public frc::TimedRobot {
  public:

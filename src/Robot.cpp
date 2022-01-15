@@ -14,7 +14,7 @@
 #include "frc2/command/CommandScheduler.h"
 
 void Robot::RobotInit(){
-  chassis.SetDefaultCommand(defaultDrive);
+  chassis.SetDefaultCommand(CommandTest);
 }
 
 void Robot::RobotPeriodic() {
