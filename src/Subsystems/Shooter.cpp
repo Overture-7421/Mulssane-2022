@@ -38,7 +38,7 @@ void Shooter::Periodic() {
 
   shooterController.SetSetpoint(limiter.Calculate(units::radian_t(radsPerSecond)).value());
   const auto pidOut = units::volt_t(shooterController.Calculate(getVelocity()));
-  rightShooter.SetVoltage(pidOut + shooterFF.Calculate(units::radians_per_second_t(currentVel)));
+  rightShooter.SetVoltage(pidOut + shooterFF.Calculate(units::radians_per_second_t(radsPerSecond)));
 
   double currentTime = frc::Timer::GetFPGATimestamp().value();
   bool onTarget = abs(radsPerSecond - currentVel) < tolerance;
