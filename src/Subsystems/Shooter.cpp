@@ -35,10 +35,10 @@ void Shooter::Periodic() {
                                   reachedVelocityTarget());
   frc::SmartDashboard::PutNumber("Shooter/VoltageApplied",
                                   rightShooter.GetMotorOutputVoltage());
-
-  shooterController.SetSetpoint(limiter.Calculate(units::radian_t(radsPerSecond)).value());
+  const double limitedSetpoint = limiter.Calculate(units::radian_t(radsPerSecond)).value();
+  shooterController.SetSetpoint(limitedSetpoint);
   const auto pidOut = units::volt_t(shooterController.Calculate(currentVel));
-  rightShooter.SetVoltage(pidOut + shooterFF.Calculate(units::radians_per_second_t(radsPerSecond)));
+  rightShooter.SetVoltage(pidOut + shooterFF.Calculate(units::radians_per_second_t(limitedSetpoint)));
 
   double currentTime = frc::Timer::GetFPGATimestamp().value();
   bool onTarget = abs(radsPerSecond - currentVel) < tolerance;

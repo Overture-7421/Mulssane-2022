@@ -25,8 +25,8 @@ class Shooter : public frc2::SubsystemBase {
   void Periodic() override;
 
  private:
-  WPI_TalonFX rightShooter{5};
-  WPI_TalonFX leftShooter{6};
+  WPI_TalonFX rightShooter{7};
+  WPI_TalonFX leftShooter{8};
 
   int encoder_CodesPerRev = 2048;
 
@@ -42,14 +42,14 @@ class Shooter : public frc2::SubsystemBase {
   frc::SlewRateLimiter<units::radian> limiter {150_rad_per_s};
   
   // Volts 
-  static constexpr auto kFlywheelKs = 0.56271_V; 
+  static constexpr auto kFlywheelKs = 0.55611_V; 
 
   // Volts per (radian per second)
-  static constexpr auto kFlywheelKv = 0.017124_V / 1_rad_per_s; 
+  static constexpr auto kFlywheelKv = 0.017193_V / 1_rad_per_s; 
 
   // Volts per (radian per second squared)
-  static constexpr auto kFlywheelKa = 0.0017331_V / 1_rad_per_s_sq;
+  static constexpr auto kFlywheelKa = 0.0020744_V / 1_rad_per_s_sq;
 
-   frc2::PIDController shooterController {0.036728, 0, 0};
+   frc2::PIDController shooterController {0.022523, 0, 0};
 frc::SimpleMotorFeedforward<units::radian> shooterFF {kFlywheelKs, kFlywheelKv, kFlywheelKa};
 };
