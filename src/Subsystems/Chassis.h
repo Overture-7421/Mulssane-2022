@@ -41,6 +41,9 @@ class Chassis : public frc2::SubsystemBase {
   void setVelocities(frc::ChassisSpeeds vels); // Speed has no direction D:
 
   void resetOdometry(frc::Pose2d pose = {});
+
+  double getMaxVelocity();
+  
   /**
    * Will be called periodically whenever the CommandScheduler runs.
    */

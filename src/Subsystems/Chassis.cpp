@@ -94,6 +94,11 @@ void Chassis::resetOdometry(frc::Pose2d pose) {
   rightMaster.SetSelectedSensorPosition(0.0);
 }
 
+double Chassis::getMaxVelocity(){
+  return maxSpeed;
+}
+
+
 // This method will be called once per scheduler run
 void Chassis::Periodic() {
   updatePIDs();

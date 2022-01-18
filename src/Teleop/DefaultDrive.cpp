@@ -17,7 +17,7 @@ void DefaultDrive::Initialize() {}
 // Called repeatedly when this Command is scheduled to run
 void DefaultDrive::Execute() {  
   frc::ChassisSpeeds vels;
-  vels.vx = units::meters_per_second_t(-joy->GetRawAxis(1) * 3.5);
+  vels.vx = units::meters_per_second_t(-joy->GetRawAxis(1) * chassis->getMaxVelocity()) ;
   vels.omega = units::radians_per_second_t(-joy->GetRawAxis(2) * 2 * M_PI); // Angular 
   chassis->setVelocities(vels);
 }
