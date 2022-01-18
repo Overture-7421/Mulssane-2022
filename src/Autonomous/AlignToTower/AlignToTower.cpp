@@ -17,6 +17,8 @@ void AlignToTower::Initialize() {
 
 // Called repeatedly when this Command is scheduled to run
 void AlignToTower::Execute() {
+  photonlib::PhotonPipelineResult result = camera.GetLatestResult();
+  
 }
 
 // Called once the command ends or is interrupted.
