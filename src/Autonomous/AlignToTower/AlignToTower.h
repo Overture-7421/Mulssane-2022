@@ -21,7 +21,7 @@
 class AlignToTower
     : public frc2::CommandHelper<frc2::CommandBase, AlignToTower> {
  public:
-  AlignToTower(Chassis* chassis, double targetObjective);
+  AlignToTower(Chassis* chassis);
 
   void Initialize() override;
 
@@ -32,11 +32,6 @@ class AlignToTower
   bool IsFinished() override;
 
   private:
-  double targetObjective;
   Chassis* chassis;
-  //frc2::PIDController alignToTowerPID {0.1, 0.5, 0.0002};
-  double tolerance = 2;
-  double currentAlignment;
-
-  photonlib::PhotonCamera camera{"photonvision"};   // (nombre de nuestra cam)
+  photonlib::PhotonCamera camera{"TheOverCamara"};
 };

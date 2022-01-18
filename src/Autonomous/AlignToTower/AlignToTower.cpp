@@ -4,7 +4,7 @@
 
 #include "AlignToTower.h"
 
-AlignToTower::AlignToTower(Chassis* chassis, double targetObjective) {
+AlignToTower::AlignToTower(Chassis* chassis) {
   // Use addRequirements() here to declare subsystem dependencies.
   this->chassis = chassis;
   AddRequirements(chassis);
@@ -12,12 +12,11 @@ AlignToTower::AlignToTower(Chassis* chassis, double targetObjective) {
 
 // Called when the command is initially scheduled.
 void AlignToTower::Initialize() {
-//  alignToTowerPID.EnableContinuousInput(-180, 180);
+  
 }
 
 // Called repeatedly when this Command is scheduled to run
 void AlignToTower::Execute() {
-//  alignToTowerPID.SetSetpoint(targetObjective);
 }
 
 // Called once the command ends or is interrupted.
