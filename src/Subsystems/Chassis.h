@@ -50,10 +50,12 @@ class Chassis : public frc2::SubsystemBase {
 
 
   TalonFX rightMaster {1};
-  TalonFX rightSlave1 {3};
+  TalonFX rightSlave1 {2};
+  TalonFX rightSlave2 {3};
 
-  TalonFX leftMaster {2};
-  TalonFX leftSlave1 {4};
+  TalonFX leftMaster {6};
+  TalonFX leftSlave1 {7};
+  TalonFX leftSlave2 {8};
 
   double wheelRadius = 0.0508; //metros
   int encoder_CodesPerRev = 10240;
