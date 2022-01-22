@@ -1,5 +1,11 @@
 {
   "SysId": {
-    "Analysis Type": "General Mechanism"
+    "Analysis Type": "Drivetrain",
+    "AnalyzerJSONLocation": "C:\\Users\\santy\\Documents\\1. PREPARATORIA\\QUINTO SEMESTRE\\6. OVERTURE\\CODES\\InsertRobotNameCode-Imported\\sysid_data20220121-195632.json",
+    "NetworkTables Settings": {
+      "serverTeam": "7421"
+    },
+    "mode": "Client",
+    "serverTeam": "7421"
   }
 }
