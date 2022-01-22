@@ -33,9 +33,10 @@ Chassis::Chassis() {
   rightSlave1.Follow(rightMaster);
   rightSlave2.Follow(rightMaster);
 
-  leftMaster.SetInverted(InvertType::InvertMotorOutput);
-  leftSlave1.SetInverted(InvertType::InvertMotorOutput);
-  leftSlave2.SetInverted(InvertType::InvertMotorOutput);
+  rightMaster.SetInverted(InvertType::InvertMotorOutput);
+  rightSlave1.SetInverted(InvertType::InvertMotorOutput);
+  rightSlave2.SetInverted(InvertType::InvertMotorOutput);
+  
   leftSlave1.Follow(leftMaster);
   leftSlave2.Follow(leftMaster);
 

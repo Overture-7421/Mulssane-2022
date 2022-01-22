@@ -57,14 +57,14 @@ class Chassis : public frc2::SubsystemBase {
 
 
   WPI_TalonFX rightMaster {1};
-  WPI_TalonFX rightSlave1 {3};
-  WPI_TalonFX rightSlave2 {4};
+  WPI_TalonFX rightSlave1 {2};
+  WPI_TalonFX rightSlave2 {3};
 
-  WPI_TalonFX leftMaster {2};
-  WPI_TalonFX leftSlave1 {5};
-  WPI_TalonFX leftSlave2 {6};
+  WPI_TalonFX leftMaster {6};
+  WPI_TalonFX leftSlave1 {7};
+  WPI_TalonFX leftSlave2 {8};
 
-  const double wheelRadius = 0.0508; //metros
+  const double wheelRadius = 0.0762; //metros
   const int encoder_CodesPerRev = 2048 * 12; //2048 Flacon * 12 por la reduccion
 
   double rightTargetVel = 0.0;
