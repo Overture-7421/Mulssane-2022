@@ -57,7 +57,7 @@ class Chassis : public frc2::SubsystemBase {
   TalonFX leftSlave1 {7};
   TalonFX leftSlave2 {8};
 
-  double wheelRadius = 0.0508; //metros
+  double wheelRadius = 0.0762; //metros
   int encoder_CodesPerRev = 10240;
 
   frc2::PIDController rightPID {0.15, 0, 0};

@@ -27,15 +27,15 @@ Chassis::Chassis() {
   
   ahrs.ZeroYaw();
 
-  rightSlave1.Follow(rightMaster);
-  rightSlave2.Follow(rightMaster);
+  //rightSlave1.Follow(rightMaster);
+  //rightSlave2.Follow(rightMaster);
 
   leftMaster.SetInverted(InvertType::InvertMotorOutput);
-  leftSlave1.SetInverted(InvertType::InvertMotorOutput);
-  leftSlave2.SetInverted(InvertType::InvertMotorOutput);
+  //leftSlave1.SetInverted(InvertType::InvertMotorOutput);
+  //leftSlave2.SetInverted(InvertType::InvertMotorOutput);
  
-  leftSlave1.Follow(leftMaster);
-  leftSlave2.Follow(leftMaster);
+  //leftSlave1.Follow(leftMaster);
+  //leftSlave2.Follow(leftMaster);
 
   rightMaster.ConfigOpenloopRamp(0.01);
   leftMaster.ConfigOpenloopRamp(0.01);
