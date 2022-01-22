@@ -126,9 +126,9 @@ void Chassis::updatePIDs() {
   rightPID.SetSetpoint(rightLimitedTarget.value());
 
   const auto leftOutput = units::volt_t(leftPID.Calculate(leftVel)) +
-                          ff.Calculate(leftVelTargetMps);
+                          ff.Calculate(leftLimitedTarget);
   const auto rightOutput = units::volt_t(rightPID.Calculate(rightVel)) +
-                           ff.Calculate(rightVelTargetMps);
+                           ff.Calculate(rightLimitedTarget);
 
   leftMaster.SetVoltage(leftOutput);
   rightMaster.SetVoltage(rightOutput);
