@@ -82,7 +82,7 @@ class Chassis : public frc2::SubsystemBase {
   frc::DifferentialDriveKinematics kinematics {0.77_m}; // Tamaño correcto
 
   const double maxSpeed = 4.0; // Meters per second
-  const double maxAcceleration = 30.0; // Meters per second squared
+  const double maxAcceleration = 25.0; // Meters per second squared
   
   frc::DifferentialDriveKinematicsConstraint kinematicsConstraints {kinematics, units::meters_per_second_t(maxSpeed)};
   frc::SlewRateLimiter<units::meters_per_second> rightAccelLimiter {units::meters_per_second_squared_t(maxAcceleration)};
