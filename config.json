@@ -28,7 +28,7 @@
     false,
     false
   ],
-  "secondary encoder inverted": true,
+  "secondary encoder inverted": false,
   "secondary encoder ports": [
     2,
     3

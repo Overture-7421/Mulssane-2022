@@ -88,12 +88,15 @@ class Chassis : public frc2::SubsystemBase {
   frc::SlewRateLimiter<units::meters_per_second> rightAccelLimiter {units::meters_per_second_squared_t(maxAcceleration)};
   frc::SlewRateLimiter<units::meters_per_second> leftAccelLimiter {units::meters_per_second_squared_t(maxAcceleration)};
 
-  frc2::PIDController rightPID {0.8168, 0, 0}; // frc2::PIDController rightPID {1.6313, 0, 0};
-  frc2::PIDController leftPID {0.8168, 0, 0}; // frc2::PIDController leftPID {1.6313, 0, 0};
+  frc2::PIDController rightPID {0.60267, 0, 0};
+  frc2::PIDController leftPID {0.60267, 0, 0};
 
-  frc::SimpleMotorFeedforward<units::meter> ff {0.54672_V, 1.2884_V / 1_mps, 0.037687_V / 1_mps_sq};
-  // frc::SimpleMotorFeedforward<units::meter> ff {0.52431_V, 2.587_V / 1_mps, 0.075772_V / 1_mps_sq};
+  //Fast:
+  //frc::SimpleMotorFeedforward<units::meter> ff {0.52431_V, 2.587_V / 1_mps, 0.075772_V / 1_mps_sq};
 
+  //Slow:
+  //frc::SimpleMotorFeedforward<units::meter> ff {0.54672_V, 1.2884_V / 1_mps, 0.037687_V / 1_mps_sq};
+  frc::SimpleMotorFeedforward<units::meter> ff {0.5915_V, 1.238_V / 1_mps, 0.027698_V / 1_mps_sq};
 
   frc::Pose2d currentPose{0_m, 0_m, 0_rad};
   
