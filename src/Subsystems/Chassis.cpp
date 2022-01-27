@@ -42,6 +42,13 @@ Chassis::Chassis() {
   rightMaster.SetSelectedSensorPosition(0.0);
   leftMaster.SetSelectedSensorPosition(0.0);
 
+  rightMaster.SetNeutralMode(NeutralMode::Brake);
+  leftMaster.SetNeutralMode(NeutralMode::Brake);
+
+  rightMaster.ConfigSupplyCurrentLimit(SupplyCurrentLimitConfiguration(true, 30, 0, 1));
+  leftMaster.ConfigSupplyCurrentLimit(SupplyCurrentLimitConfiguration(true, 30, 0, 1));
+
+
   frc2::CommandScheduler::GetInstance().RegisterSubsystem(this);
 }
 
@@ -81,8 +88,11 @@ frc2::SequentialCommandGroup Chassis::getRamseteCommand(
 
 void Chassis::setVelocities(frc::ChassisSpeeds vels) {
   frc::DifferentialDriveWheelSpeeds wheelVels = kinematics.ToWheelSpeeds(vels);
-  leftTargetVel = std::clamp(wheelVels.left.value(), -maxSpeed, maxSpeed);
-  rightTargetVel = std::clamp(wheelVels.right.value(), -maxSpeed, maxSpeed);
+
+  wheelVels.Desaturate(units::meters_per_second_t(getMaxVelocity()));
+  
+  leftTargetVel = wheelVels.left.value();
+  rightTargetVel = wheelVels.right.value();
 }
 
 void Chassis::resetOdometry(frc::Pose2d pose) {
