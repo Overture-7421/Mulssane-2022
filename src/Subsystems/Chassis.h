@@ -81,18 +81,18 @@ class Chassis : public frc2::SubsystemBase {
   frc::DifferentialDriveOdometry odometry{0_deg, frc::Pose2d{0_m, 0_m, 0_rad}};
   frc::DifferentialDriveKinematics kinematics {0.72_m};
 
-  const double maxSpeed = 4.0; // Meters per second
-  const double maxAcceleration = 10.0; // Meters per second squared
+  const double maxSpeed = 3.5; // Meters per second
+  const double maxAcceleration = 30.0; // Meters per second squared
   
   frc::DifferentialDriveKinematicsConstraint kinematicsConstraints {kinematics, units::meters_per_second_t(maxSpeed)};
   frc::SlewRateLimiter<units::meters_per_second> rightAccelLimiter {units::meters_per_second_squared_t(maxAcceleration)};
   frc::SlewRateLimiter<units::meters_per_second> leftAccelLimiter {units::meters_per_second_squared_t(maxAcceleration)};
 
-  frc2::PIDController rightPID {0.5, 0, 0};
-  frc2::PIDController leftPID {0.5, 0, 0}; 
-
+  frc2::PIDController rightPID {0.13065, 0, 0};
+  frc2::PIDController leftPID {0.13065, 0, 0}; 
+//0.13065
   //New and best Characterization.
-  frc::SimpleMotorFeedforward<units::meter> ff {0.54183_V, 2.697_V / 1_mps, 0.094194_V / 1_mps_sq};
+  frc::SimpleMotorFeedforward<units::meter> ff {0.57851_V, 2.633_V / 1_mps, 0.13305_V / 1_mps_sq};
 
   frc::Pose2d currentPose{0_m, 0_m, 0_rad};
   

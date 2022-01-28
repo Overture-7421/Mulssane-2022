@@ -19,7 +19,7 @@ void DefaultDrive::Initialize() {}
 void DefaultDrive::Execute() {  
   frc::ChassisSpeeds vels;
   double linearAxis = Utils::ApplyAxisFilter(-joy->GetRawAxis(1));
-  double angularAxis = Utils::ApplyAxisFilter(-joy->GetRawAxis(4), 0.1, 1.0);
+  double angularAxis = Utils::ApplyAxisFilter(-joy->GetRawAxis(4), 0.1, 0.7);
   frc::SmartDashboard::PutNumber("Linear Axis", linearAxis);
   frc::SmartDashboard::PutNumber("Angular Axis", angularAxis);
 
