@@ -9,6 +9,7 @@
 #include "Chassis.h"
 
 #include <iostream>
+#include <frc/trajectory/constraint/CentripetalAccelerationConstraint.h>
 
 Chassis::Chassis() {
   ahrs.Calibrate();
@@ -58,10 +59,8 @@ frc2::SequentialCommandGroup Chassis::getRamseteCommand(
     const std::vector<frc::Pose2d>& waypoints, frc::TrajectoryConfig config,
     bool reversed) {
   config.SetReversed(reversed);
-  // Add kinematics to ensure max speed is actually obeyed
-  config.SetKinematics(kinematics);
-  // Apply the constraint
-  config.AddConstraint(kinematicsConstraints);
+
+  config.AddConstraint(frc::CentripetalAccelerationConstraint(units::meters_per_second_squared_t(5)));
 
   auto targetTrajectory =
       frc::TrajectoryGenerator::GenerateTrajectory(waypoints, config);

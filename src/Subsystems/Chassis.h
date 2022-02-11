@@ -27,7 +27,6 @@
 #include <frc2/command/RamseteCommand.h>
 #include <frc2/command/InstantCommand.h>
 #include <frc/kinematics/ChassisSpeeds.h>
-#include <frc/trajectory/constraint/DifferentialDriveKinematicsConstraint.h>
 #include <frc/trajectory/TrajectoryGenerator.h>
 #include <frc/controller/SimpleMotorFeedforward.h>
 
@@ -84,7 +83,6 @@ class Chassis : public frc2::SubsystemBase {
   const double maxSpeed = 3.5; // Meters per second
   const double maxAcceleration = 30.0; // Meters per second squared
   
-  frc::DifferentialDriveKinematicsConstraint kinematicsConstraints {kinematics, units::meters_per_second_t(maxSpeed)};
   frc::SlewRateLimiter<units::meters_per_second> rightAccelLimiter {units::meters_per_second_squared_t(maxAcceleration)};
   frc::SlewRateLimiter<units::meters_per_second> leftAccelLimiter {units::meters_per_second_squared_t(maxAcceleration)};
 
