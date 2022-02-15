@@ -15,18 +15,13 @@ RamseteTests::RamseteTests(Chassis* chassis) {
     chassis ->getRamseteCommand({
 
       {0_m, 0_m, 0_deg},
-      {2_m, 0_m, 90_deg},
-    },{2_mps, 1_mps_sq}),
+      {2_m, -1_m, 0_deg},
+      {3_m, 0_m, 90_deg},
+      {2_m, 1_m, 180_deg},
+      {0_m, 0_m, 180_deg},
+    },{3_mps, 1.5_mps_sq}),
     
-    TurnToAngle(chassis, 90),
-
-    chassis ->getRamseteCommand({
-
-      {2_m, 0_m, 90_deg},
-      {2_m, 2_m, 90_deg},
-    },{2_mps, 1_mps_sq}),
-
-    TurnToAngle(chassis, 180)
+    TurnToAngle(chassis, 0.0)
   );
 }
 

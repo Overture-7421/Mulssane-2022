@@ -3,6 +3,7 @@
 // the WPILib BSD license file in the root directory of this project.
 
 #include "DefaultDrive.h"
+#include "Utils/Utils.h"
 
 DefaultDrive::DefaultDrive(Chassis* chassis, frc::Joystick* joy){
     this->chassis = chassis;
@@ -17,8 +18,13 @@ void DefaultDrive::Initialize() {}
 // Called repeatedly when this Command is scheduled to run
 void DefaultDrive::Execute() {  
   frc::ChassisSpeeds vels;
-  vels.vx = units::meters_per_second_t(-joy->GetRawAxis(1) * 3.5);
-  vels.omega = units::radians_per_second_t(-joy->GetRawAxis(2) * 2 * M_PI); // Angular 
+  double linearAxis = Utils::ApplyAxisFilter(-joy->GetRawAxis(1));
+  double angularAxis = Utils::ApplyAxisFilter(-joy->GetRawAxis(4), 0.1, 0.7);
+  frc::SmartDashboard::PutNumber("Linear Axis", linearAxis);
+  frc::SmartDashboard::PutNumber("Angular Axis", angularAxis);
+
+  vels.vx = units::meters_per_second_t(linearAxis * chassis->getMaxVelocity()) ;
+  vels.omega = units::radians_per_second_t(angularAxis * 2 * M_PI); // Angular 
   chassis->setVelocities(vels);
 }
 

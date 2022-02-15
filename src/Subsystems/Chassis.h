@@ -14,6 +14,7 @@
 #include <ctre/Phoenix.h>
 #include <frc/Joystick.h>
 #include <frc/controller/PIDController.h>
+#include <frc/filter/SlewRateLimiter.h>
 #include "frc/smartdashboard/SmartDashboard.h"
 #include <frc/kinematics/DifferentialDriveOdometry.h>
 #include <AHRS.h>
@@ -26,8 +27,8 @@
 #include <frc2/command/RamseteCommand.h>
 #include <frc2/command/InstantCommand.h>
 #include <frc/kinematics/ChassisSpeeds.h>
-#include <frc/trajectory/constraint/DifferentialDriveKinematicsConstraint.h>
 #include <frc/trajectory/TrajectoryGenerator.h>
+#include <frc/controller/SimpleMotorFeedforward.h>
 
 class Chassis : public frc2::SubsystemBase {
  public:
@@ -39,6 +40,9 @@ class Chassis : public frc2::SubsystemBase {
   void setVelocities(frc::ChassisSpeeds vels); // Speed has no direction D:
 
   void resetOdometry(frc::Pose2d pose = {});
+
+  double getMaxVelocity();
+  
   /**
    * Will be called periodically whenever the CommandScheduler runs.
    */
@@ -51,20 +55,16 @@ class Chassis : public frc2::SubsystemBase {
   double convertToMetersPerSec(double rawEncoderVel);
 
 
-  TalonFX rightMaster {1};
-  TalonFX rightSlave1 {3};
+  WPI_TalonFX rightMaster {16}; 
+  WPI_TalonFX rightSlave1 {15};
+  WPI_TalonFX rightSlave2 {16};
 
-  TalonFX leftMaster {2};
-  TalonFX leftSlave1 {4};
+  WPI_TalonFX leftMaster {3}; 
+  WPI_TalonFX leftSlave1 {2};
+  WPI_TalonFX leftSlave2 {3};
 
-  double wheelRadius = 0.0508; //metros
-  int encoder_CodesPerRev = 10240;
-
-  frc2::PIDController rightPID {0.15, 0, 0};
-  frc2::PIDController leftPID {0.15, 0, 0};
-
-  double rightPIDF = 0.13;
-  double leftPIDF = 0.13;
+  const double wheelRadius = 0.0762; //metros
+  const int encoder_CodesPerRev = 2048 * 12; //2048 Flacon * 12 por la reduccion
 
   double rightTargetVel = 0.0;
   double leftTargetVel = 0.0;
@@ -78,8 +78,19 @@ class Chassis : public frc2::SubsystemBase {
   AHRS ahrs{frc::SPI::Port::kMXP};
 
   frc::DifferentialDriveOdometry odometry{0_deg, frc::Pose2d{0_m, 0_m, 0_rad}};
-  frc::DifferentialDriveKinematics kinematics {0.77_m}; // Tamaño correcto
-  frc::DifferentialDriveKinematicsConstraint kinematicsConstraints {kinematics, 3_mps};
+  frc::DifferentialDriveKinematics kinematics {0.72_m};
+
+  const double maxSpeed = 3.5; // Meters per second
+  const double maxAcceleration = 30.0; // Meters per second squared
+  
+  frc::SlewRateLimiter<units::meters_per_second> rightAccelLimiter {units::meters_per_second_squared_t(maxAcceleration)};
+  frc::SlewRateLimiter<units::meters_per_second> leftAccelLimiter {units::meters_per_second_squared_t(maxAcceleration)};
+
+  frc2::PIDController rightPID {0.13065, 0, 0};
+  frc2::PIDController leftPID {0.13065, 0, 0}; 
+//0.13065
+  //New and best Characterization.
+  frc::SimpleMotorFeedforward<units::meter> ff {0.57851_V, 2.633_V / 1_mps, 0.13305_V / 1_mps_sq};
 
   frc::Pose2d currentPose{0_m, 0_m, 0_rad};
   
