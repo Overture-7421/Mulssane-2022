@@ -8,7 +8,7 @@ struct Utils {
 
   /**
    * Apply a filter to an Axis, so that when the driver is not using it, the
-   * robots doesn't move randomly. It applies an Exponential curve for finer
+   * robot doesn't move randomly. It applies an Exponential curve for finer
    * control at smaller inputs.
    *
    * axisValue = The raw axis value given by the joystick
