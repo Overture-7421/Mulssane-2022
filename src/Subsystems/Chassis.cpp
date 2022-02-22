@@ -49,7 +49,7 @@ Chassis::Chassis() {
   rightMaster.ConfigSupplyCurrentLimit(SupplyCurrentLimitConfiguration(true, 30, 0, 1));
   leftMaster.ConfigSupplyCurrentLimit(SupplyCurrentLimitConfiguration(true, 30, 0, 1));
 
-
+  frc::SmartDashboard::PutData("RobotPose", &field);
   frc2::CommandScheduler::GetInstance().RegisterSubsystem(this);
 }
 
@@ -179,10 +179,8 @@ void Chassis::updateTelemetry() {
   frc::SmartDashboard::PutNumber("Chassis/RightVelocity", rightVel);
   frc::SmartDashboard::PutNumber("Chassis/LeftVelocity", leftVel);
 
-  frc::SmartDashboard::PutNumber("Chassis/X", currentPose.X().to<double>());
-  frc::SmartDashboard::PutNumber("Chassis/Y", currentPose.Y().to<double>());
-  frc::SmartDashboard::PutNumber("Chassis/Yaw",
-                                 currentPose.Rotation().Degrees().to<double>());
+  field.SetRobotPose(getPose());
+  
 }
 
 double Chassis::convertToMeters(double sensorRawPos) {

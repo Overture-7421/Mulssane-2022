@@ -29,7 +29,7 @@
 #include <frc/kinematics/ChassisSpeeds.h>
 #include <frc/trajectory/TrajectoryGenerator.h>
 #include <frc/controller/SimpleMotorFeedforward.h>
-
+#include <frc/smartdashboard/Field2d.h>
 class Chassis : public frc2::SubsystemBase {
  public:
   Chassis();
@@ -105,5 +105,7 @@ class Chassis : public frc2::SubsystemBase {
   frc::Pose2d currentPose{0_m, 0_m, 0_rad};
   
   frc::RamseteController ramsete;
+
+  frc::Field2d field;
 
 };
