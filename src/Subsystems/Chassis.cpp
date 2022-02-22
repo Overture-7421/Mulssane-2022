@@ -57,7 +57,7 @@ const frc::Pose2d& Chassis::getPose() {
     pe_NMutex.lock();
     std::lock_guard<std::mutex> lg(pe_MMutex);
     pe_NMutex.unlock();
-    return currentPose; 
+    return odometry.GetEstimatedPosition(); 
 }
 
 frc2::SequentialCommandGroup Chassis::getRamseteCommand(
