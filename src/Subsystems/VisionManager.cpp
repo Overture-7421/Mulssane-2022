@@ -16,7 +16,7 @@ VisionManager::VisionManager(Chassis* chassis) : visionNotifier([&]{
     }
 }){
     this->chassis = chassis;
-
+    visionNotifier.StartPeriodic(20_ms);
 }
 
 // This method will be called once per scheduler run
