@@ -16,7 +16,7 @@
 #include <frc/controller/PIDController.h>
 #include <frc/filter/SlewRateLimiter.h>
 #include "frc/smartdashboard/SmartDashboard.h"
-#include <frc/kinematics/DifferentialDriveOdometry.h>
+#include <frc/estimator/DifferentialDrivePoseEstimator.h>
 #include <AHRS.h>
 #include <frc/controller/RamseteController.h>
 #include <frc2/command/SequentialCommandGroup.h>
@@ -42,6 +42,8 @@ class Chassis : public frc2::SubsystemBase {
   void resetOdometry(frc::Pose2d pose = {});
 
   double getMaxVelocity();
+
+  void addVisionMeasurement(const frc::Pose2d& visionPose, double timeStamp);
   
   /**
    * Will be called periodically whenever the CommandScheduler runs.
@@ -77,8 +79,16 @@ class Chassis : public frc2::SubsystemBase {
 
   AHRS ahrs{frc::SPI::Port::kMXP};
 
-  frc::DifferentialDriveOdometry odometry{0_deg, frc::Pose2d{0_m, 0_m, 0_rad}};
+  mutable std::mutex pe_MMutex, pe_NMutex, pe_LMutex; //https://stackoverflow.com/questions/11666610/how-to-give-priority-to-privileged-thread-in-mutex-locking
+
   frc::DifferentialDriveKinematics kinematics {0.72_m};
+
+  frc::DifferentialDrivePoseEstimator odometry {
+    0_deg, frc::Pose2d{0_m, 0_m, 0_rad},
+      wpi::array<double, 5>{0.035, 0.035, 0.035, 0.035, 0.035}, 
+      wpi::array<double, 3>{0.001, 0.001, 0.001},
+      wpi::array<double, 3>{0.01, 0.01, 0.01}
+  };
 
   const double maxSpeed = 3.5; // Meters per second
   const double maxAcceleration = 30.0; // Meters per second squared

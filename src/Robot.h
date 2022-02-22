@@ -14,6 +14,7 @@
 #include <frc/Joystick.h>
 #include <frc2/command/Command.h>
 #include "Subsystems/Chassis.h"
+#include "Subsystems/VisionManager.h"
 #include "Autonomous/RamseteTests/RamseteTests.h"
 #include "Teleop/DefaultDrive.h"
 #include "Autonomous/TurnToAngle/TurnToAngle.h"
@@ -34,8 +35,13 @@ class Robot : public frc::TimedRobot {
 
  private:
   std::unique_ptr<frc2::SequentialCommandGroup> autocommand;
+    frc::Joystick joy {0};
+
+  //Subsystems
   Chassis chassis;
-  frc::Joystick joy {0};
+  VisionManager visionManager {&chassis};
+
+  //Default Commands
   DefaultDrive defaultDrive {&chassis, &joy};
   TurnToAngle turnToAngle {&chassis, 0};
 

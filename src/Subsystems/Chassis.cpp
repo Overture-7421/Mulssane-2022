@@ -53,7 +53,12 @@ Chassis::Chassis() {
   frc2::CommandScheduler::GetInstance().RegisterSubsystem(this);
 }
 
-const frc::Pose2d& Chassis::getPose() { return currentPose; }
+const frc::Pose2d& Chassis::getPose() {
+    pe_NMutex.lock();
+    std::lock_guard<std::mutex> lg(pe_MMutex);
+    pe_NMutex.unlock();
+    return currentPose; 
+}
 
 frc2::SequentialCommandGroup Chassis::getRamseteCommand(
     const std::vector<frc::Pose2d>& waypoints, frc::TrajectoryConfig config,
@@ -95,7 +100,12 @@ void Chassis::setVelocities(frc::ChassisSpeeds vels) {
 }
 
 void Chassis::resetOdometry(frc::Pose2d pose) {
+  pe_NMutex.lock();
+  pe_MMutex.lock();
+  pe_NMutex.unlock();
   odometry.ResetPosition(pose, units::degree_t(-ahrs.GetYaw()));
+  pe_MMutex.unlock();
+
   leftMaster.SetSelectedSensorPosition(0.0);
   rightMaster.SetSelectedSensorPosition(0.0);
 }
@@ -104,6 +114,16 @@ double Chassis::getMaxVelocity(){
   return maxSpeed;
 }
 
+void Chassis::addVisionMeasurement(const frc::Pose2d& visionPose, double timeStamp){
+      //Low priority lock
+    pe_LMutex.lock();
+    pe_NMutex.lock();
+    pe_MMutex.lock();
+    pe_NMutex.unlock();
+    odometry.AddVisionMeasurement(visionPose, units::second_t(timeStamp));
+    pe_MMutex.unlock();
+    pe_LMutex.unlock();
+}
 
 // This method will be called once per scheduler run
 void Chassis::Periodic() {
@@ -116,8 +136,16 @@ void Chassis::Periodic() {
   leftVel = convertToMetersPerSec(leftMaster.GetSelectedSensorVelocity());
 
   frc::Rotation2d gyroAngle{units::degree_t(-ahrs.GetYaw())};
-  currentPose = odometry.Update(gyroAngle, units::meter_t(leftDistance),
+
+  frc::DifferentialDriveWheelSpeeds wheelSpeeds;
+  wheelSpeeds.left = units::meters_per_second_t(leftVel);
+  wheelSpeeds.right = units::meters_per_second_t(rightVel);
+  pe_NMutex.lock();
+  pe_MMutex.lock();
+  pe_NMutex.unlock();
+  odometry.Update(gyroAngle, wheelSpeeds, units::meter_t(leftDistance),
                                 units::meter_t(rightDistance));
+  pe_MMutex.unlock();
 }
 
 void Chassis::updatePIDs() {
