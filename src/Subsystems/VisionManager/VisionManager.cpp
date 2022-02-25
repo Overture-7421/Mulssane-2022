@@ -31,6 +31,10 @@ frc::Rotation2d VisionManager::getRotationToTarget(){
   return frc::Rotation2d(poseDiff.X().value(), poseDiff.Y().value());
 }
 
+units::meter_t VisionManager::getDistanceToTarget(){
+  return chassis->getPose().Translation().Distance(fieldToTarget.Translation());
+}
+
 // This method will be called once per scheduler run
 void VisionManager::Periodic() {}
 

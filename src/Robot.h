@@ -52,6 +52,6 @@ class Robot : public frc::TimedRobot {
   RangeDecider rangeDecider;
 
   //Default Commands
-  DefaultDrive defaultDrive {&chassis, &visionManager, &joy};
+  DefaultDrive defaultDrive {&chassis, &visionManager, &rangeDecider, &joy};
 
 };

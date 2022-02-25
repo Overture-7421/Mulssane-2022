@@ -23,6 +23,8 @@ class VisionManager : public frc2::SubsystemBase {
   const frc::Pose2d& getTargetPose();
 
   frc::Rotation2d getRotationToTarget();
+
+  units::meter_t getDistanceToTarget();
   /**
    * Will be called periodically whenever the CommandScheduler runs.
    */
