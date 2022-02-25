@@ -32,11 +32,17 @@ void Robot::AutonomousInit() {
 void Robot::AutonomousPeriodic() {
 }
 
-void Robot::TeleopInit() {}
+void Robot::TeleopInit() {
+  frc::SmartDashboard::PutNumber("Shooter/VelocityTarget_RadsPerS", 0.0);
+}
 
-void Robot::TeleopPeriodic() {}
+void Robot::TeleopPeriodic() {
+  shooter.setVelocity(frc::SmartDashboard::GetNumber("Shooter/VelocityTarget_RadsPerS", 0.0));
+}
 
-void Robot::DisabledInit() {}
+void Robot::DisabledInit() {
+  
+}
 
 void Robot::DisabledPeriodic() {}
 

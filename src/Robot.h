@@ -1,30 +1,29 @@
 /*
-    ____                     __     ____        __          __     _   __                   
-   /  _/___  ________  _____/ /_   / __ \____  / /_  ____  / /_   / | / /___ _____ ___  ___ 
-   / // __ \/ ___/ _ \/ ___/ __/  / /_/ / __ \/ __ \/ __ \/ __/  /  |/ / __ `/ __ `__ \/ _ \
- _/ // / / (__  )  __/ /  / /_   / _, _/ /_/ / /_/ / /_/ / /_   / /|  / /_/ / / / / / /  __/
-/___/_/ /_/____/\___/_/   \__/  /_/ |_|\____/_.___/\____/\__/  /_/ |_/\__,_/_/ /_/ /_/\___/                                               
+    ____                     __     ____        __          __     _   __
+   /  _/___  ________  _____/ /_   / __ \____  / /_  ____  / /_   / | / /___
+_____ ___  ___
+   / // __ \/ ___/ _ \/ ___/ __/  / /_/ / __ \/ __ \/ __ \/ __/  /  |/ / __ `/
+__ `__ \/ _ \
+ _/ // / / (__  )  __/ /  / /_   / _, _/ /_/ / /_/ / /_/ / /_   / /|  / /_/ / /
+/ / / /  __/
+/___/_/ /_/____/\___/_/   \__/  /_/ |_|\____/_.___/\____/\__/  /_/ |_/\__,_/_/
+/_/ /_/\___/
 */
 
 #pragma once
 
-#include <string>
+#include <frc/Joystick.h>
 #include <frc/TimedRobot.h>
 #include <frc/smartdashboard/SendableChooser.h>
-#include <frc/Joystick.h>
 #include <frc2/command/Command.h>
 #include "Subsystems/Chassis.h"
 #include "Subsystems/VisionManager.h"
 #include "Autonomous/RamseteTests/RamseteTests.h"
-#include "Teleop/DefaultDrive.h"
 #include "Autonomous/TurnToAngle/TurnToAngle.h"
 #include "Autonomous/CommandTest/CommandTest.h"
-
-class Robot : public frc::TimedRobot {
- public:
-  void RobotInit() override;
-  void RobotPeriodic() override;
-  void AutonomousInit() override;
+#include "Subsystems/Chassis.h"
+#include "Subsystems/Shooter.h"
+#include "Teleop/DefaultDrive.h"
   void AutonomousPeriodic() override;
   void TeleopInit() override;
   void TeleopPeriodic() override;
@@ -35,12 +34,13 @@ class Robot : public frc::TimedRobot {
 
  private:
   std::unique_ptr<frc2::SequentialCommandGroup> autocommand;
-    frc::Joystick joy {0};
+  frc::Joystick joy {0};
 
   //Subsystems
   Chassis chassis;
   VisionManager visionManager {&chassis};
-
+  Shooter shooter;
+  
   //Default Commands
   DefaultDrive defaultDrive {&chassis, &joy};
   TurnToAngle turnToAngle {&chassis, 0};
