@@ -20,6 +20,7 @@ __ `__ \/ _ \
 #include "Subsystems/Chassis/Chassis.h"
 #include "Subsystems/Shooter/Shooter.h"
 #include "Subsystems/VisionManager/VisionManager.h"
+#include "Subsystems/RangeDecider/RangeDecider.h"
 
 #include "Commands/Autonomous/RamseteTests/RamseteTests.h"
 #include "Commands/Autonomous/TurnToAngle/TurnToAngle.h"
@@ -48,9 +49,9 @@ class Robot : public frc::TimedRobot {
   Chassis chassis;
   VisionManager visionManager {&chassis};
   Shooter shooter;
-  
+  RangeDecider rangeDecider;
+
   //Default Commands
   DefaultDrive defaultDrive {&chassis, &joy};
-  TurnToAngle turnToAngle {&chassis, 0};
 
 };

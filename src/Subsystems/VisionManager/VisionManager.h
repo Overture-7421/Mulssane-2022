@@ -20,6 +20,7 @@ class VisionManager : public frc2::SubsystemBase {
 
   VisionManager(Chassis* chassis);
 
+  const frc::Pose2d& getTargetPose();
   /**
    * Will be called periodically whenever the CommandScheduler runs.
    */

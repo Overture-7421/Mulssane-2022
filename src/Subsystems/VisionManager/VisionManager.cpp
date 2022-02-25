@@ -19,6 +19,11 @@ VisionManager::VisionManager(Chassis* chassis) : visionNotifier([&]{
     visionNotifier.StartPeriodic(20_ms);
 }
 
+const frc::Pose2d& VisionManager::getTargetPose(){
+  return fieldToTarget;
+}
+
+
 // This method will be called once per scheduler run
 void VisionManager::Periodic() {
 

@@ -18,14 +18,14 @@ void Robot::RobotInit(){
 }
 
 void Robot::RobotPeriodic() {
+  rangeDecider.updateRangeDecision(chassis.getPose(), visionManager.getTargetPose());
+
   frc2::CommandScheduler::GetInstance().Run();
 }
 
 void Robot::AutonomousInit() {
 
   autocommand = std::make_unique<RamseteTests>(&chassis);
-
-
   autocommand->Schedule();
 }
 
