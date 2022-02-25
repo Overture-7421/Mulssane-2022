@@ -12,11 +12,12 @@ RangeDecider::RangeDecider() {
   longRange.maxDistance = 3.5_m;
 
   currentRange = shortRange;
-};
+}
 
 void RangeDecider::updateRangeDecision(const frc::Pose2d& currentPose,
                                        const frc::Pose2d& targetPose) {
-  units::meter_t distance = currentPose.Translation().Distance(targetPose);
+
+  units::meter_t distance = currentPose.Translation().Distance(targetPose.Translation());
 
   switch (currentRangeResult) {
     case RangeResult::Long:
@@ -41,5 +42,5 @@ RangeDecider::RangeResult RangeDecider::getCurrentRange() {
 
 // This method will be called once per scheduler run
 void RangeDecider::Periodic() {
-    
+
 }

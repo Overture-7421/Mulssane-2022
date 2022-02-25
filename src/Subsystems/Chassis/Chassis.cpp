@@ -49,7 +49,7 @@ Chassis::Chassis() {
   rightMaster.ConfigSupplyCurrentLimit(SupplyCurrentLimitConfiguration(true, 30, 0, 1));
   leftMaster.ConfigSupplyCurrentLimit(SupplyCurrentLimitConfiguration(true, 30, 0, 1));
 
-  frc::SmartDashboard::PutData("RobotPose", &field);
+  frc::SmartDashboard::PutData("Chassis/RobotPose", &field);
   frc2::CommandScheduler::GetInstance().RegisterSubsystem(this);
 }
 
@@ -103,6 +103,7 @@ void Chassis::resetOdometry(frc::Pose2d pose) {
   pe_NMutex.lock();
   pe_MMutex.lock();
   pe_NMutex.unlock();
+  std::cout << "Hello " << pose.X().value() << std::endl;
   odometry.ResetPosition(pose, units::degree_t(-ahrs.GetYaw()));
   pe_MMutex.unlock();
 
@@ -135,7 +136,7 @@ void Chassis::Periodic() {
   rightVel = convertToMetersPerSec(rightMaster.GetSelectedSensorVelocity());
   leftVel = convertToMetersPerSec(leftMaster.GetSelectedSensorVelocity());
 
-  frc::Rotation2d gyroAngle{units::degree_t(-ahrs.GetYaw())};
+  frc::Rotation2d gyroAngle{units::degree_t(ahrs.GetFusedHeading())};
 
   frc::DifferentialDriveWheelSpeeds wheelSpeeds;
   wheelSpeeds.left = units::meters_per_second_t(leftVel);
@@ -165,6 +166,9 @@ void Chassis::updatePIDs() {
 
   leftMaster.SetVoltage(leftOutput);
   rightMaster.SetVoltage(rightOutput);
+
+  frc::SmartDashboard::PutNumber("Chassis/RightOut", rightOutput.value());
+  frc::SmartDashboard::PutNumber("Chassis/LeftOut", leftOutput.value());
 }
 
 void Chassis::updateTelemetry() {
@@ -178,6 +182,8 @@ void Chassis::updateTelemetry() {
 
   frc::SmartDashboard::PutNumber("Chassis/RightVelocity", rightVel);
   frc::SmartDashboard::PutNumber("Chassis/LeftVelocity", leftVel);
+
+
 
   field.SetRobotPose(getPose());
   

@@ -57,11 +57,11 @@ class Chassis : public frc2::SubsystemBase {
   double convertToMetersPerSec(double rawEncoderVel);
 
 
-  WPI_TalonFX rightMaster {16}; 
-  WPI_TalonFX rightSlave1 {15};
-  WPI_TalonFX rightSlave2 {16};
+  WPI_TalonFX rightMaster {12}; 
+  WPI_TalonFX rightSlave1 {13};
+  WPI_TalonFX rightSlave2 {14};
 
-  WPI_TalonFX leftMaster {3}; 
+  WPI_TalonFX leftMaster {1}; 
   WPI_TalonFX leftSlave1 {2};
   WPI_TalonFX leftSlave2 {3};
 
@@ -90,17 +90,17 @@ class Chassis : public frc2::SubsystemBase {
       wpi::array<double, 3>{0.01, 0.01, 0.01}
   };
 
-  const double maxSpeed = 3.5; // Meters per second
-  const double maxAcceleration = 30.0; // Meters per second squared
+  const double maxSpeed = 3.8; // Meters per second
+  const double maxAcceleration = 9.0; // Meters per second squared
   
   frc::SlewRateLimiter<units::meters_per_second> rightAccelLimiter {units::meters_per_second_squared_t(maxAcceleration)};
   frc::SlewRateLimiter<units::meters_per_second> leftAccelLimiter {units::meters_per_second_squared_t(maxAcceleration)};
 
-  frc2::PIDController rightPID {0.13065, 0, 0};
-  frc2::PIDController leftPID {0.13065, 0, 0}; 
+  frc2::PIDController rightPID {0.0, 0, 0};
+  frc2::PIDController leftPID {0.0, 0, 0}; 
 //0.13065
   //New and best Characterization.
-  frc::SimpleMotorFeedforward<units::meter> ff {0.57851_V, 2.633_V / 1_mps, 0.13305_V / 1_mps_sq};
+  frc::SimpleMotorFeedforward<units::meter> ff {0.56964_V, 2.6889_V / 1_mps, 0.18126_V / 1_mps_sq};
 
   frc::Pose2d currentPose{0_m, 0_m, 0_rad};
   

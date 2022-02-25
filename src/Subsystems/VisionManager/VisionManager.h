@@ -21,13 +21,15 @@ class VisionManager : public frc2::SubsystemBase {
   VisionManager(Chassis* chassis);
 
   const frc::Pose2d& getTargetPose();
+
+  frc::Rotation2d getRotationToTarget();
   /**
    * Will be called periodically whenever the CommandScheduler runs.
    */
   void Periodic() override;
 
  private:
-  void updateCircleFit(const photonlib::PhotonPipelineResult& result);
+  bool updateCircleFit(const photonlib::PhotonPipelineResult& result);
   std::vector<std::pair<double, double>> sortPoints(const std::vector<std::pair<double, double>>& points);
   std::optional<frc::Translation2d> cameraToTargetTranslation(std::pair<double, double> corner, const units::meter_t targetHeight);
   std::optional<Circle> solveLeastSquaresCircle(const std::vector<frc::Translation2d>& circlePoints);

@@ -7,8 +7,9 @@
 #include <frc2/command/CommandBase.h>
 #include <frc2/command/CommandHelper.h>
 #include <frc/Joystick.h>
+#include <frc/controller/ProfiledPIDController.h>
 #include "Subsystems/Chassis/Chassis.h"
-
+#include "Subsystems/VisionManager/VisionManager.h"
 /**
  * An example command.
  *
@@ -19,7 +20,7 @@
 class DefaultDrive
     : public frc2::CommandHelper<frc2::CommandBase, DefaultDrive> {
  public:
-  DefaultDrive(Chassis* chassis, frc::Joystick* joy);
+  DefaultDrive(Chassis* chassis, VisionManager* visionManager, frc::Joystick* joy);
 
   void Initialize() override;
 
@@ -31,5 +32,10 @@ class DefaultDrive
 
 private:
     Chassis* chassis;
+    VisionManager* visionManager;
     frc::Joystick* joy;
+    frc::SlewRateLimiter<units::rad_per_s> angularAccelLimiter {units::radians_per_second_squared_t(3 * M_PI)};
+
+    frc::ProfiledPIDController<units::degrees> headingController {0.07, 0, 0.0003, {units::degrees_per_second_t(360 * 1.5), units::degrees_per_second_squared_t(360 * 2)}};
+
 };

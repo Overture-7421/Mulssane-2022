@@ -15,10 +15,15 @@
 
 void Robot::RobotInit(){
   chassis.SetDefaultCommand(defaultDrive);
+  chassis.resetOdometry(visionManager.getTargetPose());
 }
 
 void Robot::RobotPeriodic() {
   rangeDecider.updateRangeDecision(chassis.getPose(), visionManager.getTargetPose());
+  frc::SmartDashboard::PutString("Range", rangeDecider.getCurrentRange() == RangeDecider::RangeResult::Short ? "Short" : "Long");
+
+  frc::SmartDashboard::PutNumber("TargetAngle", visionManager.getRotationToTarget().Degrees().value());
+
 
   frc2::CommandScheduler::GetInstance().Run();
 }
