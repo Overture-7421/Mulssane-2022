@@ -16,14 +16,22 @@ __ `__ \/ _ \
 #include <frc/TimedRobot.h>
 #include <frc/smartdashboard/SendableChooser.h>
 #include <frc2/command/Command.h>
-#include "Subsystems/Chassis.h"
-#include "Subsystems/VisionManager.h"
-#include "Autonomous/RamseteTests/RamseteTests.h"
-#include "Autonomous/TurnToAngle/TurnToAngle.h"
-#include "Autonomous/CommandTest/CommandTest.h"
-#include "Subsystems/Chassis.h"
-#include "Subsystems/Shooter.h"
-#include "Teleop/DefaultDrive.h"
+
+#include "Subsystems/Chassis/Chassis.h"
+#include "Subsystems/Shooter/Shooter.h"
+#include "Subsystems/VisionManager/VisionManager.h"
+
+#include "Commands/Autonomous/RamseteTests/RamseteTests.h"
+#include "Commands/Autonomous/TurnToAngle/TurnToAngle.h"
+#include "Commands/Autonomous/CommandTest/CommandTest.h"
+#include "Commands/Teleop/DefaultDrive/DefaultDrive.h"
+
+
+class Robot : public frc::TimedRobot {
+ public:
+  void RobotInit() override;
+  void RobotPeriodic() override;
+  void AutonomousInit() override;
   void AutonomousPeriodic() override;
   void TeleopInit() override;
   void TeleopPeriodic() override;

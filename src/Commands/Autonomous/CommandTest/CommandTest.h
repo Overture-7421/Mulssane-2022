@@ -6,8 +6,7 @@
 
 #include <frc2/command/CommandBase.h>
 #include <frc2/command/CommandHelper.h>
-#include <frc/Joystick.h>
-#include "Subsystems/Chassis.h"
+#include "Subsystems/Chassis/Chassis.h"
 
 /**
  * An example command.
@@ -16,10 +15,10 @@
  * directly; this is crucially important, or else the decorator functions in
  * Command will *not* work!
  */
-class DefaultDrive
-    : public frc2::CommandHelper<frc2::CommandBase, DefaultDrive> {
+class CommandTest
+    : public frc2::CommandHelper<frc2::CommandBase, CommandTest> {
  public:
-  DefaultDrive(Chassis* chassis, frc::Joystick* joy);
+  CommandTest(Chassis* chassis, std::string name1, std::string name2);
 
   void Initialize() override;
 
@@ -29,7 +28,8 @@ class DefaultDrive
 
   bool IsFinished() override;
 
-private:
-    Chassis* chassis;
-    frc::Joystick* joy;
+  private:
+  std::string name1 = "diego";
+  std::string name2 = "santi";
+
 };

@@ -34,7 +34,7 @@ class Chassis : public frc2::SubsystemBase {
  public:
   Chassis();
 
- const frc::Pose2d& getPose();
+  frc::Pose2d getPose();
   frc2::SequentialCommandGroup getRamseteCommand(const std::vector<frc::Pose2d>& waypoints , frc::TrajectoryConfig config, bool reversed = false);
 
   void setVelocities(frc::ChassisSpeeds vels); // Speed has no direction D:

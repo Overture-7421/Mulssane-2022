@@ -6,7 +6,10 @@
 
 #include <frc2/command/CommandBase.h>
 #include <frc2/command/CommandHelper.h>
-#include "Subsystems/Chassis.h"
+#include <frc/controller/PIDController.h>
+#include <frc/controller/ProfiledPIDController.h>
+#include <frc/smartdashboard/SmartDashboard.h>
+#include "Subsystems/Chassis/Chassis.h"
 
 /**
  * An example command.
@@ -15,10 +18,10 @@
  * directly; this is crucially important, or else the decorator functions in
  * Command will *not* work!
  */
-class CommandTest
-    : public frc2::CommandHelper<frc2::CommandBase, CommandTest> {
+class TurnToAngle
+    : public frc2::CommandHelper<frc2::CommandBase, TurnToAngle> {
  public:
-  CommandTest(Chassis* chassis, std::string name1, std::string name2);
+  TurnToAngle(Chassis* chassis, double angleObjective);
 
   void Initialize() override;
 
@@ -29,7 +32,9 @@ class CommandTest
   bool IsFinished() override;
 
   private:
-  std::string name1 = "diego";
-  std::string name2 = "santi";
+  double angleObjective;
+  Chassis* chassis;
+  // frc2::PIDController turnToAnglePID {0.1, 0.5, 0.0002};
 
+  frc::ProfiledPIDController<units::degrees> turnToAnglePID {0.07, 0, 0.0003, {units::degrees_per_second_t(360 * 1.5), units::degrees_per_second_squared_t(360 * 6)}};
 };

@@ -53,7 +53,7 @@ Chassis::Chassis() {
   frc2::CommandScheduler::GetInstance().RegisterSubsystem(this);
 }
 
-const frc::Pose2d& Chassis::getPose() {
+frc::Pose2d Chassis::getPose() {
     pe_NMutex.lock();
     std::lock_guard<std::mutex> lg(pe_MMutex);
     pe_NMutex.unlock();

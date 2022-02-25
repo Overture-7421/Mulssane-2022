@@ -6,8 +6,8 @@
 
 #include <frc2/command/CommandHelper.h>
 #include <frc2/command/SequentialCommandGroup.h>
-#include "Subsystems/Chassis.h"
-#include "Autonomous/TurnToAngle/TurnToAngle.h"
+#include "Commands/Autonomous/TurnToAngle/TurnToAngle.h"
+#include "Subsystems/Chassis/Chassis.h"
 
 class RamseteTests
     : public frc2::CommandHelper<frc2::SequentialCommandGroup,
