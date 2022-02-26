@@ -8,8 +8,7 @@
 #include <frc/smartdashboard/SmartDashboard.h>
 
 Shooter::Shooter() {
-  leftShooter
-  .SetInverted(InvertType::InvertMotorOutput);
+  rightShooter.SetInverted(InvertType::InvertMotorOutput);
 
   rightShooter.ConfigOpenloopRamp(0.01);
   leftShooter.ConfigOpenloopRamp(0.01);
@@ -34,11 +33,14 @@ void Shooter::Periodic() {
   frc::SmartDashboard::PutBoolean("Shooter/ObjectiveReached",
                                   reachedVelocityTarget());
   frc::SmartDashboard::PutNumber("Shooter/VoltageApplied",
-                                  rightShooter.GetMotorOutputVoltage());
-  const double limitedSetpoint = limiter.Calculate(units::radian_t(radsPerSecond)).value();
+                                 rightShooter.GetMotorOutputVoltage());
+  const double limitedSetpoint =
+      limiter.Calculate(units::radian_t(radsPerSecond)).value();
   shooterController.SetSetpoint(limitedSetpoint);
   const auto pidOut = units::volt_t(shooterController.Calculate(currentVel));
-  rightShooter.SetVoltage(pidOut + shooterFF.Calculate(units::radians_per_second_t(limitedSetpoint)));
+  rightShooter.SetVoltage(
+      pidOut +
+      shooterFF.Calculate(units::radians_per_second_t(limitedSetpoint)));
 
   double currentTime = frc::Timer::GetFPGATimestamp().value();
   bool onTarget = abs(radsPerSecond - currentVel) < tolerance;
@@ -50,14 +52,21 @@ void Shooter::Periodic() {
   }
 
   lastOnTargetState = onTarget;
-  stabilizedOnTarget = currentTime - lastTimeStable > timeToStableRPS && onTarget;
+  stabilizedOnTarget =
+      currentTime - lastTimeStable > timeToStableRPS && onTarget;
 }
 
 void Shooter::setVelocity(double radsPerS) { this->radsPerSecond = radsPerS; }
 
-bool Shooter::reachedVelocityTarget() {
-  return stabilizedOnTarget;
+void Shooter::setHoodState(bool set) {
+  if(set){
+    hoodPiston.Set(frc::DoubleSolenoid::kForward);
+  } else {
+    hoodPiston.Set(frc::DoubleSolenoid::kReverse);
+  }
 }
+
+bool Shooter::reachedVelocityTarget() { return stabilizedOnTarget; }
 
 double Shooter::getVelocity() {
   double encoderCodesPerSec = rightShooter.GetSelectedSensorVelocity() * 10;

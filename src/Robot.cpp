@@ -19,30 +19,43 @@ void Robot::RobotInit(){
 }
 
 void Robot::RobotPeriodic() {
+
   rangeDecider.updateRangeDecision(chassis.getPose(), visionManager.getTargetPose());
-  frc::SmartDashboard::PutString("Range", rangeDecider.getCurrentRange() == RangeDecider::RangeResult::Short ? "Short" : "Long");
-
-  frc::SmartDashboard::PutNumber("TargetAngle", visionManager.getRotationToTarget().Degrees().value());
-
-
   frc2::CommandScheduler::GetInstance().Run();
 }
 
 void Robot::AutonomousInit() {
 
-  autocommand = std::make_unique<RamseteTests>(&chassis);
-  autocommand->Schedule();
+  // autocommand = std::make_unique<RamseteTests>(&chassis);
+  // autocommand->Schedule();
 }
 
 void Robot::AutonomousPeriodic() {
 }
 
 void Robot::TeleopInit() {
-  frc::SmartDashboard::PutNumber("Shooter/VelocityTarget_RadsPerS", 0.0);
+
 }
 
 void Robot::TeleopPeriodic() {
-  shooter.setVelocity(frc::SmartDashboard::GetNumber("Shooter/VelocityTarget_RadsPerS", 0.0));
+  intake.setVoltage((joy2.GetRawButton(5) ? 12 : 0));
+  intake.setPistons(joy2.GetRawButton(5));
+
+  storageAndDeliver.setFeederVoltage((joy2.GetRawButton(6) ? 12 : 0));
+  storageAndDeliver.setIndexerVoltage((joy2.GetRawButton(6) ? 12 : 0));
+
+
+  shooter.setVelocity(250);
+
+  storageAndDeliver.setIndexerVoltage((joy2.GetRawButton(6) ? 12 : 0));
+
+  bool currentA = joy2.GetRawButton(1);
+  if(currentA != lastA && currentA){
+    hoodState = !hoodState;
+  }
+  shooter.setHoodState(hoodState);
+
+  lastA = currentA;
 }
 
 void Robot::DisabledInit() {

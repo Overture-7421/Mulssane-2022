@@ -10,13 +10,14 @@ DefaultDrive::DefaultDrive(Chassis* chassis, VisionManager* visionManager,
                            RangeDecider* rangeDecider, frc::Joystick* joy)
     : distanceController(0.01, 0.0, 0.0,
                          {units::meters_per_second_t(chassis->getMaxVelocity()),
-                          units::meters_per_second_squared_t(3)}) {
+                          units::meters_per_second_squared_t(0.1)}) {
   this->chassis = chassis;
   this->visionManager = visionManager;
   this->rangeDecider = rangeDecider;
   this->joy = joy;
   AddRequirements(chassis);
   // Use addRequirements() here to declare subsystem dependencies.
+  
 }
 
 // Called when the command is initially scheduled.
@@ -24,11 +25,14 @@ void DefaultDrive::Initialize() {
   headingController.EnableContinuousInput(units::degree_t(-180),
                                           units::degree_t(180));
   headingController.Reset(chassis->getPose().Rotation().Degrees());
-  headingController.SetGoal(0_deg);
-  headingController.SetTolerance(5_deg, units::degrees_per_second_t(std::numeric_limits<double>::infinity()));
+  headingController.SetTolerance(
+      10_deg,
+      units::degrees_per_second_t(std::numeric_limits<double>::infinity()));
 
   distanceController.Reset(visionManager->getDistanceToTarget());
-  distanceController.SetTolerance(0.05_m, units::meters_per_second_t(std::numeric_limits<double>::infinity()));
+  distanceController.SetTolerance(
+      0.05_m,
+      units::meters_per_second_t(std::numeric_limits<double>::infinity()));
 
   frc::SmartDashboard::PutData("Heading PID", &headingController);
   frc::SmartDashboard::PutData("Distance PID", &distanceController);
@@ -49,32 +53,33 @@ void DefaultDrive::Execute() {
   double headingOut =
       headingController.Calculate(chassis->getPose().Rotation().Degrees());
 
-  switch (rangeDecider->getCurrentRange()) {
-    case RangeDecider::RangeResult::Short:
-      distanceController.SetGoal(1.0_m);
-      break;
-    case RangeDecider::RangeResult::Long:
-      distanceController.SetGoal(2.5_m);
-      break;
-    default:
-      break;
+  if (headingController.AtGoal()) {
+    switch (rangeDecider->getCurrentRange()) {
+      case RangeDecider::RangeResult::Short:
+        distanceController.SetGoal(1.0_m);
+        break;
+      case RangeDecider::RangeResult::Long:
+        distanceController.SetGoal(2.5_m);
+        break;
+      default:
+        break;
+    }
+  } else {
+    distanceController.SetGoal(visionManager->getDistanceToTarget());
   }
+
   double distanceOut =
       distanceController.Calculate(visionManager->getDistanceToTarget());
 
   if (joy->GetRawButton(aimAndRangeButton)) {
-    if(headingController.AtGoal()){
-      vels.vx = units::meters_per_second_t(distanceOut);
-    }else{
-      vels.vx = units::meters_per_second_t(0);
-    }
+    vels.vx = units::meters_per_second_t(distanceOut);
   } else {
     vels.vx =
         units::meters_per_second_t(linearAxis * chassis->getMaxVelocity());
   }
 
-
-  if (joy->GetRawButton(aimAndRangeButton) || joy->GetRawButton(onlyAimButton)) {
+  if (joy->GetRawButton(aimAndRangeButton) ||
+      joy->GetRawButton(onlyAimButton)) {
     vels.omega = units::radians_per_second_t(headingOut);
   } else {
     vels.omega =
