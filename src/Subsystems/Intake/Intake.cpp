@@ -3,10 +3,15 @@
 // the WPILib BSD license file in the root directory of this project.
 
 #include "Intake.h"
+#include <frc/smartdashboard/SmartDashboard.h>
 
-Intake::Intake(){
-    intakeMotor.ConfigOpenloopRamp(0.1);
-    intakeMotor.ConfigSupplyCurrentLimit(SupplyCurrentLimitConfiguration(true, 10, 0, 1));
+Intake::Intake() {
+  intakeMotor.SetStatusFramePeriod(ctre::phoenix::motorcontrol::StatusFrameEnhanced::Status_1_General, 20);
+  intakeMotor.SetStatusFramePeriod(ctre::phoenix::motorcontrol::StatusFrameEnhanced::Status_2_Feedback0, 255);
+  intakeMotor.SetInverted(true);
+  intakeMotor.ConfigOpenloopRamp(0.1);
+  intakeMotor.ConfigSupplyCurrentLimit(
+      SupplyCurrentLimitConfiguration(true, 15, 0, 1));
 }
 
 void Intake::setPistons(bool set) {
@@ -17,9 +22,12 @@ void Intake::setPistons(bool set) {
   }
 }
 
-void Intake::setVoltage(double voltage){
-    intakeMotor.SetVoltage(units::volt_t(voltage));
+void Intake::setVoltage(double voltage) {
+  intakeMotor.SetVoltage(units::volt_t(voltage));
 }
 
 // This method will be called once per scheduler run
-void Intake::Periodic() {}
+void Intake::Periodic() {
+  // frc::SmartDashboard::PutNumber("Intake/Current",
+  //                                intakeMotor.GetStatorCurrent());
+}

@@ -11,6 +11,7 @@
 #include "Subsystems/Chassis/Chassis.h"
 #include "Subsystems/VisionManager/VisionManager.h"
 #include "Subsystems/RangeDecider/RangeDecider.h"
+#include <cmath>
 
 /**
  * An example command.

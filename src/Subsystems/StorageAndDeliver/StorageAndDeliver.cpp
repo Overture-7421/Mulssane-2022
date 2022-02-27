@@ -3,17 +3,28 @@
 // the WPILib BSD license file in the root directory of this project.
 
 #include "StorageAndDeliver.h"
-
+#include <frc/smartdashboard/SmartDashboard.h>
 StorageAndDeliver::StorageAndDeliver(){
+
+    indexerMotor.SetStatusFramePeriod(ctre::phoenix::motorcontrol::StatusFrameEnhanced::Status_1_General, 20);
+    indexerMotor.SetStatusFramePeriod(ctre::phoenix::motorcontrol::StatusFrameEnhanced::Status_2_Feedback0, 255);
+
+    upperFeederMotor.SetStatusFramePeriod(ctre::phoenix::motorcontrol::StatusFrameEnhanced::Status_1_General, 20);
+    upperFeederMotor.SetStatusFramePeriod(ctre::phoenix::motorcontrol::StatusFrameEnhanced::Status_2_Feedback0, 255);
+    
+    lowerFeederMotor.SetStatusFramePeriod(ctre::phoenix::motorcontrol::StatusFrameEnhanced::Status_1_General, 20);
+    lowerFeederMotor.SetStatusFramePeriod(ctre::phoenix::motorcontrol::StatusFrameEnhanced::Status_2_Feedback0, 255);
+
     indexerMotor.ConfigOpenloopRamp(0.1);
     upperFeederMotor.ConfigOpenloopRamp(0.1);
     lowerFeederMotor.ConfigOpenloopRamp(0.1);
 
     indexerMotor.SetInverted(true);
-    upperFeederMotor.SetInverted(true);
-    indexerMotor.ConfigSupplyCurrentLimit(SupplyCurrentLimitConfiguration(true, 10, 0, 1));
-    upperFeederMotor.ConfigSupplyCurrentLimit(SupplyCurrentLimitConfiguration(true, 20, 0, 1));
+    indexerMotor.ConfigSupplyCurrentLimit(SupplyCurrentLimitConfiguration(true, 15, 0, 1));
+    upperFeederMotor.ConfigSupplyCurrentLimit(SupplyCurrentLimitConfiguration(true, 15, 0, 1));
 
+    digitalGlitchFilter.SetPeriodNanoSeconds(1650000);
+    //digitalGlitchFilter.Add(&ballCounter);
 }
 
 void StorageAndDeliver::setIndexerVoltage(double voltage){
@@ -21,9 +32,27 @@ void StorageAndDeliver::setIndexerVoltage(double voltage){
 }
 
 void StorageAndDeliver::setFeederVoltage(double voltage){
-    upperFeederMotor.SetVoltage(units::volt_t(-voltage));
+    upperFeederMotor.SetVoltage(units::volt_t(voltage));
     lowerFeederMotor.SetVoltage(units::volt_t(voltage));
 }
 
+int StorageAndDeliver::getBallsShot(){
+    return ballCounter.Get();
+}
+
+bool StorageAndDeliver::isTopSwitchPressed(){
+    return !topLimit.Get();
+}
+
+bool StorageAndDeliver::isBottomSwitchPressed(){
+    return !bottomLimit.Get();
+}
+
 // This method will be called once per scheduler run
-void StorageAndDeliver::Periodic() {}
+void StorageAndDeliver::Periodic() {
+
+    frc::SmartDashboard::PutNumber("StorageAndDeliver/BallsShot", getBallsShot());
+    frc::SmartDashboard::PutBoolean("StorageAndDeliver/TopLimit", isTopSwitchPressed());
+    frc::SmartDashboard::PutBoolean("StorageAndDeliver/BottomLimit", isBottomSwitchPressed());
+
+}

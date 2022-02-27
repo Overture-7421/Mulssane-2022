@@ -1,7 +1,6 @@
 // Copyright (c) FIRST and other WPILib contributors.
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
-
 #include "Shooter.h"
 
 #include <frc/Timer.h>
@@ -32,8 +31,7 @@ void Shooter::Periodic() {
                                  rightShooter.GetSelectedSensorPosition());
   frc::SmartDashboard::PutBoolean("Shooter/ObjectiveReached",
                                   reachedVelocityTarget());
-  frc::SmartDashboard::PutNumber("Shooter/VoltageApplied",
-                                 rightShooter.GetMotorOutputVoltage());
+
   const double limitedSetpoint =
       limiter.Calculate(units::radian_t(radsPerSecond)).value();
   shooterController.SetSetpoint(limitedSetpoint);

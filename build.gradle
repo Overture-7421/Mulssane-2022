@@ -39,7 +39,7 @@ def deployArtifact = deploy.targets.roborio.artifacts.frcCpp
 def includeDesktopSupport = false
 
 // Set to true to run simulation in debug mode
-wpi.cpp.debugSimulation = false
+wpi.cpp.debugSimulation = true
 
 // Default enable simgui
 wpi.sim.addGui().defaultEnabled = true
@@ -52,6 +52,13 @@ model {
             targetPlatform wpi.platforms.roborio
             if (includeDesktopSupport) {
                 targetPlatform wpi.platforms.desktop
+
+            }
+
+
+
+            binaries.all {
+                cppCompiler.define('_USE_MATH_DEFINES')
             }
 
             sources.cpp {

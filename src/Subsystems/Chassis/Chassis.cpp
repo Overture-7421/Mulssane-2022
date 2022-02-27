@@ -1,15 +1,19 @@
 /*
-    ____                     __     ____        __          __     _   __                   
-   /  _/___  ________  _____/ /_   / __ \____  / /_  ____  / /_   / | / /___ _____ ___  ___ 
-   / // __ \/ ___/ _ \/ ___/ __/  / /_/ / __ \/ __ \/ __ \/ __/  /  |/ / __ `/ __ `__ \/ _ \
- _/ // / / (__  )  __/ /  / /_   / _, _/ /_/ / /_/ / /_/ / /_   / /|  / /_/ / / / / / /  __/
-/___/_/ /_/____/\___/_/   \__/  /_/ |_|\____/_.___/\____/\__/  /_/ |_/\__,_/_/ /_/ /_/\___/                                               
+    ____                     __     ____        __          __     _   __
+   /  _/___  ________  _____/ /_   / __ \____  / /_  ____  / /_   / | / /___
+_____ ___  ___
+   / // __ \/ ___/ _ \/ ___/ __/  / /_/ / __ \/ __ \/ __ \/ __/  /  |/ / __ `/
+__ `__ \/ _ \
+ _/ // / / (__  )  __/ /  / /_   / _, _/ /_/ / /_/ / /_/ / /_   / /|  / /_/ / /
+/ / / /  __/
+/___/_/ /_/____/\___/_/   \__/  /_/ |_|\____/_.___/\____/\__/  /_/ |_/\__,_/_/
+/_/ /_/\___/
 */
 
 #include "Chassis.h"
 
-#include <iostream>
 #include <frc/trajectory/constraint/CentripetalAccelerationConstraint.h>
+#include <iostream>
 
 Chassis::Chassis() {
   ahrs.Calibrate();
@@ -33,7 +37,7 @@ Chassis::Chassis() {
   rightMaster.SetInverted(InvertType::InvertMotorOutput);
   rightSlave1.SetInverted(InvertType::InvertMotorOutput);
   rightSlave2.SetInverted(InvertType::InvertMotorOutput);
-  
+
   leftSlave1.Follow(leftMaster);
   leftSlave2.Follow(leftMaster);
 
@@ -46,18 +50,36 @@ Chassis::Chassis() {
   rightMaster.SetNeutralMode(NeutralMode::Brake);
   leftMaster.SetNeutralMode(NeutralMode::Brake);
 
-  rightMaster.ConfigSupplyCurrentLimit(SupplyCurrentLimitConfiguration(true, 30, 0, 1));
-  leftMaster.ConfigSupplyCurrentLimit(SupplyCurrentLimitConfiguration(true, 30, 0, 1));
+  rightMaster.ConfigSupplyCurrentLimit(
+      SupplyCurrentLimitConfiguration(true, 30, 0, 1));
+  leftMaster.ConfigSupplyCurrentLimit(
+      SupplyCurrentLimitConfiguration(true, 30, 0, 1));
+
+  leftSlave1.SetStatusFramePeriod(
+      ctre::phoenix::motorcontrol::StatusFrameEnhanced::Status_2_Feedback0,
+      255);
+
+  leftSlave2.SetStatusFramePeriod(
+      ctre::phoenix::motorcontrol::StatusFrameEnhanced::Status_2_Feedback0,
+      255);
+
+  rightSlave1.SetStatusFramePeriod(
+      ctre::phoenix::motorcontrol::StatusFrameEnhanced::Status_2_Feedback0,
+      255);
+
+  rightSlave2.SetStatusFramePeriod(
+      ctre::phoenix::motorcontrol::StatusFrameEnhanced::Status_2_Feedback0,
+      255);
 
   frc::SmartDashboard::PutData("Chassis/RobotPose", &field);
   frc2::CommandScheduler::GetInstance().RegisterSubsystem(this);
 }
 
 frc::Pose2d Chassis::getPose() {
-    pe_NMutex.lock();
-    std::lock_guard<std::mutex> lg(pe_MMutex);
-    pe_NMutex.unlock();
-    return odometry.GetEstimatedPosition(); 
+  pe_NMutex.lock();
+  std::lock_guard<std::mutex> lg(pe_MMutex);
+  pe_NMutex.unlock();
+  return odometry.GetEstimatedPosition();
 }
 
 frc2::SequentialCommandGroup Chassis::getRamseteCommand(
@@ -65,7 +87,8 @@ frc2::SequentialCommandGroup Chassis::getRamseteCommand(
     bool reversed) {
   config.SetReversed(reversed);
 
-  config.AddConstraint(frc::CentripetalAccelerationConstraint(units::meters_per_second_squared_t(5)));
+  config.AddConstraint(frc::CentripetalAccelerationConstraint(
+      units::meters_per_second_squared_t(5)));
 
   auto targetTrajectory =
       frc::TrajectoryGenerator::GenerateTrajectory(waypoints, config);
@@ -94,7 +117,7 @@ void Chassis::setVelocities(frc::ChassisSpeeds vels) {
   frc::DifferentialDriveWheelSpeeds wheelVels = kinematics.ToWheelSpeeds(vels);
 
   wheelVels.Desaturate(units::meters_per_second_t(getMaxVelocity()));
-  
+
   leftTargetVel = wheelVels.left.value();
   rightTargetVel = wheelVels.right.value();
 }
@@ -103,7 +126,6 @@ void Chassis::resetOdometry(frc::Pose2d pose) {
   pe_NMutex.lock();
   pe_MMutex.lock();
   pe_NMutex.unlock();
-  std::cout << "Hello " << pose.X().value() << std::endl;
   odometry.ResetPosition(pose, units::degree_t(-ahrs.GetYaw()));
   pe_MMutex.unlock();
 
@@ -111,19 +133,18 @@ void Chassis::resetOdometry(frc::Pose2d pose) {
   rightMaster.SetSelectedSensorPosition(0.0);
 }
 
-double Chassis::getMaxVelocity(){
-  return maxSpeed;
-}
+double Chassis::getMaxVelocity() { return maxSpeed; }
 
-void Chassis::addVisionMeasurement(const frc::Pose2d& visionPose, double timeStamp){
-      //Low priority lock
-    pe_LMutex.lock();
-    pe_NMutex.lock();
-    pe_MMutex.lock();
-    pe_NMutex.unlock();
-    odometry.AddVisionMeasurement(visionPose, units::second_t(timeStamp));
-    pe_MMutex.unlock();
-    pe_LMutex.unlock();
+void Chassis::addVisionMeasurement(const frc::Pose2d& visionPose,
+                                   double timeStamp) {
+  // Low priority lock
+  pe_LMutex.lock();
+  pe_NMutex.lock();
+  pe_MMutex.lock();
+  pe_NMutex.unlock();
+  odometry.AddVisionMeasurement(visionPose, units::second_t(timeStamp));
+  pe_MMutex.unlock();
+  pe_LMutex.unlock();
 }
 
 // This method will be called once per scheduler run
@@ -145,7 +166,7 @@ void Chassis::Periodic() {
   pe_MMutex.lock();
   pe_NMutex.unlock();
   odometry.Update(gyroAngle, wheelSpeeds, units::meter_t(leftDistance),
-                                units::meter_t(rightDistance));
+                  units::meter_t(rightDistance));
   pe_MMutex.unlock();
 }
 
@@ -154,7 +175,8 @@ void Chassis::updatePIDs() {
   const auto rightVelTargetMps = units::meters_per_second_t(rightTargetVel);
 
   const auto leftLimitedTarget = leftAccelLimiter.Calculate(leftVelTargetMps);
-  const auto rightLimitedTarget = rightAccelLimiter.Calculate(rightVelTargetMps);
+  const auto rightLimitedTarget =
+      rightAccelLimiter.Calculate(rightVelTargetMps);
 
   leftPID.SetSetpoint(leftLimitedTarget.value());
   rightPID.SetSetpoint(rightLimitedTarget.value());
@@ -183,10 +205,7 @@ void Chassis::updateTelemetry() {
   frc::SmartDashboard::PutNumber("Chassis/RightVelocity", rightVel);
   frc::SmartDashboard::PutNumber("Chassis/LeftVelocity", leftVel);
 
-
-
   field.SetRobotPose(getPose());
-  
 }
 
 double Chassis::convertToMeters(double sensorRawPos) {

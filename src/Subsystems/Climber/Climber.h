@@ -19,7 +19,8 @@ class Climber : public frc2::SubsystemBase {
   void Periodic() override;
 
  private:
-   frc::Solenoid climberPiston{frc::PneumaticsModuleType::CTREPCM, 6};
+   frc::Solenoid 
+   climberPiston{frc::PneumaticsModuleType::CTREPCM, 6};
    WPI_VictorSPX leftClimber {7}; // Left Climber
    WPI_VictorSPX rightClimber {8}; // Right Climber
   // Components (e.g. motor controllers and sensors) should generally be

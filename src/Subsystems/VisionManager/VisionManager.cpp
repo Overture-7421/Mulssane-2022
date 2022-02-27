@@ -26,12 +26,13 @@ VisionManager::VisionManager(Chassis* chassis)
 
 const frc::Pose2d& VisionManager::getTargetPose() { return fieldToTarget; }
 
-frc::Rotation2d VisionManager::getRotationToTarget(){
-  const auto poseDiff = fieldToTarget.Translation() - chassis->getPose().Translation();
+frc::Rotation2d VisionManager::getRotationToTarget() {
+  const auto poseDiff =
+      fieldToTarget.Translation() - chassis->getPose().Translation();
   return frc::Rotation2d(poseDiff.X().value(), poseDiff.Y().value());
 }
 
-units::meter_t VisionManager::getDistanceToTarget(){
+units::meter_t VisionManager::getDistanceToTarget() {
   return chassis->getPose().Translation().Distance(fieldToTarget.Translation());
 }
 
@@ -66,22 +67,21 @@ bool VisionManager::updateCircleFit(
         std::copy_n(targetPoints.rbegin(), 2,
                     std::back_inserter(bottomTargets));  // Last two points
 
-        std::for_each(
-            topTargets.begin(), topTargets.end(), [&](const auto& corner) {
-              auto ret = cameraToTargetTranslation(corner, targetHeight);
-              if (ret.has_value()) {
-                outputTranslations.push_back(std::move(ret.value()));
-              }
-            });
+        for (auto corner = topTargets.begin(); corner != topTargets.end();
+             corner++) {
+          auto ret = cameraToTargetTranslation(*corner, targetHeight);
+          if (ret.has_value()) {
+            outputTranslations.push_back(std::move(ret.value()));
+          }
+        }
 
-        std::for_each(bottomTargets.rbegin(), bottomTargets.rend(),
-                      [&](const auto& corner) {
-                        auto ret = cameraToTargetTranslation(
-                            corner, targetHeight - 2_in);
-                        if (ret.has_value()) {
-                          outputTranslations.push_back(std::move(ret.value()));
-                        }
-                      });
+        for (auto corner = bottomTargets.rbegin();
+             corner != bottomTargets.rend(); corner++) {
+          auto ret = cameraToTargetTranslation(*corner, targetHeight - 2_in);
+          if (ret.has_value()) {
+            outputTranslations.push_back(std::move(ret.value()));
+          }
+        }
       });
 
   auto circleRet = solveLeastSquaresCircle(outputTranslations);

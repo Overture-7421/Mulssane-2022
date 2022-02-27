@@ -12,25 +12,25 @@ __ `__ \/ _ \
 
 #pragma once
 
+#include <ctre/Phoenix.h>
 #include <frc/DoubleSolenoid.h>
 #include <frc/Joystick.h>
 #include <frc/Solenoid.h>
 #include <frc/TimedRobot.h>
 #include <frc/smartdashboard/SendableChooser.h>
 #include <frc2/command/Command.h>
+#include <frc2/command/button/JoystickButton.h>
 
-#include "Subsystems/Chassis/Chassis.h"
-#include "Subsystems/Shooter/Shooter.h"
-#include "Subsystems/Intake/Intake.h"
-#include "Subsystems/StorageAndDeliver/StorageAndDeliver.h"
-#include "Subsystems/Climber/Climber.h"
 #include "Commands/Autonomous/CommandTest/CommandTest.h"
 #include "Commands/Autonomous/RamseteTests/RamseteTests.h"
 #include "Commands/Autonomous/TurnToAngle/TurnToAngle.h"
-#include "Commands/Teleop/DefaultDrive/DefaultDrive.h"
+#include "Subsystems/Chassis/Chassis.h"
+#include "Subsystems/Climber/Climber.h"
+#include "Subsystems/Intake/Intake.h"
 #include "Subsystems/RangeDecider/RangeDecider.h"
+#include "Subsystems/Shooter/Shooter.h"
+#include "Subsystems/StorageAndDeliver/StorageAndDeliver.h"
 #include "Subsystems/VisionManager/VisionManager.h"
-#include <ctre/Phoenix.h>
 
 class Robot : public frc::TimedRobot {
  public:
@@ -48,20 +48,19 @@ class Robot : public frc::TimedRobot {
  private:
   std::unique_ptr<frc2::SequentialCommandGroup> autocommand;
   frc::Joystick joy1{0}, joy2{1};
-   
 
   // Subsystems
-   Chassis chassis;
-   Shooter shooter;
-   Intake intake;
-   StorageAndDeliver storageAndDeliver;
-   Climber climber;
-   VisionManager visionManager{&chassis};
-   RangeDecider rangeDecider;
+  Chassis chassis;
+  Shooter shooter;
+  Intake intake;
+  StorageAndDeliver storageAndDeliver;
+  Climber climber;
+  VisionManager visionManager{&chassis};
+  RangeDecider rangeDecider;
 
-  // Default Commands
-   DefaultDrive defaultDrive{&chassis, &visionManager, &rangeDecider, &joy1};
+  frc2::JoystickButton intakeButton{&joy2, 5};
+  frc2::JoystickButton shootButton{&joy2, 6};
 
-   bool lastA = false;
-   bool hoodState = false;
+  frc2::JoystickButton climberButtonUp{&joy2, 4};
+  frc2::JoystickButton climberButtonMotorEnable{&joy2, 1};
 };
