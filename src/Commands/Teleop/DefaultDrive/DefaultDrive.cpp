@@ -63,15 +63,18 @@ void DefaultDrive::Execute() {
       break;
   }
 
+  bool aimAndRangeButtonPressed = joy->GetRawButton(aimAndRangeButton);
+
+  if(lastAimAndRangeButtonPressed != aimAndRangeButtonPressed && aimAndRangeButtonPressed){
+      distanceController.Reset(visionManager->getDistanceToTarget());
+  }
+
+
   double distanceOut =
       -distanceController.Calculate(visionManager->getDistanceToTarget());
 
 
-  if(lastAimAndRangeButtonPressed != joy->GetRawButton(aimAndRangeButton) == joy->GetRawButton(aimAndRangeButton)){
-      distanceController.Reset(visionManager->getDistanceToTarget());
-  }
-
-  lastAimAndRangeButtonPressed = joy->GetRawButton(aimAndRangeButton);
+  lastAimAndRangeButtonPressed = aimAndRangeButtonPressed;
 
   if (joy->GetRawButton(aimAndRangeButton) && headingController.AtGoal()) {
     vels.vx = units::meters_per_second_t(distanceOut);
@@ -80,8 +83,7 @@ void DefaultDrive::Execute() {
         units::meters_per_second_t(linearAxis * chassis->getMaxVelocity());
   }
 
-  if (joy->GetRawButton(aimAndRangeButton) ||
-      joy->GetRawButton(onlyAimButton)) {
+  if (joy->GetRawButton(aimAndRangeButton)) {
     vels.omega = units::radians_per_second_t(headingOut);
   } else {
     vels.omega =

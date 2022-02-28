@@ -43,7 +43,7 @@ void Robot::RobotInit() {
   driverShootButton.WhenPressed(SetShooter(&shooter, 370.0, true))
       .WhenReleased(SetShooter(&shooter, 0.0, true));
 
-  driverShootNoVisionButton.WhenPressed(SetShooter(&shooter, 340.0, false))
+  driverShootNoVisionButton.WhenPressed(SetShooter(&shooter, 370.0, false))
       .WhenReleased(SetShooter(&shooter, 0.0, false));
 
   shooter.setHoodState(true);
