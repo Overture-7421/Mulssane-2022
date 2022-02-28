@@ -43,8 +43,6 @@ void Robot::RobotInit() {
   driverShootButton.WhenPressed(SetShooter(&shooter, 370.0, true))
       .WhenReleased(SetShooter(&shooter, 0.0, true));
 
-
-
   driverShootNoVisionButton.WhenPressed(SetShooter(&shooter, 340.0, false))
       .WhenReleased(SetShooter(&shooter, 0.0, false));
 
@@ -78,11 +76,15 @@ void Robot::AutonomousInit() {
 
 void Robot::AutonomousPeriodic() {}
 
-void Robot::TeleopInit() {}
+void Robot::TeleopInit() {
+    frc2::CommandScheduler::GetInstance().CancelAll();
+}
 
 void Robot::TeleopPeriodic() {}
 
-void Robot::DisabledInit() {}
+void Robot::DisabledInit() {
+  frc2::CommandScheduler::GetInstance().CancelAll();
+}
 
 void Robot::DisabledPeriodic() {}
 
@@ -91,5 +93,14 @@ void Robot::TestInit() {}
 void Robot::TestPeriodic() {}
 
 #ifndef RUNNING_FRC_TESTS
-int main() { return frc::StartRobot<Robot>(); }
+#include <frc/DriverStation.h>
+#include <frc/livewindow/LiveWindow.h>
+int main() {
+  // These warnings generate console prints that cause scheduling jitter
+  frc::DriverStation::SilenceJoystickConnectionWarning(true);
+  // This telemetry regularly causes loop overruns
+  frc::LiveWindow::DisableAllTelemetry();
+
+  return frc::StartRobot<Robot>();
+}
 #endif

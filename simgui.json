@@ -12,6 +12,12 @@
   },
   "NetworkTables": {
     "SmartDashboard": {
+      "Chassis": {
+        "RobotPose": {
+          "open": true
+        },
+        "open": true
+      },
       "open": true
     }
   }

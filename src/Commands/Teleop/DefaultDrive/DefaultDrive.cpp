@@ -66,6 +66,13 @@ void DefaultDrive::Execute() {
   double distanceOut =
       -distanceController.Calculate(visionManager->getDistanceToTarget());
 
+
+  if(lastAimAndRangeButtonPressed != joy->GetRawButton(aimAndRangeButton) == joy->GetRawButton(aimAndRangeButton)){
+      distanceController.Reset(visionManager->getDistanceToTarget());
+  }
+
+  lastAimAndRangeButtonPressed = joy->GetRawButton(aimAndRangeButton);
+
   if (joy->GetRawButton(aimAndRangeButton) && headingController.AtGoal()) {
     vels.vx = units::meters_per_second_t(distanceOut);
   } else {

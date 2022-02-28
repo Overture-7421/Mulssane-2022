@@ -46,7 +46,7 @@ class VisionManager : public frc2::SubsystemBase {
   frc::Notifier visionNotifier;
   const int minTargetCount = 2;
   const units::meter_t targetHeight = 2.631923_m; //From Field's CAD
-  const frc::Pose2d fieldToTarget {8.033_m, 4.108_m, {0_deg}};
+  const frc::Pose2d fieldToTarget {8.25_m, 4.07_m, {0_deg}};
   Chassis* chassis;
 
 };
@@ -54,8 +54,8 @@ class VisionManager : public frc2::SubsystemBase {
 namespace CameraConstants {
   const frc::Rotation2d pitch {30_deg};
   const units::meter_t height = 0.67_m;
-  const double vpw = 2.0 * std::tan((34.3/ 2.0) * M_PI / 180.0);
-  const double vph = 2.0 * std::tan((61 / 2.0) * M_PI / 180.0);
+  const double vpw = 2.0 * units::math::tan(58.5_deg / 2.0);
+  const double vph = 2.0 *  units::math::tan(45.6_deg / 2.0);
   const std::pair<double, double> resolution {640, 480};
-  const frc::Transform2d cameraToRobot;
+  const frc::Transform2d cameraToRobot {{0_m, 0_m}, 0_deg};
 }

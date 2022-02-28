@@ -12,7 +12,7 @@ VisionManager::VisionManager(Chassis* chassis)
         photonlib::PhotonPipelineResult result = camera.GetLatestResult();
         if (result != lastResult) {
           bool res = updateCircleFit(result);
-            frc::SmartDashboard::PutBoolean("VisionManager/CircleFitted", res);
+          frc::SmartDashboard::PutBoolean("VisionManager/CircleFitted", res);
           if (res) {
             units::second_t targetTimestamp =
                 frc::Timer::GetFPGATimestamp() - result.GetLatency();
@@ -71,7 +71,7 @@ bool VisionManager::updateCircleFit(
     }
 
     if (targetPoints.size() != 4) {
-      std::cerr << "TargePoints is different to 4!!! "
+      std::cout << "TargePoints is different to 4!!! "
                 << (int)targetPoints.size() << "\n";
       continue;
     }
@@ -99,7 +99,7 @@ bool VisionManager::updateCircleFit(
       }
     }
 
-    for (auto corner = bottomTargets.rbegin(); corner != bottomTargets.rend();
+    for (auto corner = bottomTargets.begin(); corner != bottomTargets.end();
          corner++) {
       auto ret = cameraToTargetTranslation(*corner, targetHeight - 2_in);
       if (ret.has_value()) {
@@ -110,7 +110,7 @@ bool VisionManager::updateCircleFit(
 
   auto circleRet = solveLeastSquaresCircle(outputTranslations);
   if (!circleRet.has_value()) {
-    std::cerr << "Could not fit circle\n";
+    std::cout << "Could not fit circle\n";
     return false;
   }
 
