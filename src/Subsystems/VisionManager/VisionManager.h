@@ -52,10 +52,10 @@ class VisionManager : public frc2::SubsystemBase {
 };
 
 namespace CameraConstants {
-  const frc::Rotation2d pitch {34_deg};
-  const units::meter_t height = 0.5_m;
-  const double vpw = 2.0 * std::tan((59.6 / 2.0) * M_PI / 180.0);
-  const double vph = 2.0 * std::tan((49.7 / 2.0) * M_PI / 180.0);
+  const frc::Rotation2d pitch {30_deg};
+  const units::meter_t height = 0.67_m;
+  const double vpw = 2.0 * std::tan((34.3/ 2.0) * M_PI / 180.0);
+  const double vph = 2.0 * std::tan((61 / 2.0) * M_PI / 180.0);
   const std::pair<double, double> resolution {640, 480};
   const frc::Transform2d cameraToRobot;
 }

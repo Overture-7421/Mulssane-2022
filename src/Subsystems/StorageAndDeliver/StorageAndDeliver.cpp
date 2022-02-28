@@ -20,11 +20,16 @@ StorageAndDeliver::StorageAndDeliver(){
     lowerFeederMotor.ConfigOpenloopRamp(0.1);
 
     indexerMotor.SetInverted(true);
+    lowerFeederMotor.SetInverted(true);
     indexerMotor.ConfigSupplyCurrentLimit(SupplyCurrentLimitConfiguration(true, 15, 0, 1));
     upperFeederMotor.ConfigSupplyCurrentLimit(SupplyCurrentLimitConfiguration(true, 15, 0, 1));
 
+    indexerMotor.SetNeutralMode(NeutralMode::Brake);
+    upperFeederMotor.SetNeutralMode(NeutralMode::Brake);
+    lowerFeederMotor.SetNeutralMode(NeutralMode::Brake);
+
     digitalGlitchFilter.SetPeriodNanoSeconds(1650000);
-    //digitalGlitchFilter.Add(&ballCounter);
+    digitalGlitchFilter.Add(&ballCounter);
 }
 
 void StorageAndDeliver::setIndexerVoltage(double voltage){

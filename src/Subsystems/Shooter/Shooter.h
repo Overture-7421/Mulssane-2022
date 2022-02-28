@@ -27,8 +27,8 @@ class Shooter : public frc2::SubsystemBase {
   void Periodic() override;
 
  private:
-  WPI_TalonFX rightShooter{4};
-  WPI_TalonFX leftShooter{5};
+  WPI_TalonFX rightShooter{11};
+  WPI_TalonFX leftShooter{4};
 
   int encoder_CodesPerRev = 2048;
 
@@ -40,18 +40,18 @@ class Shooter : public frc2::SubsystemBase {
   bool stabilizedOnTarget = false;
 
   // TODO Caracterizar disparador
-  frc::SlewRateLimiter<units::radian> limiter{150_rad_per_s};
+  frc::SlewRateLimiter<units::radian> limiter{350_rad_per_s};
 
   // Volts
-  static constexpr auto kFlywheelKs = 0.52915_V;
+  static constexpr auto kFlywheelKs = 0.65412_V;
 
   // Volts per (radian per second)
-  static constexpr auto kFlywheelKv = 0.017814_V / 1_rad_per_s;
+  static constexpr auto kFlywheelKv = 0.017331_V / 1_rad_per_s;
 
   // Volts per (radian per second squared)
-  static constexpr auto kFlywheelKa = 0.004323_V / 1_rad_per_s_sq;
+  static constexpr auto kFlywheelKa = 0.0017745_V / 1_rad_per_s_sq;
 
-  frc2::PIDController shooterController{0.026119, 0, 0};
+  frc2::PIDController shooterController{0.026059, 0, 0};
   frc::SimpleMotorFeedforward<units::radian> shooterFF{kFlywheelKs, kFlywheelKv,
                                                        kFlywheelKa};
   frc::DoubleSolenoid hoodPiston{frc::PneumaticsModuleType::CTREPCM, 3, 2};

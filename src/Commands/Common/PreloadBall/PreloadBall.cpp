@@ -19,19 +19,13 @@ void PreloadBall::Initialize() {}
 void PreloadBall::Execute() {
   if (!storageAndDeliver->isTopSwitchPressed()) {
     storageAndDeliver->setFeederVoltage(6);
+    storageAndDeliver->setIndexerVoltage(6);
   } else {
     storageAndDeliver->setIndexerVoltage(0);
-  }
-
-  if (!storageAndDeliver->isBottomSwitchPressed()) {
-    if (storageAndDeliver->isTopSwitchPressed()) {
-      storageAndDeliver->setIndexerVoltage(8);
-    } else {
-      storageAndDeliver->setIndexerVoltage(6);
-    }
-  } else {
     storageAndDeliver->setFeederVoltage(0);
   }
+
+
 }
 
 // Called once the command ends or is interrupted.

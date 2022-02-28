@@ -17,7 +17,7 @@ __ `__ \/ _ \
 
 Chassis::Chassis() {
   ahrs.Calibrate();
-  std::this_thread::sleep_for(std::chrono::seconds(1));
+  std::this_thread::sleep_for(std::chrono::seconds(4));
   double startTime = frc::Timer::GetFPGATimestamp().value();
   while (ahrs.IsCalibrating()) {
     double timePassed = frc::Timer::GetFPGATimestamp().value() - startTime;
@@ -30,7 +30,6 @@ Chassis::Chassis() {
   }
 
   ahrs.ZeroYaw();
-
   rightSlave1.Follow(rightMaster);
   rightSlave2.Follow(rightMaster);
 
@@ -157,7 +156,8 @@ void Chassis::Periodic() {
   rightVel = convertToMetersPerSec(rightMaster.GetSelectedSensorVelocity());
   leftVel = convertToMetersPerSec(leftMaster.GetSelectedSensorVelocity());
 
-  frc::Rotation2d gyroAngle{units::degree_t(ahrs.GetFusedHeading())};
+  frc::Rotation2d gyroAngle{units::degree_t(-ahrs.GetYaw())};
+  frc::SmartDashboard::PutNumber("Chassis/RawHeading", gyroAngle.Degrees().value());
 
   frc::DifferentialDriveWheelSpeeds wheelSpeeds;
   wheelSpeeds.left = units::meters_per_second_t(leftVel);
@@ -204,7 +204,6 @@ void Chassis::updateTelemetry() {
 
   frc::SmartDashboard::PutNumber("Chassis/RightVelocity", rightVel);
   frc::SmartDashboard::PutNumber("Chassis/LeftVelocity", leftVel);
-
   field.SetRobotPose(getPose());
 }
 

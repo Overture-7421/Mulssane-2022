@@ -7,7 +7,7 @@
 #include <frc/smartdashboard/SmartDashboard.h>
 
 Shooter::Shooter() {
-  rightShooter.SetInverted(InvertType::InvertMotorOutput);
+  leftShooter.SetInverted(InvertType::InvertMotorOutput);
 
   rightShooter.ConfigOpenloopRamp(0.01);
   leftShooter.ConfigOpenloopRamp(0.01);
@@ -20,6 +20,13 @@ Shooter::Shooter() {
   rightShooter.SetSelectedSensorPosition(0.0);
   leftShooter.SetSelectedSensorPosition(0.0);
 
+  leftShooter.SetNeutralMode(NeutralMode::Coast);
+  rightShooter.SetNeutralMode(NeutralMode::Coast);
+
+    leftShooter.SetStatusFramePeriod(
+      ctre::phoenix::motorcontrol::StatusFrameEnhanced::Status_2_Feedback0,
+      255);
+
   frc2::CommandScheduler::GetInstance().RegisterSubsystem(this);
 }
 
@@ -27,8 +34,6 @@ Shooter::Shooter() {
 void Shooter::Periodic() {
   double currentVel = getVelocity();
   frc::SmartDashboard::PutNumber("Shooter/Velocity", currentVel);
-  frc::SmartDashboard::PutNumber("Shooter/Position",
-                                 rightShooter.GetSelectedSensorPosition());
   frc::SmartDashboard::PutBoolean("Shooter/ObjectiveReached",
                                   reachedVelocityTarget());
 

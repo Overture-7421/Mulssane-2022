@@ -11,7 +11,9 @@ VisionManager::VisionManager(Chassis* chassis)
     : visionNotifier([this] {
         photonlib::PhotonPipelineResult result = camera.GetLatestResult();
         if (result != lastResult) {
-          if (updateCircleFit(result)) {
+          bool res = updateCircleFit(result);
+            frc::SmartDashboard::PutBoolean("VisionManager/CircleFitted", res);
+          if (res) {
             units::second_t targetTimestamp =
                 frc::Timer::GetFPGATimestamp() - result.GetLatency();
             this->chassis->addVisionMeasurement(visionPose,
@@ -20,6 +22,7 @@ VisionManager::VisionManager(Chassis* chassis)
           }
         }
       }) {
+  camera.SetLEDMode(photonlib::LEDMode::kOn);
   this->chassis = chassis;
   visionNotifier.StartPeriodic(20_ms);
 }
@@ -37,10 +40,18 @@ units::meter_t VisionManager::getDistanceToTarget() {
 }
 
 // This method will be called once per scheduler run
-void VisionManager::Periodic() {}
+void VisionManager::Periodic() {
+  frc::SmartDashboard::PutNumber("VisionManager/Distance",
+                                 getDistanceToTarget().value());
+  frc::SmartDashboard::PutNumber("VisionManager/Heading",
+                                 getRotationToTarget().Degrees().value());
+}
 
 bool VisionManager::updateCircleFit(
     const photonlib::PhotonPipelineResult& result) {
+  frc::SmartDashboard::PutNumber("VisionManager/TargetCount",
+                                 result.GetTargets().size());
+
   if (!result.HasTargets() ||
       (int)result.GetTargets().size() < minTargetCount ||
       camera.GetLEDMode() != photonlib::LEDMode::kOn)
@@ -49,40 +60,53 @@ bool VisionManager::updateCircleFit(
   const auto targets = result.GetTargets();
   std::vector<frc::Translation2d> outputTranslations;
 
-  std::for_each(
-      targets.begin(), targets.end(),
-      [&](const photonlib::PhotonTrackedTarget& target) {
-        std::vector<std::pair<double, double>> targetPoints, topTargets,
-            bottomTargets;
+  for (auto targetPointer = targets.begin(); targetPointer != targets.end();
+       targetPointer++) {
+    auto& target = *targetPointer;
+    std::vector<std::pair<double, double>> targetPoints, topTargets,
+        bottomTargets;
 
-        for (const auto& point : target.GetCorners()) {
-          targetPoints.emplace_back(point);
-        }
-        if (targetPoints.size() != 4) return;
+    for (const auto& point : target.GetCorners()) {
+      targetPoints.emplace_back(point);
+    }
 
-        targetPoints = sortPoints(targetPoints);
+    if (targetPoints.size() != 4) {
+      std::cerr << "TargePoints is different to 4!!! "
+                << (int)targetPoints.size() << "\n";
+      continue;
+    }
 
-        std::copy_n(targetPoints.begin(), 2,
-                    std::back_inserter(topTargets));  // First 2 targets
-        std::copy_n(targetPoints.rbegin(), 2,
-                    std::back_inserter(bottomTargets));  // Last two points
+    targetPoints = sortPoints(targetPoints);
 
-        for (auto corner = topTargets.begin(); corner != topTargets.end();
-             corner++) {
-          auto ret = cameraToTargetTranslation(*corner, targetHeight);
-          if (ret.has_value()) {
-            outputTranslations.push_back(std::move(ret.value()));
-          }
-        }
+    std::string sortedPoints;
 
-        for (auto corner = bottomTargets.rbegin();
-             corner != bottomTargets.rend(); corner++) {
-          auto ret = cameraToTargetTranslation(*corner, targetHeight - 2_in);
-          if (ret.has_value()) {
-            outputTranslations.push_back(std::move(ret.value()));
-          }
-        }
-      });
+    for (const auto point : targetPoints) {
+      sortedPoints =
+          "[" + fmt::format("{} , {}", point.first, point.second) + "]";
+    }
+    frc::SmartDashboard::PutString("VisionManager/SortedPoints", sortedPoints);
+
+    std::copy_n(targetPoints.begin(), 2,
+                std::back_inserter(topTargets));  // First 2 targets
+    std::copy_n(targetPoints.rbegin(), 2,
+                std::back_inserter(bottomTargets));  // Last two points
+
+    for (auto corner = topTargets.begin(); corner != topTargets.end();
+         corner++) {
+      auto ret = cameraToTargetTranslation(*corner, targetHeight);
+      if (ret.has_value()) {
+        outputTranslations.push_back(std::move(ret.value()));
+      }
+    }
+
+    for (auto corner = bottomTargets.rbegin(); corner != bottomTargets.rend();
+         corner++) {
+      auto ret = cameraToTargetTranslation(*corner, targetHeight - 2_in);
+      if (ret.has_value()) {
+        outputTranslations.push_back(std::move(ret.value()));
+      }
+    }
+  }
 
   auto circleRet = solveLeastSquaresCircle(outputTranslations);
   if (!circleRet.has_value()) {

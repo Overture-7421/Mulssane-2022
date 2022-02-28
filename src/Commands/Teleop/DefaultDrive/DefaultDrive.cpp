@@ -8,16 +8,15 @@
 
 DefaultDrive::DefaultDrive(Chassis* chassis, VisionManager* visionManager,
                            RangeDecider* rangeDecider, frc::Joystick* joy)
-    : distanceController(0.01, 0.0, 0.0,
+    : distanceController(1.25, 0.0, 0.0,
                          {units::meters_per_second_t(chassis->getMaxVelocity()),
-                          units::meters_per_second_squared_t(0.1)}) {
+                          units::meters_per_second_squared_t(15.0)}) {
   this->chassis = chassis;
   this->visionManager = visionManager;
   this->rangeDecider = rangeDecider;
   this->joy = joy;
   AddRequirements(chassis);
   // Use addRequirements() here to declare subsystem dependencies.
-  
 }
 
 // Called when the command is initially scheduled.
@@ -26,7 +25,7 @@ void DefaultDrive::Initialize() {
                                           units::degree_t(180));
   headingController.Reset(chassis->getPose().Rotation().Degrees());
   headingController.SetTolerance(
-      10_deg,
+      15_deg,
       units::degrees_per_second_t(std::numeric_limits<double>::infinity()));
 
   distanceController.Reset(visionManager->getDistanceToTarget());
@@ -53,25 +52,21 @@ void DefaultDrive::Execute() {
   double headingOut =
       headingController.Calculate(chassis->getPose().Rotation().Degrees());
 
-  if (headingController.AtGoal()) {
-    switch (rangeDecider->getCurrentRange()) {
-      case RangeDecider::RangeResult::Short:
-        distanceController.SetGoal(1.0_m);
-        break;
-      case RangeDecider::RangeResult::Long:
-        distanceController.SetGoal(2.5_m);
-        break;
-      default:
-        break;
-    }
-  } else {
-    distanceController.SetGoal(visionManager->getDistanceToTarget());
+  switch (rangeDecider->getCurrentRange()) {
+    case RangeDecider::RangeResult::Short:
+      distanceController.SetGoal(1.0_m);
+      break;
+    case RangeDecider::RangeResult::Long:
+      distanceController.SetGoal(2.0_m);
+      break;
+    default:
+      break;
   }
 
   double distanceOut =
-      distanceController.Calculate(visionManager->getDistanceToTarget());
+      -distanceController.Calculate(visionManager->getDistanceToTarget());
 
-  if (joy->GetRawButton(aimAndRangeButton)) {
+  if (joy->GetRawButton(aimAndRangeButton) && headingController.AtGoal()) {
     vels.vx = units::meters_per_second_t(distanceOut);
   } else {
     vels.vx =

@@ -21,6 +21,7 @@ __ `__ \/ _ \
 #include <frc2/command/Command.h>
 #include <frc2/command/button/JoystickButton.h>
 
+#include "Commands/Teleop/DefaultDrive/DefaultDrive.h"
 #include "Commands/Autonomous/CommandTest/CommandTest.h"
 #include "Commands/Autonomous/RamseteTests/RamseteTests.h"
 #include "Commands/Autonomous/TurnToAngle/TurnToAngle.h"
@@ -51,16 +52,20 @@ class Robot : public frc::TimedRobot {
 
   // Subsystems
   Chassis chassis;
-  Shooter shooter;
+   Shooter shooter;
   Intake intake;
   StorageAndDeliver storageAndDeliver;
   Climber climber;
   VisionManager visionManager{&chassis};
   RangeDecider rangeDecider;
 
+   DefaultDrive drive{&chassis, &visionManager, &rangeDecider, &joy1};
   frc2::JoystickButton intakeButton{&joy2, 5};
   frc2::JoystickButton shootButton{&joy2, 6};
 
-  frc2::JoystickButton climberButtonUp{&joy2, 4};
-  frc2::JoystickButton climberButtonMotorEnable{&joy2, 1};
+
+    frc2::JoystickButton driverShootButton{&joy1, 5};
+    frc2::JoystickButton driverShootNoVisionButton{&joy1, 6};
+//   frc2::JoystickButton climberButtonUp{&joy2, 4};
+//   frc2::JoystickButton climberButtonMotorEnable{&joy2, 1};
 };

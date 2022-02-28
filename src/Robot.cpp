@@ -25,41 +25,49 @@ __ `__ \/ _ \
 #include "Commands/Common/SetClimberPistons/SetClimberPistonsUp.h"
 #include "Commands/Common/SetClimberVoltage/SetClimberVoltage.h"
 #include "Commands/Common/SetIntake/SetIntake.h"
+#include "Commands/Common/SetShooter/SetShooter.h"
 #include "Commands/Common/SetStorageAndDeliver/SetStorageAndDeliver.h"
-#include "Commands/Teleop/DefaultDrive/DefaultDrive.h"
 
 void Robot::RobotInit() {
-  chassis.SetDefaultCommand(
-      DefaultDrive(&chassis, &visionManager, &rangeDecider, &joy1));
-  // storageAndDeliver.SetDefaultCommand(PreloadBall(&storageAndDeliver, true));
+  chassis.SetDefaultCommand(drive);
+  storageAndDeliver.SetDefaultCommand(PreloadBall(&storageAndDeliver, true));
 
-  chassis.resetOdometry(visionManager.getTargetPose());
-
-  intakeButton.WhenPressed(SetIntake(&intake, 12, true))
+  intakeButton.WhileHeld(SetIntake(&intake, 12, true))
       .WhenReleased(frc2::SequentialCommandGroup(SetIntake(&intake, 12, false),
                                                  frc2::WaitCommand(0.2_s),
                                                  SetIntake(&intake, 0, false)));
 
-  shootButton.WhenPressed(SetStorageAndDeliver(&storageAndDeliver, 12))
+  shootButton.WhileHeld(SetStorageAndDeliver(&storageAndDeliver, 12))
       .WhenReleased(SetStorageAndDeliver(&storageAndDeliver, 0));
 
-  climberButtonUp.WhenPressed(SetClimberPistonsUp(&intake, &climber))
-      .WhenReleased(SetClimberPistonsDown(&intake, &climber));
+  driverShootButton.WhenPressed(SetShooter(&shooter, 370.0, true))
+      .WhenReleased(SetShooter(&shooter, 0.0, true));
 
-  climberButtonMotorEnable
-      .WhileHeld(
-          [this] {
-            double voltage =
-                (joy2.GetRawAxis(2) * 12.0) - (joy2.GetRawAxis(3) * 12.0);
-            climber.setVoltage(voltage);
-          },
-          {&climber})
-      .WhenReleased(SetClimberVoltage(&climber, 0));
+
+
+  driverShootNoVisionButton.WhenPressed(SetShooter(&shooter, 340.0, false))
+      .WhenReleased(SetShooter(&shooter, 0.0, false));
+
+  shooter.setHoodState(true);
+
+  // climberButtonUp.WhenPressed(SetClimberPistonsUp(&intake, &climber))
+  //     .WhenReleased(SetClimberPistonsDown(&intake, &climber));
+
+  // climberButtonMotorEnable
+  //     .WhileHeld(
+  //         [this] {
+  //           double voltage =
+  //               (joy2.GetRawAxis(2) * 12.0) - (joy2.GetRawAxis(3) * 12.0);
+  //           climber.setVoltage(voltage);
+  //         },
+  //         {&climber})
+  //     .WhenReleased(SetClimberVoltage(&climber, 0));
 }
 
 void Robot::RobotPeriodic() {
   rangeDecider.updateRangeDecision(chassis.getPose(),
                                    visionManager.getTargetPose());
+
   frc2::CommandScheduler::GetInstance().Run();
 }
 
