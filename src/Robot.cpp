@@ -12,6 +12,7 @@ __ `__ \/ _ \
 
 #include "Robot.h"
 
+#include <wpi/PortForwarder.h>
 #include <ctre/Phoenix.h>
 #include <frc/smartdashboard/SmartDashboard.h>
 #include <frc2/command/CommandScheduler.h>
@@ -19,8 +20,6 @@ __ `__ \/ _ \
 #include <frc2/command/SequentialCommandGroup.h>
 #include <frc2/command/WaitCommand.h>
 #include <frc2/command/PerpetualCommand.h>
-
-#include <iostream>
 
 #include "Commands/Common/PreloadBall/PreloadBall.h"
 #include "Commands/Common/SetClimberPistons/SetClimberPistonsDown.h"
@@ -101,6 +100,8 @@ void Robot::TestPeriodic() {}
 #include <frc/livewindow/LiveWindow.h>
 int main() {
   photonlib::PhotonCamera::SetVersionCheckEnabled(false);
+  wpi::PortForwarder::GetInstance().Add(5800, "10.74.21.6", 5800);
+
   // These warnings generate console prints that cause scheduling jitter
   frc::DriverStation::SilenceJoystickConnectionWarning(true);
   // This telemetry regularly causes loop overruns
