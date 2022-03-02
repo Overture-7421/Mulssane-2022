@@ -30,6 +30,7 @@ StorageAndDeliver::StorageAndDeliver() {
 
   indexerMotor.SetInverted(true);
   lowerFeederMotor.SetInverted(true);
+
   indexerMotor.ConfigSupplyCurrentLimit(
       SupplyCurrentLimitConfiguration(true, 15, 0, 1));
   upperFeederMotor.ConfigSupplyCurrentLimit(
@@ -68,4 +69,5 @@ void StorageAndDeliver::Periodic() {
                                   isTopSwitchPressed());
   frc::SmartDashboard::PutBoolean("StorageAndDeliver/BottomLimit",
                                   isBottomSwitchPressed());
+
 }

@@ -8,8 +8,10 @@
 #include <photonlib/PhotonPipelineResult.h>
 #include <frc/Notifier.h>
 #include <frc/geometry/Pose2d.h>
+#include <frc/DigitalOutput.h>
 #include <frc2/command/SubsystemBase.h>
 #include <Eigen/SVD>
+
 #include "Subsystems/Chassis/Chassis.h"
 
 class VisionManager : public frc2::SubsystemBase {
@@ -26,6 +28,8 @@ class VisionManager : public frc2::SubsystemBase {
   frc::Rotation2d getRotationToTarget();
 
   units::meter_t getDistanceToTarget();
+
+  void setLeds(bool set);
   /**
    * Will be called periodically whenever the CommandScheduler runs.
    */
@@ -39,7 +43,7 @@ class VisionManager : public frc2::SubsystemBase {
   bool solveLeastSquaresCircle(const std::vector<Eigen::Vector2d, Eigen::aligned_allocator<Eigen::Vector2d>> &points, Eigen::Vector2d &midpoint, double &radius);
   
         
-  const std::string cameraName = "TheOverCamara";
+  const std::string cameraName = "lifecam";
   photonlib::PhotonPipelineResult lastResult;
   photonlib::PhotonCamera camera {cameraName};
   frc::Pose2d visionPose;
@@ -47,6 +51,7 @@ class VisionManager : public frc2::SubsystemBase {
   const int minTargetCount = 2;
   const units::meter_t targetHeight = 2.631923_m; //From Field's CAD
   const frc::Pose2d fieldToTarget {8.25_m, 4.07_m, {0_deg}};
+  frc::DigitalOutput ledRelay {2};
   Chassis* chassis;
 
 };

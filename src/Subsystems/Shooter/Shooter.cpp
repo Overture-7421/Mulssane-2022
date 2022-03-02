@@ -24,6 +24,9 @@ Shooter::Shooter() {
   rightShooter.SetNeutralMode(NeutralMode::Coast);
 
     leftShooter.SetStatusFramePeriod(
+      ctre::phoenix::motorcontrol::StatusFrameEnhanced::Status_1_General,
+      255);
+    leftShooter.SetStatusFramePeriod(
       ctre::phoenix::motorcontrol::StatusFrameEnhanced::Status_2_Feedback0,
       255);
 

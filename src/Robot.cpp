@@ -15,6 +15,7 @@ __ `__ \/ _ \
 #include <ctre/Phoenix.h>
 #include <frc/smartdashboard/SmartDashboard.h>
 #include <frc2/command/CommandScheduler.h>
+#include <frc2/command/ParallelCommandGroup.h>
 #include <frc2/command/SequentialCommandGroup.h>
 #include <frc2/command/WaitCommand.h>
 
@@ -43,23 +44,23 @@ void Robot::RobotInit() {
   driverShootButton.WhenPressed(SetShooter(&shooter, 370.0, true))
       .WhenReleased(SetShooter(&shooter, 0.0, true));
 
-  driverShootNoVisionButton.WhenPressed(SetShooter(&shooter, 370.0, false))
-      .WhenReleased(SetShooter(&shooter, 0.0, false));
-
-  shooter.setHoodState(true);
+  driverShootNoVisionButton.WhenPressed(SetShooter(&shooter, 360.0, false))
+      .WhenReleased(SetShooter(&shooter, 0.0, true));
 
   // climberButtonUp.WhenPressed(SetClimberPistonsUp(&intake, &climber))
   //     .WhenReleased(SetClimberPistonsDown(&intake, &climber));
 
   // climberButtonMotorEnable
   //     .WhileHeld(
-  //         [this] {
+  //         [climber = &climber, intake = &intake, joy2 = &joy2] {
   //           double voltage =
-  //               (joy2.GetRawAxis(2) * 12.0) - (joy2.GetRawAxis(3) * 12.0);
-  //           climber.setVoltage(voltage);
+  //               (joy2->GetRawAxis(2) * 12.0) - (joy2->GetRawAxis(3) * 12.0);
+  //           climber->setVoltage(voltage);
+  //           intake->setPistons(true);
   //         },
-  //         {&climber})
-  //     .WhenReleased(SetClimberVoltage(&climber, 0));
+  //         {&climber, &intake})
+  //     .WhenReleased(frc2::ParallelCommandGroup(SetClimberVoltage(&climber, 0),
+  //                                              SetIntake(&intake, 0, false)));
 }
 
 void Robot::RobotPeriodic() {
@@ -77,12 +78,14 @@ void Robot::AutonomousInit() {
 void Robot::AutonomousPeriodic() {}
 
 void Robot::TeleopInit() {
-    frc2::CommandScheduler::GetInstance().CancelAll();
+  visionManager.setLeds(true);
+  frc2::CommandScheduler::GetInstance().CancelAll();
 }
 
 void Robot::TeleopPeriodic() {}
 
 void Robot::DisabledInit() {
+  visionManager.setLeds(true);
   frc2::CommandScheduler::GetInstance().CancelAll();
 }
 

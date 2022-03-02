@@ -7,10 +7,7 @@
 #include "Utils/Utils.h"
 
 DefaultDrive::DefaultDrive(Chassis* chassis, VisionManager* visionManager,
-                           RangeDecider* rangeDecider, frc::Joystick* joy)
-    : distanceController(1.25, 0.0, 0.0,
-                         {units::meters_per_second_t(chassis->getMaxVelocity()),
-                          units::meters_per_second_squared_t(15.0)}) {
+                           RangeDecider* rangeDecider, frc::Joystick* joy) {
   this->chassis = chassis;
   this->visionManager = visionManager;
   this->rangeDecider = rangeDecider;
@@ -25,16 +22,12 @@ void DefaultDrive::Initialize() {
                                           units::degree_t(180));
   headingController.Reset(chassis->getPose().Rotation().Degrees());
   headingController.SetTolerance(
-      15_deg,
+      30_deg,
       units::degrees_per_second_t(std::numeric_limits<double>::infinity()));
 
-  distanceController.Reset(visionManager->getDistanceToTarget());
-  distanceController.SetTolerance(
-      0.05_m,
-      units::meters_per_second_t(std::numeric_limits<double>::infinity()));
+
 
   frc::SmartDashboard::PutData("Heading PID", &headingController);
-  frc::SmartDashboard::PutData("Distance PID", &distanceController);
 }
 
 // Called repeatedly when this Command is scheduled to run
@@ -52,43 +45,22 @@ void DefaultDrive::Execute() {
   double headingOut =
       headingController.Calculate(chassis->getPose().Rotation().Degrees());
 
-  switch (rangeDecider->getCurrentRange()) {
-    case RangeDecider::RangeResult::Short:
-      distanceController.SetGoal(1.0_m);
-      break;
-    case RangeDecider::RangeResult::Long:
-      distanceController.SetGoal(2.0_m);
-      break;
-    default:
-      break;
-  }
 
   bool aimAndRangeButtonPressed = joy->GetRawButton(aimAndRangeButton);
-
-  if(lastAimAndRangeButtonPressed != aimAndRangeButtonPressed && aimAndRangeButtonPressed){
-      distanceController.Reset(visionManager->getDistanceToTarget());
-  }
-
-
-  double distanceOut =
-      -distanceController.Calculate(visionManager->getDistanceToTarget());
 
 
   lastAimAndRangeButtonPressed = aimAndRangeButtonPressed;
 
-  if (joy->GetRawButton(aimAndRangeButton) && headingController.AtGoal()) {
-    vels.vx = units::meters_per_second_t(distanceOut);
-  } else {
     vels.vx =
         units::meters_per_second_t(linearAxis * chassis->getMaxVelocity());
-  }
 
-  if (joy->GetRawButton(aimAndRangeButton)) {
+  if (aimAndRangeButtonPressed) {
     vels.omega = units::radians_per_second_t(headingOut);
   } else {
     vels.omega =
         units::radians_per_second_t(angularAxis * 2 * M_PI);  // Angular
   }
+
 
   chassis->setVelocities(vels);
 }

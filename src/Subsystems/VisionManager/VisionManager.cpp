@@ -16,14 +16,14 @@ VisionManager::VisionManager(Chassis* chassis)
           if (res) {
             units::second_t targetTimestamp =
                 frc::Timer::GetFPGATimestamp() - result.GetLatency();
-            this->chassis->addVisionMeasurement(visionPose,
-                                                targetTimestamp.value());
+             this->chassis->addVisionMeasurement(visionPose,
+                                                 targetTimestamp.value());
             lastResult = result;
           }
         }
       }) {
-  camera.SetLEDMode(photonlib::LEDMode::kOn);
   this->chassis = chassis;
+  setLeds(true);
   visionNotifier.StartPeriodic(20_ms);
 }
 
@@ -39,12 +39,22 @@ units::meter_t VisionManager::getDistanceToTarget() {
   return chassis->getPose().Translation().Distance(fieldToTarget.Translation());
 }
 
+void VisionManager::setLeds(bool set){
+  camera.SetLEDMode(set ? photonlib::kOn : photonlib::kOff);
+}
+
 // This method will be called once per scheduler run
 void VisionManager::Periodic() {
+  const auto start = frc::Timer::GetFPGATimestamp();
   frc::SmartDashboard::PutNumber("VisionManager/Distance",
                                  getDistanceToTarget().value());
   frc::SmartDashboard::PutNumber("VisionManager/Heading",
                                  getRotationToTarget().Degrees().value());
+
+  ledRelay.Set(camera.GetLEDMode() != photonlib::kOn);
+
+  frc::SmartDashboard::PutNumber(
+      "VisionManager/dt", (frc::Timer::GetFPGATimestamp() - start).value());
 }
 
 bool VisionManager::updateCircleFit(
@@ -55,6 +65,7 @@ bool VisionManager::updateCircleFit(
   if (!result.HasTargets() ||
       (int)result.GetTargets().size() < minTargetCount ||
       camera.GetLEDMode() != photonlib::LEDMode::kOn)
+
     return false;
 
   const auto targets = result.GetTargets();
@@ -81,7 +92,7 @@ bool VisionManager::updateCircleFit(
     std::string sortedPoints;
 
     for (const auto point : targetPoints) {
-      sortedPoints =
+      sortedPoints +=
           "[" + fmt::format("{} , {}", point.first, point.second) + "]";
     }
     frc::SmartDashboard::PutString("VisionManager/SortedPoints", sortedPoints);
@@ -117,6 +128,10 @@ bool VisionManager::updateCircleFit(
   Circle circle = circleRet.value();
 
   frc::Translation2d circleTranslation = circle.midpoint;
+  frc::SmartDashboard::PutString(
+      "VisionManager/TraslationToCircle",
+      fmt::format("X:{} Y:{}", circleTranslation.X(), circleTranslation.Y()));
+
   frc::Rotation2d robotRotation = chassis->getPose().Rotation();
   frc::Rotation2d cameraRotation =
       robotRotation.RotateBy(CameraConstants::cameraToRobot.Rotation());
@@ -217,6 +232,11 @@ std::vector<std::pair<double, double>> VisionManager::sortPoints(
 
 std::optional<frc::Translation2d> VisionManager::cameraToTargetTranslation(
     std::pair<double, double> corner, const units::meter_t targetHeight) {
+
+        frc::SmartDashboard::PutString("cameraToTargetTranslation_params",
+        fmt::format("{} {} {} {} {}", CameraConstants::vpw, CameraConstants::vph, CameraConstants::height,
+            CameraConstants::pitch.Degrees().value(), targetHeight));
+
   double yPixels = corner.first;
   double zPixels = corner.second;
 

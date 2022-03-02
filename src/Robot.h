@@ -64,8 +64,8 @@ class Robot : public frc::TimedRobot {
   frc2::JoystickButton shootButton{&joy2, 6};
 
 
-    frc2::JoystickButton driverShootButton{&joy1, 5};
-    frc2::JoystickButton driverShootNoVisionButton{&joy1, 6};
-//   frc2::JoystickButton climberButtonUp{&joy2, 4};
-//   frc2::JoystickButton climberButtonMotorEnable{&joy2, 1};
+    frc2::JoystickButton driverShootButton{&joy2, 1};
+    frc2::JoystickButton driverShootNoVisionButton{&joy2, 2};
+  frc2::JoystickButton climberButtonUp{&joy2, 4};
+  frc2::JoystickButton climberButtonMotorEnable{&joy2, 1};
 };

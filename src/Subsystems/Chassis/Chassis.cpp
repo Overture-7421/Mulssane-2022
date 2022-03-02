@@ -54,21 +54,36 @@ Chassis::Chassis() {
   leftMaster.ConfigSupplyCurrentLimit(
       SupplyCurrentLimitConfiguration(true, 30, 0, 1));
 
+
+  leftSlave1.SetStatusFramePeriod(
+      ctre::phoenix::motorcontrol::StatusFrameEnhanced::Status_1_General,
+      255);
   leftSlave1.SetStatusFramePeriod(
       ctre::phoenix::motorcontrol::StatusFrameEnhanced::Status_2_Feedback0,
       255);
 
   leftSlave2.SetStatusFramePeriod(
+      ctre::phoenix::motorcontrol::StatusFrameEnhanced::Status_1_General,
+      255);
+  leftSlave2.SetStatusFramePeriod(
       ctre::phoenix::motorcontrol::StatusFrameEnhanced::Status_2_Feedback0,
       255);
 
+  rightSlave1.SetStatusFramePeriod(
+      ctre::phoenix::motorcontrol::StatusFrameEnhanced::Status_1_General,
+      255);
   rightSlave1.SetStatusFramePeriod(
       ctre::phoenix::motorcontrol::StatusFrameEnhanced::Status_2_Feedback0,
       255);
 
   rightSlave2.SetStatusFramePeriod(
+      ctre::phoenix::motorcontrol::StatusFrameEnhanced::Status_1_General,
+      255);
+  rightSlave2.SetStatusFramePeriod(
       ctre::phoenix::motorcontrol::StatusFrameEnhanced::Status_2_Feedback0,
       255);
+
+      
 
   frc::SmartDashboard::PutData("Chassis/RobotPose", &field);
   frc2::CommandScheduler::GetInstance().RegisterSubsystem(this);
@@ -148,6 +163,8 @@ void Chassis::addVisionMeasurement(const frc::Pose2d& visionPose,
 
 // This method will be called once per scheduler run
 void Chassis::Periodic() {
+  const auto start = frc::Timer::GetFPGATimestamp();
+
   updatePIDs();
   updateTelemetry();
   rightDistance = convertToMeters(rightMaster.GetSelectedSensorPosition());
@@ -168,6 +185,8 @@ void Chassis::Periodic() {
   odometry.Update(gyroAngle, wheelSpeeds, units::meter_t(leftDistance),
                   units::meter_t(rightDistance));
   pe_MMutex.unlock();
+
+  frc::SmartDashboard::PutNumber("Chassis/dt", (frc::Timer::GetFPGATimestamp() - start).value());
 }
 
 void Chassis::updatePIDs() {
