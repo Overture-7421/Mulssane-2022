@@ -21,10 +21,10 @@ __ `__ \/ _ \
 #include <frc2/command/Command.h>
 #include <frc2/command/button/JoystickButton.h>
 
-#include "Commands/Teleop/DefaultDrive/DefaultDrive.h"
 #include "Commands/Autonomous/CommandTest/CommandTest.h"
 #include "Commands/Autonomous/RamseteTests/RamseteTests.h"
 #include "Commands/Autonomous/TurnToAngle/TurnToAngle.h"
+#include "Commands/Teleop/DefaultDrive/DefaultDrive.h"
 #include "Subsystems/Chassis/Chassis.h"
 #include "Subsystems/Climber/Climber.h"
 #include "Subsystems/Intake/Intake.h"
@@ -32,6 +32,7 @@ __ `__ \/ _ \
 #include "Subsystems/Shooter/Shooter.h"
 #include "Subsystems/StorageAndDeliver/StorageAndDeliver.h"
 #include "Subsystems/VisionManager/VisionManager.h"
+#include "Utils/Interpolation/LinearInterpolator/LinearInterpolator.h"
 
 class Robot : public frc::TimedRobot {
  public:
@@ -52,20 +53,20 @@ class Robot : public frc::TimedRobot {
 
   // Subsystems
   Chassis chassis;
-   Shooter shooter;
+  Shooter shooter;
   Intake intake;
   StorageAndDeliver storageAndDeliver;
   Climber climber;
   VisionManager visionManager{&chassis};
   RangeDecider rangeDecider;
 
-   DefaultDrive drive{&chassis, &visionManager, &rangeDecider, &joy1};
+  DefaultDrive drive{&chassis, &visionManager, &rangeDecider, &joy1};
   frc2::JoystickButton intakeButton{&joy2, 5};
-  frc2::JoystickButton shootButton{&joy2, 6};
+  frc2::JoystickButton feederShootButton{&joy2, 6};
 
+  frc2::JoystickButton shootLongRangeButton{&joy2, 1};
+  frc2::JoystickButton shootShortRangeButton{&joy2, 2};
 
-    frc2::JoystickButton driverShootButton{&joy2, 1};
-    frc2::JoystickButton driverShootNoVisionButton{&joy2, 2};
   frc2::JoystickButton climberButtonUp{&joy2, 4};
-  frc2::JoystickButton climberButtonMotorEnable{&joy2, 1};
+  frc2::JoystickButton climberButtonMotorEnable{&joy2, 3};
 };

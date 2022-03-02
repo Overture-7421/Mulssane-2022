@@ -38,10 +38,8 @@ private:
     VisionManager* visionManager;
     RangeDecider* rangeDecider;
     frc::Joystick* joy;
-    frc::SlewRateLimiter<units::rad_per_s> angularAccelLimiter {units::radians_per_second_squared_t(2.8 * M_PI)};
 
-    const int aimAndRangeButton = 5;
-    bool lastAimAndRangeButtonPressed = false;
+    const int aimButton = 6;
     
     frc::ProfiledPIDController<units::degrees> headingController {0.125, 0, 0.0005, {units::degrees_per_second_t(360 * 1.5), units::degrees_per_second_squared_t(360 * 1)}};
 };

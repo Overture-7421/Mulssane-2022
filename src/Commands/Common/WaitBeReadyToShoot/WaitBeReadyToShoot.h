@@ -6,7 +6,9 @@
 
 #include <frc2/command/CommandBase.h>
 #include <frc2/command/CommandHelper.h>
-#include "Subsystems/StorageAndDeliver/StorageAndDeliver.h"
+#include "Subsystems/Shooter/Shooter.h"
+#include "Subsystems/VisionManager/VisionManager.h"
+
 /**
  * An example command.
  *
@@ -14,10 +16,10 @@
  * directly; this is crucially important, or else the decorator functions in
  * Command will *not* work!
  */
-class PreloadBall
-    : public frc2::CommandHelper<frc2::CommandBase, PreloadBall> {
+class WaitBeReadyToShoot
+    : public frc2::CommandHelper<frc2::CommandBase, WaitBeReadyToShoot> {
  public:
-  PreloadBall(StorageAndDeliver* storageAndDeliver);
+  WaitBeReadyToShoot(Shooter* shooter, VisionManager* visionManager);
 
   void Initialize() override;
 
@@ -27,5 +29,6 @@ class PreloadBall
 
   bool IsFinished() override;
 private:
-  StorageAndDeliver* storageAndDeliver;
+  Shooter* shooter;
+  VisionManager* visionManager;
 };

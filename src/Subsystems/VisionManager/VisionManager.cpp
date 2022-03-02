@@ -16,8 +16,8 @@ VisionManager::VisionManager(Chassis* chassis)
           if (res) {
             units::second_t targetTimestamp =
                 frc::Timer::GetFPGATimestamp() - result.GetLatency();
-             this->chassis->addVisionMeasurement(visionPose,
-                                                 targetTimestamp.value());
+            this->chassis->addVisionMeasurement(visionPose,
+                                                targetTimestamp.value());
             lastResult = result;
           }
         }
@@ -39,22 +39,25 @@ units::meter_t VisionManager::getDistanceToTarget() {
   return chassis->getPose().Translation().Distance(fieldToTarget.Translation());
 }
 
-void VisionManager::setLeds(bool set){
+bool VisionManager::isChassisAligned(units::degree_t tolerance) {
+  return units::math::abs(chassis->getPose().Rotation().Degrees() -
+                          getRotationToTarget().Degrees()) < tolerance;
+}
+
+void VisionManager::setLeds(bool set) {
   camera.SetLEDMode(set ? photonlib::kOn : photonlib::kOff);
 }
 
 // This method will be called once per scheduler run
 void VisionManager::Periodic() {
-  const auto start = frc::Timer::GetFPGATimestamp();
   frc::SmartDashboard::PutNumber("VisionManager/Distance",
                                  getDistanceToTarget().value());
   frc::SmartDashboard::PutNumber("VisionManager/Heading",
                                  getRotationToTarget().Degrees().value());
+  frc::SmartDashboard::PutBoolean("VisionManager/ChassisAligned",
+                                  isChassisAligned());
 
-  ledRelay.Set(camera.GetLEDMode() != photonlib::kOn);
-
-  frc::SmartDashboard::PutNumber(
-      "VisionManager/dt", (frc::Timer::GetFPGATimestamp() - start).value());
+  ledRelay.Set(camera.GetLEDMode() == photonlib::kOn);
 }
 
 bool VisionManager::updateCircleFit(
@@ -64,9 +67,9 @@ bool VisionManager::updateCircleFit(
 
   if (!result.HasTargets() ||
       (int)result.GetTargets().size() < minTargetCount ||
-      camera.GetLEDMode() != photonlib::LEDMode::kOn)
-
+      camera.GetLEDMode() != photonlib::LEDMode::kOn) {
     return false;
+  }
 
   const auto targets = result.GetTargets();
   std::vector<frc::Translation2d> outputTranslations;
@@ -232,10 +235,11 @@ std::vector<std::pair<double, double>> VisionManager::sortPoints(
 
 std::optional<frc::Translation2d> VisionManager::cameraToTargetTranslation(
     std::pair<double, double> corner, const units::meter_t targetHeight) {
-
-        frc::SmartDashboard::PutString("cameraToTargetTranslation_params",
-        fmt::format("{} {} {} {} {}", CameraConstants::vpw, CameraConstants::vph, CameraConstants::height,
-            CameraConstants::pitch.Degrees().value(), targetHeight));
+  frc::SmartDashboard::PutString(
+      "cameraToTargetTranslation_params",
+      fmt::format("{} {} {} {} {}", CameraConstants::vpw, CameraConstants::vph,
+                  CameraConstants::height,
+                  CameraConstants::pitch.Degrees().value(), targetHeight));
 
   double yPixels = corner.first;
   double zPixels = corner.second;

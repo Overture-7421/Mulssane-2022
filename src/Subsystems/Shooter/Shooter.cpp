@@ -23,12 +23,18 @@ Shooter::Shooter() {
   leftShooter.SetNeutralMode(NeutralMode::Coast);
   rightShooter.SetNeutralMode(NeutralMode::Coast);
 
-    leftShooter.SetStatusFramePeriod(
-      ctre::phoenix::motorcontrol::StatusFrameEnhanced::Status_1_General,
-      255);
-    leftShooter.SetStatusFramePeriod(
+  leftShooter.SetStatusFramePeriod(
+      ctre::phoenix::motorcontrol::StatusFrameEnhanced::Status_1_General, 255);
+  leftShooter.SetStatusFramePeriod(
       ctre::phoenix::motorcontrol::StatusFrameEnhanced::Status_2_Feedback0,
       255);
+
+  shooterController.SetTolerance(tolerance);
+
+  leftShooter.ConfigSupplyCurrentLimit(
+      SupplyCurrentLimitConfiguration(true, 30, 0, 1));
+  rightShooter.ConfigSupplyCurrentLimit(
+      SupplyCurrentLimitConfiguration(true, 30, 0, 1));
 
   frc2::CommandScheduler::GetInstance().RegisterSubsystem(this);
 }
@@ -37,42 +43,33 @@ Shooter::Shooter() {
 void Shooter::Periodic() {
   double currentVel = getVelocity();
   frc::SmartDashboard::PutNumber("Shooter/Velocity", currentVel);
-  frc::SmartDashboard::PutBoolean("Shooter/ObjectiveReached",
-                                  reachedVelocityTarget());
+  
+  frc::SmartDashboard::PutNumber("Shooter/Target", shooterController.GetSetpoint());
 
+  frc::SmartDashboard::PutBoolean("Shooter/TargetReached",
+                                  reachedVelocityTarget());
   const double limitedSetpoint =
       limiter.Calculate(units::radian_t(radsPerSecond)).value();
+
   shooterController.SetSetpoint(limitedSetpoint);
   const auto pidOut = units::volt_t(shooterController.Calculate(currentVel));
+  const auto ff = shooterFF.Calculate(units::radians_per_second_t(limitedSetpoint));
+    frc::SmartDashboard::PutNumber("Shooter/FFVoltage",ff.value());
   rightShooter.SetVoltage(
-      pidOut +
-      shooterFF.Calculate(units::radians_per_second_t(limitedSetpoint)));
-
-  double currentTime = frc::Timer::GetFPGATimestamp().value();
-  bool onTarget = abs(radsPerSecond - currentVel) < tolerance;
-
-  bool onTargetChanged = onTarget != lastOnTargetState;
-
-  if (onTarget && onTargetChanged) {
-    lastTimeStable = currentTime;
-  }
-
-  lastOnTargetState = onTarget;
-  stabilizedOnTarget =
-      currentTime - lastTimeStable > timeToStableRPS && onTarget;
+      pidOut + ff);
 }
 
 void Shooter::setVelocity(double radsPerS) { this->radsPerSecond = radsPerS; }
 
 void Shooter::setHoodState(bool set) {
-  if(set){
+  if (set) {
     hoodPiston.Set(frc::DoubleSolenoid::kForward);
   } else {
     hoodPiston.Set(frc::DoubleSolenoid::kReverse);
   }
 }
 
-bool Shooter::reachedVelocityTarget() { return stabilizedOnTarget; }
+bool Shooter::reachedVelocityTarget() { return shooterController.AtSetpoint(); }
 
 double Shooter::getVelocity() {
   double encoderCodesPerSec = rightShooter.GetSelectedSensorVelocity() * 10;

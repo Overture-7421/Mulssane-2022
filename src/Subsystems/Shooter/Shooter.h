@@ -33,14 +33,10 @@ class Shooter : public frc2::SubsystemBase {
   int encoder_CodesPerRev = 2048;
 
   double radsPerSecond = 0.0;
-  double tolerance = 5;
-  const double timeToStableRPS = 0.2;  // Seconds
-  double lastTimeStable = 0;
-  bool lastOnTargetState = false;
-  bool stabilizedOnTarget = false;
+  double tolerance = 15;
 
   // TODO Caracterizar disparador
-  frc::SlewRateLimiter<units::radian> limiter{350_rad_per_s};
+  frc::SlewRateLimiter<units::radian> limiter{400_rad_per_s};
 
   // Volts
   static constexpr auto kFlywheelKs = 0.65412_V;

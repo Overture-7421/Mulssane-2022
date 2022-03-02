@@ -6,7 +6,11 @@
 
 #include <frc2/command/CommandBase.h>
 #include <frc2/command/CommandHelper.h>
-#include "Subsystems/StorageAndDeliver/StorageAndDeliver.h"
+
+#include "Subsystems/Shooter/Shooter.h"
+#include "Subsystems/VisionManager/VisionManager.h"
+#include "Utils/Interpolation/LinearInterpolator/LinearInterpolator.h"
+
 /**
  * An example command.
  *
@@ -14,10 +18,10 @@
  * directly; this is crucially important, or else the decorator functions in
  * Command will *not* work!
  */
-class PreloadBall
-    : public frc2::CommandHelper<frc2::CommandBase, PreloadBall> {
+class SetShooterWithVision
+    : public frc2::CommandHelper<frc2::CommandBase, SetShooterWithVision> {
  public:
-  PreloadBall(StorageAndDeliver* storageAndDeliver);
+  SetShooterWithVision(Shooter* shooter, VisionManager* visionManager);
 
   void Initialize() override;
 
@@ -26,6 +30,13 @@ class PreloadBall
   void End(bool interrupted) override;
 
   bool IsFinished() override;
-private:
-  StorageAndDeliver* storageAndDeliver;
+
+ private:
+  Shooter* shooter;
+  VisionManager* visionManager;
+  LinearInterpolator distanceVsVelocityInterpolator {{
+    {1.5, 300},
+    {2.0, 360},
+    {2.5, 380}
+  }};
 };

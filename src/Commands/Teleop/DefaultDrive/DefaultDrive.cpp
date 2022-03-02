@@ -21,11 +21,7 @@ void DefaultDrive::Initialize() {
   headingController.EnableContinuousInput(units::degree_t(-180),
                                           units::degree_t(180));
   headingController.Reset(chassis->getPose().Rotation().Degrees());
-  headingController.SetTolerance(
-      30_deg,
-      units::degrees_per_second_t(std::numeric_limits<double>::infinity()));
-
-
+  headingController.SetTolerance(3_deg);
 
   frc::SmartDashboard::PutData("Heading PID", &headingController);
 }
@@ -34,33 +30,20 @@ void DefaultDrive::Initialize() {
 void DefaultDrive::Execute() {
   frc::ChassisSpeeds vels;
   double linearAxis = Utils::ApplyAxisFilter(-joy->GetRawAxis(1));
-  double angularAxisUnfiltered =
-      Utils::ApplyAxisFilter(-joy->GetRawAxis(4), 0.1, 0.3);
-  double angularAxis =
-      angularAccelLimiter
-          .Calculate(units::radians_per_second_t(angularAxisUnfiltered))
-          .value();
+  double angularAxis = Utils::ApplyAxisFilter(-joy->GetRawAxis(4), 0.1, 0.88);
 
   headingController.SetGoal(visionManager->getRotationToTarget().Degrees());
   double headingOut =
       headingController.Calculate(chassis->getPose().Rotation().Degrees());
 
+  vels.vx = units::meters_per_second_t(linearAxis * chassis->getMaxVelocity());
 
-  bool aimAndRangeButtonPressed = joy->GetRawButton(aimAndRangeButton);
-
-
-  lastAimAndRangeButtonPressed = aimAndRangeButtonPressed;
-
-    vels.vx =
-        units::meters_per_second_t(linearAxis * chassis->getMaxVelocity());
-
-  if (aimAndRangeButtonPressed) {
+  if (joy->GetRawButton(aimButton)) {
     vels.omega = units::radians_per_second_t(headingOut);
   } else {
     vels.omega =
-        units::radians_per_second_t(angularAxis * 2 * M_PI);  // Angular
+        units::radians_per_second_t(angularAxis * 1.5 * M_PI);  // Angular
   }
-
 
   chassis->setVelocities(vels);
 }

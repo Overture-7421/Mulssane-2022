@@ -29,6 +29,8 @@ class VisionManager : public frc2::SubsystemBase {
 
   units::meter_t getDistanceToTarget();
 
+  bool isChassisAligned(units::degree_t tolerance = 5_deg);
+
   void setLeds(bool set);
   /**
    * Will be called periodically whenever the CommandScheduler runs.

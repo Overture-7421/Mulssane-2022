@@ -62,6 +62,8 @@
         "thread": "cpp",
         "cinttypes": "cpp",
         "typeinfo": "cpp",
-        "*.inc": "cpp"
-    }
+        "*.inc": "cpp",
+        "variant": "cpp"
+    },
+    "C_Cpp.dimInactiveRegions": true
 }

@@ -4,10 +4,8 @@
 
 #include "PreloadBall.h"
 
-PreloadBall::PreloadBall(StorageAndDeliver* storageAndDeliver,
-                         bool useAsDefault) {
+PreloadBall::PreloadBall(StorageAndDeliver* storageAndDeliver) {
   this->storageAndDeliver = storageAndDeliver;
-  this->useAsDefault = useAsDefault;
   AddRequirements(storageAndDeliver);
   // Use addRequirements() here to declare subsystem dependencies.
 }
@@ -41,9 +39,5 @@ void PreloadBall::End(bool interrupted) {
 
 // Returns true when the command should end.
 bool PreloadBall::IsFinished() {
-  if (useAsDefault) {
-    return false;
-  }
-
   return storageAndDeliver->isTopSwitchPressed();
 }

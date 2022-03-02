@@ -17,7 +17,7 @@ __ `__ \/ _ \
 
 Chassis::Chassis() {
   ahrs.Calibrate();
-  std::this_thread::sleep_for(std::chrono::seconds(4));
+  std::this_thread::sleep_for(std::chrono::seconds(1));
   double startTime = frc::Timer::GetFPGATimestamp().value();
   while (ahrs.IsCalibrating()) {
     double timePassed = frc::Timer::GetFPGATimestamp().value() - startTime;

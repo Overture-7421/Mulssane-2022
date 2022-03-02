@@ -1,4 +1,13 @@
 {
+  "HALProvider": {
+    "Other Devices": {
+      "Talon FX[11]": {
+        "header": {
+          "open": true
+        }
+      }
+    }
+  },
   "NTProvider": {
     "types": {
       "/FMSInfo": "FMSInfo",
@@ -15,12 +24,17 @@
       "Chassis": {
         "RobotPose": {
           "open": true
-        },
+        }
+      },
+      "Shooter": {
         "open": true
       },
       "VisionManager": {
         "open": true
       },
+      "open": true
+    },
+    "photonvision": {
       "open": true
     }
   },
@@ -50,7 +64,10 @@
             }
           ]
         }
-      ]
+      ],
+      "window": {
+        "visible": false
+      }
     }
   }
 }
