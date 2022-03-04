@@ -42,7 +42,7 @@ void DefaultDrive::Execute() {
     vels.omega = units::radians_per_second_t(headingOut);
   } else {
     vels.omega =
-        units::radians_per_second_t(angularAxis * 1.5 * M_PI);  // Angular
+        units::radians_per_second_t(angularAxis * 1.8 * M_PI);  // Angular
   }
 
   chassis->setVelocities(vels);

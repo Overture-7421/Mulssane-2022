@@ -28,7 +28,6 @@ StorageAndDeliver::StorageAndDeliver() {
   upperFeederMotor.ConfigOpenloopRamp(0.1);
   lowerFeederMotor.ConfigOpenloopRamp(0.1);
 
-  indexerMotor.SetInverted(true);
   lowerFeederMotor.SetInverted(true);
 
   indexerMotor.ConfigSupplyCurrentLimit(
