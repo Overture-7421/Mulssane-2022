@@ -47,11 +47,25 @@ Chassis::Chassis() {
   leftMaster.SetSelectedSensorPosition(0.0);
 
   rightMaster.SetNeutralMode(NeutralMode::Brake);
+  rightSlave1.SetNeutralMode(NeutralMode::Brake);
+  rightSlave2.SetNeutralMode(NeutralMode::Brake);
+
   leftMaster.SetNeutralMode(NeutralMode::Brake);
+  leftSlave1.SetNeutralMode(NeutralMode::Brake);
+  leftSlave2.SetNeutralMode(NeutralMode::Brake);
 
   rightMaster.ConfigSupplyCurrentLimit(
       SupplyCurrentLimitConfiguration(true, 30, 0, 1));
+  rightSlave1.ConfigSupplyCurrentLimit(
+      SupplyCurrentLimitConfiguration(true, 30, 0, 1));
+  rightSlave2.ConfigSupplyCurrentLimit(
+      SupplyCurrentLimitConfiguration(true, 30, 0, 1));  
+
   leftMaster.ConfigSupplyCurrentLimit(
+      SupplyCurrentLimitConfiguration(true, 30, 0, 1));
+  leftSlave1.ConfigSupplyCurrentLimit(
+      SupplyCurrentLimitConfiguration(true, 30, 0, 1));
+  leftSlave2.ConfigSupplyCurrentLimit(
       SupplyCurrentLimitConfiguration(true, 30, 0, 1));
 
 
