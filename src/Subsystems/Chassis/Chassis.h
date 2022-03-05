@@ -107,8 +107,8 @@ class Chassis : public frc2::SubsystemBase {
   frc2::PIDController leftPID{0.0, 0, 0};
   // 0.13065
   // New and best Characterization.
-  frc::SimpleMotorFeedforward<units::meter> ff{0.56964_V, 2.6889_V / 1_mps,
-                                               0.18126_V / 1_mps_sq};
+  frc::SimpleMotorFeedforward<units::meter> ff{0.67439_V, 2.7018_V / 1_mps,
+                                               0.25631_V / 1_mps_sq};
 
   frc::Pose2d currentPose{0_m, 0_m, 0_rad};
 

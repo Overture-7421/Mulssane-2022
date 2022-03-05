@@ -42,11 +42,11 @@ void Robot::RobotInit() {
 
   feederShootButton.WhileHeld(SetStorageAndDeliver(&storageAndDeliver, 8)).WhenReleased(SetStorageAndDeliver(&storageAndDeliver, 0));
 
-   shootLongRangeButton.WhileHeld(SetShooterWithVision(&shooter, &visionManager))
-       .WhenReleased(SetShooter(&shooter, 0.0, true));
+   //shootLongRangeButton.WhileHeld(SetShooterWithVision(&shooter, &visionManager))
+   //    .WhenReleased(SetShooter(&shooter, 0.0, true));
 
-   shootShortRangeButton.WhileHeld(SetShooter(&shooter, 360.0, false))
-       .WhenReleased(SetShooter(&shooter, 0.0, true));
+   //shootShortRangeButton.WhileHeld(SetShooter(&shooter, 360.0, false))
+   //    .WhenReleased(SetShooter(&shooter, 0.0, true));
 
   climberButtonUp.WhenPressed(SetClimberPistonsUp(&intake, &climber))
       .WhenReleased(SetClimberPistonsDown(&climber));
@@ -62,8 +62,8 @@ void Robot::RobotInit() {
           {&climber, &intake})
       .WhenReleased(frc2::ParallelCommandGroup(SetClimberVoltage(&climber, 0)));
 
-      //frc::SmartDashboard::PutNumber("ShooterVel", 0.0);
-      //frc::SmartDashboard::PutBoolean("HoodState", false);
+      frc::SmartDashboard::PutNumber("ShooterVel", 0.0);
+      frc::SmartDashboard::PutBoolean("HoodState", false);
 
 }
 
@@ -71,8 +71,8 @@ void Robot::RobotPeriodic() {
   rangeDecider.updateRangeDecision(chassis.getPose(),
                                    visionManager.getTargetPose());
 
-  //shooter.setVelocity(frc::SmartDashboard::GetNumber("ShooterVel", 0.0));
-  //shooter.setHoodState(frc::SmartDashboard::GetBoolean("HoodState", false));
+  shooter.setVelocity(frc::SmartDashboard::GetNumber("ShooterVel", 0.0));
+  shooter.setHoodState(frc::SmartDashboard::GetBoolean("HoodState", false));
   frc2::CommandScheduler::GetInstance().Run();
 }
 
