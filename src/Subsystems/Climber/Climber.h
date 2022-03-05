@@ -21,7 +21,7 @@ class Climber : public frc2::SubsystemBase {
  private:
    frc::Solenoid 
    climberPiston{frc::PneumaticsModuleType::CTREPCM, 6};
-   WPI_VictorSPX leftClimber {7}; // Left Climber
+   WPI_VictorSPX leftClimber {7}; // Left Climber INVERTED
    WPI_VictorSPX rightClimber {8}; // Right Climber
   // Components (e.g. motor controllers and sensors) should generally be
   // declared private and exposed only through public methods.
