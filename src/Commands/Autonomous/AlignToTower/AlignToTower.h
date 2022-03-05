@@ -4,12 +4,14 @@
 
 #pragma once
 
+#include <frc/controller/ProfiledPIDController.h>
+#include <frc/smartdashboard/SmartDashboard.h>
 #include <frc2/command/CommandBase.h>
 #include <frc2/command/CommandHelper.h>
-#include <frc/controller/PIDController.h>
-#include <frc/smartdashboard/SmartDashboard.h>
 #include <photonlib/PhotonCamera.h>
+
 #include "Subsystems/Chassis/Chassis.h"
+#include "Subsystems/VisionManager/VisionManager.h"
 
 /**
  * An example command.
@@ -21,7 +23,7 @@
 class AlignToTower
     : public frc2::CommandHelper<frc2::CommandBase, AlignToTower> {
  public:
-  AlignToTower(Chassis* chassis);
+  AlignToTower(Chassis* chassis, VisionManager* visionManager);
 
   void Initialize() override;
 
@@ -31,7 +33,14 @@ class AlignToTower
 
   bool IsFinished() override;
 
-  private:
+ private:
   Chassis* chassis;
-  photonlib::PhotonCamera camera{"TheOverCamara"};
+  VisionManager* visionManager;
+
+  frc::ProfiledPIDController<units::degrees> turnToAnglePID{
+      0.07,
+      0,
+      0.0003,
+      {units::degrees_per_second_t(360 * 1.5),
+       units::degrees_per_second_squared_t(360 * 6)}};
 };

@@ -6,7 +6,7 @@
 
 #include <frc2/command/CommandBase.h>
 #include <frc2/command/CommandHelper.h>
-#include "Subsystems/Chassis/Chassis.h"
+#include "Subsystems/StorageAndDeliver/StorageAndDeliver.h"
 
 /**
  * An example command.
@@ -15,10 +15,10 @@
  * directly; this is crucially important, or else the decorator functions in
  * Command will *not* work!
  */
-class CommandTest
-    : public frc2::CommandHelper<frc2::CommandBase, CommandTest> {
+class FeedNBalls
+    : public frc2::CommandHelper<frc2::CommandBase, FeedNBalls> {
  public:
-  CommandTest(Chassis* chassis, std::string name1, std::string name2);
+  FeedNBalls(StorageAndDeliver* storageAndDeliver, int ballsToShoot);
 
   void Initialize() override;
 
@@ -27,9 +27,9 @@ class CommandTest
   void End(bool interrupted) override;
 
   bool IsFinished() override;
-
   private:
-  std::string name1 = "diego";
-  std::string name2 = "santi";
+  StorageAndDeliver* storageAndDeliver;
+  int initialCount = 0;
+  int ballsToShoot = 0;
 
 };

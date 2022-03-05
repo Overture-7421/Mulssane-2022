@@ -11,10 +11,8 @@ TurnToAngle::TurnToAngle(Chassis* chassis, double angleObjective) {
 
   
   turnToAnglePID.SetGoal(units::degree_t(angleObjective));
-  turnToAnglePID.SetTolerance(2_deg, 900_deg_per_s);
+  turnToAnglePID.SetTolerance(2_deg);
   turnToAnglePID.EnableContinuousInput(-180_deg, 180_deg);
-  frc::SmartDashboard::PutNumber("Plant Angle", 0.0);
-
   AddRequirements(chassis);
 }
 
@@ -27,7 +25,6 @@ void TurnToAngle::Initialize() {
 void TurnToAngle::Execute() {
   
   const auto currentAngle = chassis->getPose().Rotation().Degrees();
-  frc::SmartDashboard::PutNumber("Plant Angle", currentAngle.value());
   double angularVelocity = turnToAnglePID.Calculate(currentAngle);
 
   frc::ChassisSpeeds vels;
