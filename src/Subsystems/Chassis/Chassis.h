@@ -50,12 +50,17 @@ class Chassis : public frc2::SubsystemBase {
 
   void addVisionMeasurement(const frc::Pose2d& visionPose, double timeStamp);
 
+
   /**
    * Will be called periodically whenever the CommandScheduler runs.
    */
   void Periodic() override;
 
+
  private:
+    double headingOffset = 0.0;
+   void setYaw(double radians);
+
   void updatePIDs();
   void updateTelemetry();
   double convertToMeters(double sensorRawPosition);
@@ -93,7 +98,7 @@ class Chassis : public frc2::SubsystemBase {
       0_deg, frc::Pose2d{0_m, 0_m, 0_rad},
       wpi::array<double, 5>{0.035, 0.035, 0.035, 0.035, 0.035},
       wpi::array<double, 3>{0.001, 0.001, 0.001},
-      wpi::array<double, 3>{0.01, 0.01, 0.01}};
+      wpi::array<double, 3>{0.002, 0.002, 0.002}};
 
   const double maxSpeed = 3.8;         // Meters per second
   const double maxAcceleration = 6.0;  // Meters per second squared

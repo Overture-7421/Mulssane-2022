@@ -13,6 +13,7 @@ __ `__ \/ _ \
 #include "Chassis.h"
 
 #include <frc/trajectory/constraint/CentripetalAccelerationConstraint.h>
+
 #include <iostream>
 
 Chassis::Chassis() {
@@ -59,7 +60,7 @@ Chassis::Chassis() {
   rightSlave1.ConfigSupplyCurrentLimit(
       SupplyCurrentLimitConfiguration(true, 30, 0, 1));
   rightSlave2.ConfigSupplyCurrentLimit(
-      SupplyCurrentLimitConfiguration(true, 30, 0, 1));  
+      SupplyCurrentLimitConfiguration(true, 30, 0, 1));
 
   leftMaster.ConfigSupplyCurrentLimit(
       SupplyCurrentLimitConfiguration(true, 30, 0, 1));
@@ -68,36 +69,29 @@ Chassis::Chassis() {
   leftSlave2.ConfigSupplyCurrentLimit(
       SupplyCurrentLimitConfiguration(true, 30, 0, 1));
 
-
   leftSlave1.SetStatusFramePeriod(
-      ctre::phoenix::motorcontrol::StatusFrameEnhanced::Status_1_General,
-      255);
+      ctre::phoenix::motorcontrol::StatusFrameEnhanced::Status_1_General, 255);
   leftSlave1.SetStatusFramePeriod(
       ctre::phoenix::motorcontrol::StatusFrameEnhanced::Status_2_Feedback0,
       255);
 
   leftSlave2.SetStatusFramePeriod(
-      ctre::phoenix::motorcontrol::StatusFrameEnhanced::Status_1_General,
-      255);
+      ctre::phoenix::motorcontrol::StatusFrameEnhanced::Status_1_General, 255);
   leftSlave2.SetStatusFramePeriod(
       ctre::phoenix::motorcontrol::StatusFrameEnhanced::Status_2_Feedback0,
       255);
 
   rightSlave1.SetStatusFramePeriod(
-      ctre::phoenix::motorcontrol::StatusFrameEnhanced::Status_1_General,
-      255);
+      ctre::phoenix::motorcontrol::StatusFrameEnhanced::Status_1_General, 255);
   rightSlave1.SetStatusFramePeriod(
       ctre::phoenix::motorcontrol::StatusFrameEnhanced::Status_2_Feedback0,
       255);
 
   rightSlave2.SetStatusFramePeriod(
-      ctre::phoenix::motorcontrol::StatusFrameEnhanced::Status_1_General,
-      255);
+      ctre::phoenix::motorcontrol::StatusFrameEnhanced::Status_1_General, 255);
   rightSlave2.SetStatusFramePeriod(
       ctre::phoenix::motorcontrol::StatusFrameEnhanced::Status_2_Feedback0,
       255);
-
-      
 
   frc::SmartDashboard::PutData("Chassis/RobotPose", &field);
   frc2::CommandScheduler::GetInstance().RegisterSubsystem(this);
@@ -151,14 +145,15 @@ void Chassis::setVelocities(frc::ChassisSpeeds vels) {
 }
 
 void Chassis::resetOdometry(frc::Pose2d pose) {
+  setYaw(pose.Rotation().Degrees().value());
   pe_NMutex.lock();
   pe_MMutex.lock();
   pe_NMutex.unlock();
-  odometry.ResetPosition(pose, units::degree_t(-ahrs.GetYaw()));
-  pe_MMutex.unlock();
 
+  odometry.ResetPosition(pose, pose.Rotation());
   leftMaster.SetSelectedSensorPosition(0.0);
   rightMaster.SetSelectedSensorPosition(0.0);
+  pe_MMutex.unlock();
 }
 
 double Chassis::getMaxVelocity() { return maxSpeed; }
@@ -187,8 +182,9 @@ void Chassis::Periodic() {
   rightVel = convertToMetersPerSec(rightMaster.GetSelectedSensorVelocity());
   leftVel = convertToMetersPerSec(leftMaster.GetSelectedSensorVelocity());
 
-  frc::Rotation2d gyroAngle{units::degree_t(-ahrs.GetYaw())};
-  frc::SmartDashboard::PutNumber("Chassis/RawHeading", gyroAngle.Degrees().value());
+  frc::Rotation2d gyroAngle{units::degree_t(-ahrs.GetYaw() - headingOffset)};
+  frc::SmartDashboard::PutNumber("Chassis/RawHeading",
+                                 gyroAngle.Degrees().value());
 
   frc::DifferentialDriveWheelSpeeds wheelSpeeds;
   wheelSpeeds.left = units::meters_per_second_t(leftVel);
@@ -200,7 +196,12 @@ void Chassis::Periodic() {
                   units::meter_t(rightDistance));
   pe_MMutex.unlock();
 
-  frc::SmartDashboard::PutNumber("Chassis/dt", (frc::Timer::GetFPGATimestamp() - start).value());
+  frc::SmartDashboard::PutNumber(
+      "Chassis/dt", (frc::Timer::GetFPGATimestamp() - start).value());
+}
+
+void Chassis::setYaw(double deegres) {
+  headingOffset = -ahrs.GetYaw() - deegres;
 }
 
 void Chassis::updatePIDs() {

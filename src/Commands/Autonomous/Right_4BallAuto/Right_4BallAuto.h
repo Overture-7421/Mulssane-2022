@@ -6,10 +6,12 @@
 
 #include <frc2/command/CommandHelper.h>
 #include <frc2/command/SequentialCommandGroup.h>
+#include "Subsystems/Chassis/Chassis.h"
+#include "Subsystems/VisionManager/VisionManager.h"
 
 class Right_4BallAuto
     : public frc2::CommandHelper<frc2::SequentialCommandGroup,
                                  Right_4BallAuto> {
  public:
-  Right_4BallAuto();
+  Right_4BallAuto(Chassis* chassis, VisionManager* visionManager);
 };

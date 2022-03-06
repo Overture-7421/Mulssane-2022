@@ -24,6 +24,9 @@ __ `__ \/ _ \
 #include "Commands/Autonomous/RamseteTests/RamseteTests.h"
 #include "Commands/Autonomous/TurnToAngle/TurnToAngle.h"
 #include "Commands/Teleop/DefaultDrive/DefaultDrive.h"
+#include "Commands/Autonomous/Right_4BallAuto/Right_4BallAuto.h"
+
+
 #include "Subsystems/Chassis/Chassis.h"
 #include "Subsystems/Climber/Climber.h"
 #include "Subsystems/Intake/Intake.h"

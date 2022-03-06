@@ -61,6 +61,7 @@ void Robot::RobotInit() {
           },
           {&climber, &intake})
       .WhenReleased(frc2::ParallelCommandGroup(SetClimberVoltage(&climber, 0)));
+  visionManager.setLeds(false);
 
       //frc::SmartDashboard::PutNumber("ShooterVel", 0.0);
       //frc::SmartDashboard::PutBoolean("HoodState", false);
@@ -77,21 +78,19 @@ void Robot::RobotPeriodic() {
 }
 
 void Robot::AutonomousInit() {
-  // autocommand = std::make_unique<RamseteTests>(&chassis);
-  // autocommand->Schedule();
+   autocommand = std::make_unique<Right_4BallAuto>(&chassis, &visionManager);
+   autocommand->Schedule();
 }
 
 void Robot::AutonomousPeriodic() {}
 
 void Robot::TeleopInit() {
-  visionManager.setLeds(true);
   frc2::CommandScheduler::GetInstance().CancelAll();
 }
 
 void Robot::TeleopPeriodic() {}
 
 void Robot::DisabledInit() {
-  visionManager.setLeds(false);
   frc2::CommandScheduler::GetInstance().CancelAll();
 }
 

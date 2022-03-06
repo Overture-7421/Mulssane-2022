@@ -21,8 +21,6 @@ Climber::Climber() {
   leftClimber.ConfigOpenloopRamp(0.1);
   rightClimber.ConfigOpenloopRamp(0.1);
 
-  leftClimber.SetInverted(InvertType::InvertMotorOutput);
-
   leftClimber.SetNeutralMode(NeutralMode::Brake);
   rightClimber.SetNeutralMode(NeutralMode::Brake);
 
