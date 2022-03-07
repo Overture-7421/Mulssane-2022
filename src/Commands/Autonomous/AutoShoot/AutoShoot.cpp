@@ -10,6 +10,7 @@
 
 #include "Commands/Autonomous/AlignToTower/AlignToTower.h"
 #include "Commands/Autonomous/FeedNBalls/FeedNBalls.h"
+#include "Commands/Common/SetStorageAndDeliver/SetStorageAndDeliver.h"
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.
 // For more information, see:
@@ -18,7 +19,8 @@ AutoShoot::AutoShoot(Chassis* chassis, StorageAndDeliver* storageAndDeliver,
                      VisionManager* visionManager, int ballsToShoot)
     : CommandHelper(frc2::SequentialCommandGroup(
           FeedNBalls(storageAndDeliver, ballsToShoot),
-          frc2::WaitCommand(0.5_s))) {
+          frc2::WaitCommand(0.5_s),
+          SetStorageAndDeliver(storageAndDeliver, 0.0))) {
 
   AddCommands(AlignToTower(chassis, visionManager).Perpetually());
 }

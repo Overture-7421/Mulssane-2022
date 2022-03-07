@@ -31,7 +31,11 @@ void AlignToTower::Execute() {
 }
 
 // Called once the command ends or is interrupted.
-void AlignToTower::End(bool interrupted) {}
+void AlignToTower::End(bool interrupted) {
+  frc::ChassisSpeeds vels;
+  vels.omega = units::radians_per_second_t(0);
+  chassis->setVelocities(vels);
+}
 
 // Returns true when the command should end.
 bool AlignToTower::IsFinished() { return turnToAnglePID.AtGoal(); }

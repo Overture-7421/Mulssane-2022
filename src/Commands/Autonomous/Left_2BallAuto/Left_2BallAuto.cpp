@@ -31,7 +31,7 @@ Left_2BallAuto::Left_2BallAuto(Chassis* chassis, VisionManager* visionManager,
             visionManager->setLeds(false);
           },
           {chassis}),
-      SetIntake(intake, 12, true), SetStorageAndDeliver(storageAndDeliver, 0.0),
+      SetIntake(intake, 12, true),
       chassis->getRamseteCommand(
           {{5.96_m, 5.34_m, 135_deg}, {5.2_m, 5.9_m, 135_deg}},
           {2.5_mps, 1.5_mps_sq}),
@@ -40,7 +40,7 @@ Left_2BallAuto::Left_2BallAuto(Chassis* chassis, VisionManager* visionManager,
       SetIntake(intake, 0, false), TurnToAngle(chassis, -45),
       chassis->getRamseteCommand(
           {{5.2_m, 5.9_m, -45_deg}, {4.67_m, 6.43_m, -45_deg}},
-          {2.5_mps, 1.5_mps_sq}),
+          {2.5_mps, 0.5_mps_sq}),
 
       frc2::InstantCommand(
           [visionManager = visionManager] { visionManager->setLeds(true); }),
