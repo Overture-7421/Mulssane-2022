@@ -14,7 +14,7 @@ AlignToTower::AlignToTower(Chassis* chassis, VisionManager* visionManager) {
 // Called when the command is initially scheduled.
 void AlignToTower::Initialize() {
   turnToAnglePID.SetGoal(visionManager->getRotationToTarget().Degrees());
-  turnToAnglePID.SetTolerance(2_deg);
+  turnToAnglePID.SetTolerance(4_deg);
   turnToAnglePID.EnableContinuousInput(-180_deg, 180_deg);
   turnToAnglePID.Reset(chassis->getPose().Rotation().Degrees());
 }
@@ -34,4 +34,4 @@ void AlignToTower::Execute() {
 void AlignToTower::End(bool interrupted) {}
 
 // Returns true when the command should end.
-bool AlignToTower::IsFinished() { return turnToAnglePID.AtSetpoint(); }
+bool AlignToTower::IsFinished() { return turnToAnglePID.AtGoal(); }

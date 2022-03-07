@@ -20,6 +20,8 @@ __ `__ \/ _ \
 #include <frc2/command/SequentialCommandGroup.h>
 #include <frc2/command/WaitCommand.h>
 #include <frc2/command/PerpetualCommand.h>
+#include <frc2/command/InstantCommand.h>
+#include <frc2/command/RunCommand.h>
 
 #include "Commands/Common/PreloadBall/PreloadBall.h"
 #include "Commands/Common/SetClimberPistons/SetClimberPistonsDown.h"
@@ -34,6 +36,7 @@ __ `__ \/ _ \
 void Robot::RobotInit() {
   chassis.SetDefaultCommand(drive);
   storageAndDeliver.SetDefaultCommand(PreloadBall(&storageAndDeliver).Perpetually());
+  climber.SetDefaultCommand(SetClimberVoltage(&climber, 0.0).Perpetually());
 
   intakeButton.WhileHeld(SetIntake(&intake, 12, true))
       .WhenReleased(frc2::SequentialCommandGroup(SetIntake(&intake, 12, false),
@@ -48,8 +51,10 @@ void Robot::RobotInit() {
    shootShortRangeButton.WhileHeld(SetShooter(&shooter, 360.0, false))
        .WhenReleased(SetShooter(&shooter, 0.0, true));
 
+    shootLowGoalButton.WhileActiveContinous(SetShooter(&shooter, 180.0, true)).WhenInactive(SetShooter(&shooter, 0.0, true));  
+
   climberButtonUp.WhenPressed(SetClimberPistonsUp(&intake, &climber))
-      .WhenReleased(SetClimberPistonsDown(&climber));
+      .WhenReleased(SetClimberPistonsDown(&climber, &intake));
 
   climberButtonMotorEnable
       .WhileHeld(
@@ -61,7 +66,6 @@ void Robot::RobotInit() {
           },
           {&climber, &intake})
       .WhenReleased(frc2::ParallelCommandGroup(SetClimberVoltage(&climber, 0)));
-  visionManager.setLeds(false);
 
       //frc::SmartDashboard::PutNumber("ShooterVel", 0.0);
       //frc::SmartDashboard::PutBoolean("HoodState", false);
@@ -71,26 +75,28 @@ void Robot::RobotInit() {
 void Robot::RobotPeriodic() {
   rangeDecider.updateRangeDecision(chassis.getPose(),
                                    visionManager.getTargetPose());
-
   //shooter.setVelocity(frc::SmartDashboard::GetNumber("ShooterVel", 0.0));
   //shooter.setHoodState(frc::SmartDashboard::GetBoolean("HoodState", false));
   frc2::CommandScheduler::GetInstance().Run();
 }
 
 void Robot::AutonomousInit() {
-   autocommand = std::make_unique<Right_4BallAuto>(&chassis, &visionManager);
+   //autocommand = std::make_unique<Right_4BallAuto>(&chassis, &visionManager);
+   autocommand = std::make_unique<Left_2BallAuto>(&chassis, &visionManager, &intake, &storageAndDeliver, &shooter);
    autocommand->Schedule();
 }
 
 void Robot::AutonomousPeriodic() {}
 
 void Robot::TeleopInit() {
+  visionManager.setLeds(true);
   frc2::CommandScheduler::GetInstance().CancelAll();
 }
 
 void Robot::TeleopPeriodic() {}
 
 void Robot::DisabledInit() {
+    visionManager.setLeds(false);
   frc2::CommandScheduler::GetInstance().CancelAll();
 }
 

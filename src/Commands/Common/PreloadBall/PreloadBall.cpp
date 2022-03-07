@@ -11,7 +11,10 @@ PreloadBall::PreloadBall(StorageAndDeliver* storageAndDeliver) {
 }
 
 // Called when the command is initially scheduled.
-void PreloadBall::Initialize() {}
+void PreloadBall::Initialize() {
+  storageAndDeliver->setFeederVoltage(0);
+  storageAndDeliver->setIndexerVoltage(0);
+}
 
 // Called repeatedly when this Command is scheduled to run
 void PreloadBall::Execute() {
@@ -26,9 +29,6 @@ void PreloadBall::Execute() {
     }else{
         storageAndDeliver->setIndexerVoltage(0);
     }
-
-
-
 }
 
 // Called once the command ends or is interrupted.
@@ -39,5 +39,5 @@ void PreloadBall::End(bool interrupted) {
 
 // Returns true when the command should end.
 bool PreloadBall::IsFinished() {
-  return storageAndDeliver->isTopSwitchPressed();
+  return storageAndDeliver->isTopSwitchPressed() && storageAndDeliver->isBottomSwitchPressed();
 }

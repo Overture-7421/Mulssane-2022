@@ -12,7 +12,10 @@
 // NOTE:  Consider using this command inline, rather than writing a subclass.
 // For more information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
-SetClimberPistonsDown::SetClimberPistonsDown(Climber* climber) {
-  AddCommands(frc2::InstantCommand([climber] { climber->setPistons(false); },
-                                   {climber}));
+SetClimberPistonsDown::SetClimberPistonsDown(Climber* climber, Intake* intake) {
+  AddCommands(
+    frc2::InstantCommand([climber] { climber->setPistons(false); },
+                                   {climber}),
+    frc2::WaitCommand(1_s),
+    SetIntake(intake, 0.0, false));
 }

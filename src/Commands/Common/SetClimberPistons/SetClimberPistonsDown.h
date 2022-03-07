@@ -8,10 +8,11 @@
 #include <frc2/command/SequentialCommandGroup.h>
 
 #include "Subsystems/Climber/Climber.h"
+#include "Subsystems/Intake/Intake.h"
 
 class SetClimberPistonsDown
     : public frc2::CommandHelper<frc2::SequentialCommandGroup,
                                  SetClimberPistonsDown> {
  public:
-  SetClimberPistonsDown(Climber* climber);
+  SetClimberPistonsDown(Climber* climber, Intake* intake);
 };

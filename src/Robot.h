@@ -20,11 +20,13 @@ __ `__ \/ _ \
 #include <frc/smartdashboard/SendableChooser.h>
 #include <frc2/command/Command.h>
 #include <frc2/command/button/JoystickButton.h>
+#include <frc2/command/button/Trigger.h>
 
 #include "Commands/Autonomous/RamseteTests/RamseteTests.h"
 #include "Commands/Autonomous/TurnToAngle/TurnToAngle.h"
 #include "Commands/Teleop/DefaultDrive/DefaultDrive.h"
 #include "Commands/Autonomous/Right_4BallAuto/Right_4BallAuto.h"
+#include "Commands/Autonomous/Left_2BallAuto/Left_2BallAuto.h"
 
 
 #include "Subsystems/Chassis/Chassis.h"
@@ -68,7 +70,10 @@ class Robot : public frc::TimedRobot {
 
   frc2::JoystickButton shootLongRangeButton{&joy2, 1};
   frc2::JoystickButton shootShortRangeButton{&joy2, 2};
+  frc2::Trigger shootLowGoalButton {[joy2 = &joy2] { return joy2->GetRawAxis(3) > 0.5 && !joy2->GetRawButton(3); }};
 
   frc2::JoystickButton climberButtonUp{&joy2, 4};
   frc2::JoystickButton climberButtonMotorEnable{&joy2, 3};
+
+
 };

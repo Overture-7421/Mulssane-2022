@@ -26,9 +26,6 @@
           "open": true
         }
       },
-      "Shooter": {
-        "open": true
-      },
       "VisionManager": {
         "open": true
       },

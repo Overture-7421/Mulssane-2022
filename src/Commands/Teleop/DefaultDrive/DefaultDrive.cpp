@@ -30,13 +30,13 @@ void DefaultDrive::Initialize() {
 void DefaultDrive::Execute() {
   frc::ChassisSpeeds vels;
   double linearAxis = Utils::ApplyAxisFilter(-joy->GetRawAxis(1));
-  double angularAxis = Utils::ApplyAxisFilter(-joy->GetRawAxis(4), 0.1, 0.88);
+  double angularAxis = Utils::ApplyAxisFilter(-joy->GetRawAxis(4), 0.125, 1);
 
   headingController.SetGoal(visionManager->getRotationToTarget().Degrees());
   double headingOut =
       headingController.Calculate(chassis->getPose().Rotation().Degrees());
-
-  vels.vx = units::meters_per_second_t(linearAxis * chassis->getMaxVelocity());
+  vels.vx = linearLimiter.Calculate(
+      units::meters_per_second_t(linearAxis * chassis->getMaxVelocity()));
 
   if (joy->GetRawButton(aimButton)) {
     vels.omega = units::radians_per_second_t(headingOut);

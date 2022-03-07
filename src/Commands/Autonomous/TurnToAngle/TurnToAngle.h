@@ -36,5 +36,5 @@ class TurnToAngle
   Chassis* chassis;
   // frc2::PIDController turnToAnglePID {0.1, 0.5, 0.0002};
 
-  frc::ProfiledPIDController<units::degrees> turnToAnglePID {0.1, 0, 0.0003, {units::degrees_per_second_t(360 * 1.5), units::degrees_per_second_squared_t(360 * 1.0)}};
+  frc::ProfiledPIDController<units::degrees> turnToAnglePID {0.125, 0, 0.0, {units::degrees_per_second_t(360 * 1.5), units::degrees_per_second_squared_t(360 * 1.0)}};
 };
