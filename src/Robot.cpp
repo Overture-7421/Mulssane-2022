@@ -67,8 +67,11 @@ void Robot::RobotInit() {
           {&climber, &intake})
       .WhenReleased(frc2::ParallelCommandGroup(SetClimberVoltage(&climber, 0)));
 
-      //frc::SmartDashboard::PutNumber("ShooterVel", 0.0);
-      //frc::SmartDashboard::PutBoolean("HoodState", false);
+
+    autoChooser.AddOption("Left 2 Ball Auto", &left2BallAuto);
+    autoChooser.SetDefaultOption("Right 3 Ball auto", &right3BallAuto);
+    frc::SmartDashboard::PutData("Auto Chooser", &autoChooser);
+
 
 }
 
@@ -82,8 +85,7 @@ void Robot::RobotPeriodic() {
 
 void Robot::AutonomousInit() {
    //autocommand = std::make_unique<Right_4BallAuto>(&chassis, &visionManager);
-   autocommand = std::make_unique<Left_2BallAuto>(&chassis, &visionManager, &intake, &storageAndDeliver, &shooter);
-   autocommand->Schedule();
+   autoChooser.GetSelected()->Schedule();
 }
 
 void Robot::AutonomousPeriodic() {}

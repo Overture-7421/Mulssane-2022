@@ -36,6 +36,7 @@ Right_4BallAuto::Right_4BallAuto(Chassis* chassis,
               }),
               chassis->getRamseteCommand(
                   {{7.5_m, 1.75_m, 90_deg}, 
+                  {5.15_m, 3_m, 180_deg},
                   {1.35_m, 2.6_m, -135_deg}},
                   {2.5_mps, 1.5_mps_sq}),
               TurnToAngle(chassis, 0),

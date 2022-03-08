@@ -39,7 +39,7 @@ StorageAndDeliver::StorageAndDeliver() {
   upperFeederMotor.SetNeutralMode(NeutralMode::Brake);
   lowerFeederMotor.SetNeutralMode(NeutralMode::Brake);
 
-  digitalGlitchFilter.SetPeriodNanoSeconds(1650000);
+  digitalGlitchFilter.SetPeriodNanoSeconds(1850000);
 
 #ifndef SIMULATION
   digitalGlitchFilter.Add(&ballCounter);

@@ -3,7 +3,7 @@
 // the WPILib BSD license file in the root directory of this project.
 
 #include "PreloadBall.h"
-
+#include <iostream>
 PreloadBall::PreloadBall(StorageAndDeliver* storageAndDeliver) {
   this->storageAndDeliver = storageAndDeliver;
   AddRequirements(storageAndDeliver);
@@ -12,8 +12,7 @@ PreloadBall::PreloadBall(StorageAndDeliver* storageAndDeliver) {
 
 // Called when the command is initially scheduled.
 void PreloadBall::Initialize() {
-  storageAndDeliver->setFeederVoltage(0);
-  storageAndDeliver->setIndexerVoltage(0);
+
 }
 
 // Called repeatedly when this Command is scheduled to run
@@ -33,11 +32,10 @@ void PreloadBall::Execute() {
 
 // Called once the command ends or is interrupted.
 void PreloadBall::End(bool interrupted) {
-  storageAndDeliver->setFeederVoltage(0);
-  storageAndDeliver->setIndexerVoltage(0);
+
 }
 
 // Returns true when the command should end.
 bool PreloadBall::IsFinished() {
-  return storageAndDeliver->isTopSwitchPressed() && storageAndDeliver->isBottomSwitchPressed();
+  return storageAndDeliver->isTopSwitchPressed();
 }

@@ -109,8 +109,8 @@ frc2::SequentialCommandGroup Chassis::getRamseteCommand(
     bool reversed) {
   config.SetReversed(reversed);
 
-  config.AddConstraint(frc::CentripetalAccelerationConstraint(
-      units::meters_per_second_squared_t(5)));
+  // config.AddConstraint(frc::CentripetalAccelerationConstraint(
+  //     units::meters_per_second_squared_t(5)));
 
   auto targetTrajectory =
       frc::TrajectoryGenerator::GenerateTrajectory(waypoints, config);

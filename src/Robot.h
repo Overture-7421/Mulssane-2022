@@ -25,6 +25,7 @@ __ `__ \/ _ \
 #include "Commands/Autonomous/RamseteTests/RamseteTests.h"
 #include "Commands/Autonomous/TurnToAngle/TurnToAngle.h"
 #include "Commands/Teleop/DefaultDrive/DefaultDrive.h"
+#include "Commands/Autonomous/Right_3BallAuto/Right_3BallAuto.h"
 #include "Commands/Autonomous/Right_4BallAuto/Right_4BallAuto.h"
 #include "Commands/Autonomous/Left_2BallAuto/Left_2BallAuto.h"
 
@@ -52,7 +53,6 @@ class Robot : public frc::TimedRobot {
   void TestPeriodic() override;
 
  private:
-  std::unique_ptr<frc2::SequentialCommandGroup> autocommand;
   frc::Joystick joy1{0}, joy2{1};
 
   // Subsystems
@@ -75,5 +75,9 @@ class Robot : public frc::TimedRobot {
   frc2::JoystickButton climberButtonUp{&joy2, 4};
   frc2::JoystickButton climberButtonMotorEnable{&joy2, 3};
 
+   Left_2BallAuto left2BallAuto {&chassis, &visionManager, &intake, &storageAndDeliver, &shooter};
+   Right_3BallAuto right3BallAuto {&chassis, &visionManager, &intake, &storageAndDeliver, &shooter};
+
+   frc::SendableChooser<frc2::Command*> autoChooser;
 
 };
