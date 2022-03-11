@@ -18,7 +18,7 @@ void SetShooterWithVision::Initialize() {
 // Called repeatedly when this Command is scheduled to run
 void SetShooterWithVision::Execute() {
   const auto distance = visionManager->getDistanceToTarget().value();
-  double shooterSetpoint = distanceVsVelocityInterpolator.getY(distance) + 7;
+  double shooterSetpoint = distanceVsVelocityInterpolator.getY(distance) + 9;
   shooter->setVelocity(shooterSetpoint);
 }
 

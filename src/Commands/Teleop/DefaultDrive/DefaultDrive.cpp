@@ -29,7 +29,7 @@ void DefaultDrive::Initialize() {
 // Called repeatedly when this Command is scheduled to run
 void DefaultDrive::Execute() {
   frc::ChassisSpeeds vels;
-  double linearAxis = Utils::ApplyAxisFilter(-joy->GetRawAxis(1));
+  double linearAxis = Utils::ApplyAxisFilter(-joy->GetRawAxis(1), 0.2);
   double angularAxis = Utils::ApplyAxisFilter(-joy->GetRawAxis(4), 0.125, 1);
 
   headingController.SetGoal(visionManager->getRotationToTarget().Degrees());
