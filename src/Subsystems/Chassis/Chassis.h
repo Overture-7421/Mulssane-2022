@@ -76,7 +76,7 @@ class Chassis : public frc2::SubsystemBase {
 
   const double wheelRadius = 0.0762;  // metros
   const int encoder_CodesPerRev =
-      2048 * 12;  // 2048 Flacon * 12 por la reduccion
+      2048 * 14.4;  // 2048 Flacon * 14.4 por la reduccion
 
   double rightTargetVel = 0.0;
   double leftTargetVel = 0.0;
