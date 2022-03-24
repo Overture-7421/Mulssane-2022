@@ -18,9 +18,12 @@ __ `__ \/ _ \
 #include <frc/Solenoid.h>
 #include <frc/TimedRobot.h>
 #include <frc/smartdashboard/SendableChooser.h>
+#include <frc/DutyCycleEncoder.h>
+
 #include <frc2/command/Command.h>
 #include <frc2/command/button/JoystickButton.h>
 #include <frc2/command/button/Trigger.h>
+
 
 #include "Commands/Autonomous/RamseteTests/RamseteTests.h"
 #include "Commands/Autonomous/TurnToAngle/TurnToAngle.h"
@@ -80,4 +83,5 @@ class Robot : public frc::TimedRobot {
 
    frc::SendableChooser<frc2::Command*> autoChooser;
 
+   frc::DutyCycleEncoder absEnc {9};
 };
