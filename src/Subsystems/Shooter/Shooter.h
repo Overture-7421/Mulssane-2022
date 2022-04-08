@@ -27,7 +27,7 @@ class Shooter : public frc2::SubsystemBase {
   void Periodic() override;
 
  private:
-  WPI_TalonFX rightShooter{11};
+  WPI_TalonFX rightShooter{10};
   WPI_TalonFX leftShooter{4};
 
   int encoder_CodesPerRev = 2048;

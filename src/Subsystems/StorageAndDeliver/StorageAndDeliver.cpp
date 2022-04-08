@@ -12,11 +12,11 @@ StorageAndDeliver::StorageAndDeliver() {
       ctre::phoenix::motorcontrol::StatusFrameEnhanced::Status_2_Feedback0,
       255);
 
-  upperFeederMotor.SetStatusFramePeriod(
-      ctre::phoenix::motorcontrol::StatusFrameEnhanced::Status_1_General, 20);
-  upperFeederMotor.SetStatusFramePeriod(
-      ctre::phoenix::motorcontrol::StatusFrameEnhanced::Status_2_Feedback0,
-      255);
+  //upperFeederMotor.SetStatusFramePeriod(
+  //    ctre::phoenix::motorcontrol::StatusFrameEnhanced::Status_1_General, 20);
+  //upperFeederMotor.SetStatusFramePeriod(
+  //    ctre::phoenix::motorcontrol::StatusFrameEnhanced::Status_2_Feedback0,
+  //    255);
 
   lowerFeederMotor.SetStatusFramePeriod(
       ctre::phoenix::motorcontrol::StatusFrameEnhanced::Status_1_General, 20);
@@ -25,18 +25,18 @@ StorageAndDeliver::StorageAndDeliver() {
       255);
 
   indexerMotor.ConfigOpenloopRamp(0.1);
-  upperFeederMotor.ConfigOpenloopRamp(0.1);
+  //upperFeederMotor.ConfigOpenloopRamp(0.1);
   lowerFeederMotor.ConfigOpenloopRamp(0.1);
 
   lowerFeederMotor.SetInverted(true);
 
   indexerMotor.ConfigSupplyCurrentLimit(
-      SupplyCurrentLimitConfiguration(true, 15, 0, 1));
-  upperFeederMotor.ConfigSupplyCurrentLimit(
-      SupplyCurrentLimitConfiguration(true, 15, 0, 1));
+      SupplyCurrentLimitConfiguration(true, 12, 0, 1));
+  //upperFeederMotor.ConfigSupplyCurrentLimit(
+  //    SupplyCurrentLimitConfiguration(true, 15, 0, 1));
 
   indexerMotor.SetNeutralMode(NeutralMode::Brake);
-  upperFeederMotor.SetNeutralMode(NeutralMode::Brake);
+  //upperFeederMotor.SetNeutralMode(NeutralMode::Brake);
   lowerFeederMotor.SetNeutralMode(NeutralMode::Brake);
 
   digitalGlitchFilter.SetPeriodNanoSeconds(1850000);
@@ -51,7 +51,7 @@ void StorageAndDeliver::setIndexerVoltage(double voltage) {
 }
 
 void StorageAndDeliver::setFeederVoltage(double voltage) {
-  upperFeederMotor.SetVoltage(units::volt_t(voltage));
+  //upperFeederMotor.SetVoltage(units::volt_t(voltage));
   lowerFeederMotor.SetVoltage(units::volt_t(voltage));
 }
 

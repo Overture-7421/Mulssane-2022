@@ -11,7 +11,7 @@ Intake::Intake() {
   intakeMotor.SetInverted(true);
   intakeMotor.ConfigOpenloopRamp(0.1);
   intakeMotor.ConfigSupplyCurrentLimit(
-      SupplyCurrentLimitConfiguration(true, 15, 0, 1));
+      SupplyCurrentLimitConfiguration(true, 25, 0, 1));
 }
 
 void Intake::setPistons(bool set) {
@@ -28,6 +28,6 @@ void Intake::setVoltage(double voltage) {
 
 // This method will be called once per scheduler run
 void Intake::Periodic() {
-  // frc::SmartDashboard::PutNumber("Intake/Current",
-  //                                intakeMotor.GetStatorCurrent());
+   frc::SmartDashboard::PutNumber("Intake/Current",
+                                  intakeMotor.GetStatorCurrent());
 }

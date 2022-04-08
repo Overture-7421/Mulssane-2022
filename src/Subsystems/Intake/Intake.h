@@ -20,7 +20,7 @@ class Intake : public frc2::SubsystemBase {
 
  private:
    frc::DoubleSolenoid intakePiston{frc::PneumaticsModuleType::CTREPCM, 4, 5};
-   WPI_TalonSRX intakeMotor{10}; // Intake
+   WPI_TalonSRX intakeMotor{9}; // Intake
 
   // Components (e.g. motor controllers and sensors) should generally be
   // declared private and exposed only through public methods.

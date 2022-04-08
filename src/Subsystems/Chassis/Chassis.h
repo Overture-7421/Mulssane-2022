@@ -66,9 +66,9 @@ class Chassis : public frc2::SubsystemBase {
   double convertToMeters(double sensorRawPosition);
   double convertToMetersPerSec(double rawEncoderVel);
 
-  WPI_TalonFX rightMaster{12};
-  WPI_TalonFX rightSlave1{13};
-  WPI_TalonFX rightSlave2{14};
+  WPI_TalonFX rightMaster{11};
+  WPI_TalonFX rightSlave1{12};
+  WPI_TalonFX rightSlave2{113};
 
   WPI_TalonFX leftMaster{1};
   WPI_TalonFX leftSlave1{2};
