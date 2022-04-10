@@ -76,8 +76,6 @@ void Robot::RobotInit() {
 }
 
 void Robot::RobotPeriodic() {
-  rangeDecider.updateRangeDecision(chassis.getPose(),
-                                   visionManager.getTargetPose());
   //shooter.setVelocity(frc::SmartDashboard::GetNumber("ShooterVel", 0.0));
   //shooter.setHoodState(frc::SmartDashboard::GetBoolean("HoodState", false));
   frc2::CommandScheduler::GetInstance().Run();

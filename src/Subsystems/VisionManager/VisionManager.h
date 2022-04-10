@@ -45,14 +45,16 @@ class VisionManager : public frc2::SubsystemBase {
   bool solveLeastSquaresCircle(const std::vector<Eigen::Vector2d, Eigen::aligned_allocator<Eigen::Vector2d>> &points, Eigen::Vector2d &midpoint, double &radius);
   
         
-  const std::string cameraName = "lifecam";
+  const std::string cameraName = "overcamara";
   photonlib::PhotonPipelineResult lastResult;
   photonlib::PhotonCamera camera {cameraName};
   frc::Pose2d visionPose;
   frc::Notifier visionNotifier;
   const int minTargetCount = 2;
   const units::meter_t targetHeight = 2.631923_m; //From Field's CAD
-  const frc::Pose2d fieldToTarget {8.25_m, 4.07_m, {0_deg}};
+  // const frc::Pose2d fieldToTarget {8.25_m, 4.07_m, {0_deg}};
+  const frc::Pose2d fieldToTarget {0_m, 0_m, {0_deg}};
+
   const frc::Transform2d shooterToRobot {{0_m, 0_m}, 180_deg};
   frc::DigitalOutput ledRelay {2};
   Chassis* chassis;

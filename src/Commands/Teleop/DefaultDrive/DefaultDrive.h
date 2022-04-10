@@ -37,10 +37,11 @@ class DefaultDrive
 private:
     Chassis* chassis;
     VisionManager* visionManager;
+
     RangeDecider* rangeDecider;
     frc::Joystick* joy;
 
     const int aimButton = 6;
-    frc::SlewRateLimiter<units::meters_per_second> linearLimiter{4_mps_sq};
-    frc::ProfiledPIDController<units::degrees> headingController {0.125, 0, 0.0005, {units::degrees_per_second_t(360 * 1.5), units::degrees_per_second_squared_t(360 * 1)}};
+    frc::SlewRateLimiter<units::meters_per_second> linearLimiter{6_mps_sq};
+    frc::ProfiledPIDController<units::degrees> headingController {0.065, 0, 0.0, {units::degrees_per_second_t(360 * 1.5), units::degrees_per_second_squared_t(360 * 0.75)}};
 };

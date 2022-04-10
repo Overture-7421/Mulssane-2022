@@ -13,7 +13,7 @@
 class StorageAndDeliver : public frc2::SubsystemBase {
  public:
   StorageAndDeliver();
-  void setIndexerVoltage(double voltage);
+  //void setIndexerVoltage(double voltage);
   void setFeederVoltage(double voltage);
   int getBallsShot();
   bool isTopSwitchPressed();
@@ -24,9 +24,9 @@ class StorageAndDeliver : public frc2::SubsystemBase {
   void Periodic() override;
 
  private:
-    WPI_TalonSRX indexerMotor {5};
+    //WPI_TalonSRX indexerMotor {5};
     WPI_VictorSPX lowerFeederMotor {6};
-    //WPI_TalonSRX upperFeederMotor {9};
+    WPI_TalonSRX upperFeederMotor {5};
 
     frc::DigitalInput bottomLimit {0}, topLimit {1};
     frc::Counter ballCounter {&topLimit};

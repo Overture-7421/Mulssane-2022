@@ -23,11 +23,11 @@ void PreloadBall::Execute() {
         storageAndDeliver->setFeederVoltage(0);
     }
 
-    if(!storageAndDeliver->isBottomSwitchPressed()){
-        storageAndDeliver->setIndexerVoltage(10);
-    }else{
-        storageAndDeliver->setIndexerVoltage(0);
-    }
+    // if(!storageAndDeliver->isBottomSwitchPressed()){
+    //     storageAndDeliver->setIndexerVoltage(10);
+    // }else{
+    //     storageAndDeliver->setIndexerVoltage(0);
+    // }
 }
 
 // Called once the command ends or is interrupted.

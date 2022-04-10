@@ -66,13 +66,13 @@ class Chassis : public frc2::SubsystemBase {
   double convertToMeters(double sensorRawPosition);
   double convertToMetersPerSec(double rawEncoderVel);
 
-  WPI_TalonFX rightMaster{11};
-  WPI_TalonFX rightSlave1{12};
-  WPI_TalonFX rightSlave2{113};
+  WPI_TalonFX rightMaster{1};
+  WPI_TalonFX rightSlave1{2};
+  WPI_TalonFX rightSlave2{3};
 
-  WPI_TalonFX leftMaster{1};
-  WPI_TalonFX leftSlave1{2};
-  WPI_TalonFX leftSlave2{3};
+  WPI_TalonFX leftMaster{11};
+  WPI_TalonFX leftSlave1{12};
+  WPI_TalonFX leftSlave2{13};
 
   const double wheelRadius = 0.0762;  // metros
   const int encoder_CodesPerRev =
@@ -112,8 +112,8 @@ class Chassis : public frc2::SubsystemBase {
   frc2::PIDController leftPID{0.0, 0, 0};
   // 0.13065
   // New and best Characterization.
-  frc::SimpleMotorFeedforward<units::meter> ff{0.67439_V, 2.7018_V / 1_mps,
-                                               0.25631_V / 1_mps_sq};
+  frc::SimpleMotorFeedforward<units::meter> ff{0.59979_V, 3.1778_V / 1_mps,
+                                               0.21138_V / 1_mps_sq};
 
   frc::Pose2d currentPose{0_m, 0_m, 0_rad};
 

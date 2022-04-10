@@ -18,7 +18,7 @@ void SetStorageAndDeliver::Initialize() {}
 // Called repeatedly when this Command is scheduled to run
 void SetStorageAndDeliver::Execute() {
   storageAndDeliver->setFeederVoltage(voltage);
-  storageAndDeliver->setIndexerVoltage(voltage);
+  // storageAndDeliver->setIndexerVoltage(voltage);
 }
 
 // Called once the command ends or is interrupted.

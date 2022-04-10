@@ -23,6 +23,7 @@ VisionManager::VisionManager(Chassis* chassis)
         }
       }) {
   this->chassis = chassis;
+
   setLeds(true);
   visionNotifier.StartPeriodic(20_ms);
 }

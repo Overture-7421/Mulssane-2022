@@ -18,7 +18,7 @@ void FeedNBalls::Initialize() {
 // Called repeatedly when this Command is scheduled to run
 void FeedNBalls::Execute() {
   storageAndDeliver->setFeederVoltage(8);
-  storageAndDeliver->setIndexerVoltage(8);
+  // storageAndDeliver->setIndexerVoltage(8);
 }
 
 // Called once the command ends or is interrupted.
