@@ -32,7 +32,7 @@ const frc::Pose2d& VisionManager::getTargetPose() { return fieldToTarget; }
 
 frc::Rotation2d VisionManager::getRotationToTarget() {
   const auto poseDiff =
-      fieldToTarget.Translation() - chassis->getPose().TransformBy(shooterToRobot).Translation();
+      fieldToTarget.Translation() - chassis->getPose().Translation();
 
   return frc::Rotation2d(poseDiff.X().value(), poseDiff.Y().value()) + shooterToRobot.Rotation();
 }

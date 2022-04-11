@@ -47,12 +47,12 @@ StorageAndDeliver::StorageAndDeliver() {
 #endif
 }
 
-// void StorageAndDeliver::setIndexerVoltage(double voltage) {
-//   indexerMotor.SetVoltage(units::volt_t(voltage));
-// }
+void StorageAndDeliver::setIndexerVoltage(double voltage) {
+  // indexerMotor.SetVoltage(units::volt_t(voltage));
+}
 
 void StorageAndDeliver::setFeederVoltage(double voltage) {
-  upperFeederMotor.SetVoltage(units::volt_t(voltage));
+  upperFeederMotor.SetVoltage(units::volt_t(0));
   lowerFeederMotor.SetVoltage(units::volt_t(voltage));
 }
 

@@ -29,7 +29,7 @@ class VisionManager : public frc2::SubsystemBase {
 
   units::meter_t getDistanceToTarget();
 
-  bool isChassisAligned(units::degree_t tolerance = 5_deg);
+  bool isChassisAligned(units::degree_t tolerance = 2_deg);
 
   void setLeds(bool set);
   /**
@@ -63,9 +63,9 @@ class VisionManager : public frc2::SubsystemBase {
 
 namespace CameraConstants {
   const frc::Rotation2d pitch {35_deg};
-  const units::meter_t height = 37.2_in;
+  const units::meter_t height = 30.11_in;
   const double vpw = 2.0 * units::math::tan(58.5_deg / 2.0);
   const double vph = 2.0 *  units::math::tan(45.6_deg / 2.0);
   const std::pair<double, double> resolution {640, 480};
-  const frc::Transform2d cameraToRobot {{-13_in, 10.5_in}, 180_deg};
+  const frc::Transform2d cameraToRobot {{-12.5_in, 16.1_in}, 180_deg};
 }

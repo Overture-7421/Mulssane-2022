@@ -71,13 +71,16 @@ void Robot::RobotInit() {
     autoChooser.AddOption("Left 2 Ball Auto", &left2BallAuto);
     autoChooser.SetDefaultOption("Right 3 Ball auto", &right3BallAuto);
     frc::SmartDashboard::PutData("Auto Chooser", &autoChooser);
+    frc::SmartDashboard::PutNumber("ShooterVel", 0.0);
+    frc::SmartDashboard::PutBoolean("HoodState", false);
+
 
 
 }
 
 void Robot::RobotPeriodic() {
-  //shooter.setVelocity(frc::SmartDashboard::GetNumber("ShooterVel", 0.0));
-  //shooter.setHoodState(frc::SmartDashboard::GetBoolean("HoodState", false));
+  shooter.setVelocity(frc::SmartDashboard::GetNumber("ShooterVel", 0.0));
+  shooter.setHoodState(frc::SmartDashboard::GetBoolean("HoodState", false));
   frc2::CommandScheduler::GetInstance().Run();
 }
 

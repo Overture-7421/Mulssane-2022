@@ -47,7 +47,7 @@ class Shooter : public frc2::SubsystemBase {
   // Volts per (radian per second squared)
   static constexpr auto kFlywheelKa = 0.0021683_V / 1_rad_per_s_sq;
 
-  frc2::PIDController shooterController{0.007936, 0, 0};
+  frc2::PIDController shooterController{0.003936, 0, 0};
   frc::SimpleMotorFeedforward<units::radian> shooterFF{kFlywheelKs, kFlywheelKv,
                                                        kFlywheelKa};
   frc::DoubleSolenoid hoodPiston{frc::PneumaticsModuleType::CTREPCM, 4, 5};
