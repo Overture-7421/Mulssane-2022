@@ -82,6 +82,12 @@ void Robot::RobotPeriodic() {
   shooter.setVelocity(frc::SmartDashboard::GetNumber("ShooterVel", 0.0));
   shooter.setHoodState(frc::SmartDashboard::GetBoolean("HoodState", false));
   frc2::CommandScheduler::GetInstance().Run();
+
+  if(visionManager.getDistanceToTarget() < 4.6_m){
+    shooter.setHoodState(false);
+  }else{
+    shooter.setHoodState(true);
+  }
 }
 
 void Robot::AutonomousInit() {

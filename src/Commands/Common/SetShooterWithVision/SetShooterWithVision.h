@@ -35,13 +35,13 @@ class SetShooterWithVision
   Shooter* shooter;
   VisionManager* visionManager;
   LinearInterpolator distanceVsVelocityInterpolator {{
-    {1.8, 345},
-    {2.3, 366},
-    {2.8, 385},
-    {3.3, 410},
-    {3.8, 427},
-    {4.3, 452},
-    {4.8, 468},
-    {5.3, 488}
+    {2.1, 335},
+    {2.6, 355},
+    {3.1, 360},
+    {3.6, 377},
+    {4.1, 415}, // CON HOOD ABAJO
+    {4.6, 380},
+    {5.1, 415},
+    {5.6, 430}
   }};
 };
