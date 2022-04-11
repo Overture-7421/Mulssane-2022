@@ -42,7 +42,7 @@ void DefaultDrive::Execute() {
     vels.omega = units::radians_per_second_t(headingOut);
   } else {
     vels.omega =
-        units::radians_per_second_t(angularAxis * 1.8 * M_PI);  // Angular
+        angularLimiter.Calculate(units::radians_per_second_t(angularAxis * 2.5 * M_PI));  // Angular
   }
 
   chassis->setVelocities(vels);

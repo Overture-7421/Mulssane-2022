@@ -42,6 +42,8 @@ private:
     frc::Joystick* joy;
 
     const int aimButton = 6;
-    frc::SlewRateLimiter<units::meters_per_second> linearLimiter{6_mps_sq};
-    frc::ProfiledPIDController<units::degrees> headingController {0.125, 0, 0.0, {units::degrees_per_second_t(360 * 1.5), units::degrees_per_second_squared_t(360 * 1)}};
+    frc::SlewRateLimiter<units::meters_per_second> linearLimiter{3.5_mps_sq};
+    frc::SlewRateLimiter<units::degrees_per_second> angularLimiter{units::degrees_per_second_squared_t(360 * 3)};
+
+    frc::ProfiledPIDController<units::degrees> headingController {0.08, 0, 0.0, {units::degrees_per_second_t(360 * 1.5), units::degrees_per_second_squared_t(360 * 0.5)}};
 };

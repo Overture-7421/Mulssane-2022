@@ -44,7 +44,9 @@ void Robot::RobotInit() {
                                                  SetIntake(&intake, 0, false)));
 
   feederShootButton.WhileHeld(SetStorageAndDeliver(&storageAndDeliver, 8)).WhenReleased(SetStorageAndDeliver(&storageAndDeliver, 0));
-
+  spitBallsTrigger.WhileActiveContinous(
+    SetStorageAndDeliver(&storageAndDeliver, -12)
+  ).WhenInactive(SetStorageAndDeliver(&storageAndDeliver, 0));
    shootLongRangeButton.WhileHeld(SetShooterWithVision(&shooter, &visionManager))
        .WhenReleased(SetShooter(&shooter, 0.0, true));
 
@@ -67,6 +69,7 @@ void Robot::RobotInit() {
           {&climber, &intake})
       .WhenReleased(frc2::ParallelCommandGroup(SetClimberVoltage(&climber, 0)));
 
+    // shooter.SetDefaultCommand(SetShooterWithVision(&shooter, &visionManager).Perpetually());
 
     autoChooser.AddOption("Left 2 Ball Auto", &left2BallAuto);
     autoChooser.SetDefaultOption("Right 3 Ball auto", &right3BallAuto);
@@ -79,8 +82,8 @@ void Robot::RobotInit() {
 }
 
 void Robot::RobotPeriodic() {
-  shooter.setVelocity(frc::SmartDashboard::GetNumber("ShooterVel", 0.0));
-  shooter.setHoodState(frc::SmartDashboard::GetBoolean("HoodState", false));
+  //shooter.setVelocity(frc::SmartDashboard::GetNumber("ShooterVel", 0.0));
+  //shooter.setHoodState(frc::SmartDashboard::GetBoolean("HoodState", false));
   frc2::CommandScheduler::GetInstance().Run();
 
   if(visionManager.getDistanceToTarget() < 4.6_m){

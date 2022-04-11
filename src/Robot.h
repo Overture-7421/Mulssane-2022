@@ -71,6 +71,7 @@ class Robot : public frc::TimedRobot {
   frc2::JoystickButton shootLongRangeButton{&joy2, 1};
   frc2::JoystickButton shootShortRangeButton{&joy2, 2};
   frc2::Trigger shootLowGoalButton {[joy2 = &joy2] { return joy2->GetRawAxis(3) > 0.5 && !joy2->GetRawButton(3); }};
+  frc2::Trigger spitBallsTrigger {[joy2 = &joy2] { return joy2->GetRawAxis(2) > 0.5; }};
 
   frc2::JoystickButton climberButtonUp{&joy2, 4};
   frc2::JoystickButton climberButtonMotorEnable{&joy2, 3};
