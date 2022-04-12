@@ -11,7 +11,7 @@ TurnToAngle::TurnToAngle(Chassis* chassis, double angleObjective) {
 
   
   turnToAnglePID.SetGoal(units::degree_t(angleObjective));
-  turnToAnglePID.SetTolerance(4_deg);
+  turnToAnglePID.SetTolerance(5_deg);
   turnToAnglePID.EnableContinuousInput(-180_deg, 180_deg);
   AddRequirements(chassis);
 }

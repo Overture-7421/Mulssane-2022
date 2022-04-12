@@ -4,9 +4,9 @@
       "Intake": {
         "open": true
       },
-      "open": true
-    },
-    "photonvision": {
+      "VisionManager": {
+        "open": true
+      },
       "open": true
     },
     "types": {
@@ -16,10 +16,18 @@
       "/LiveWindow/Ungrouped/frc2::SubsystemBase": "Subsystem",
       "/LiveWindow/Ungrouped/navX-Sensor[4]": "Gyro",
       "/LiveWindow/Vision": "Subsystem",
+      "/SmartDashboard/Auto Chooser": "String Chooser",
       "/SmartDashboard/Auto Position": "String Chooser",
       "/SmartDashboard/Auto Routine": "String Chooser",
       "/SmartDashboard/Chassis/RobotPose": "Field2d",
       "/SmartDashboard/Joystick Mode": "String Chooser"
+    },
+    "windows": {
+      "/SmartDashboard/Chassis/RobotPose": {
+        "window": {
+          "visible": true
+        }
+      }
     }
   },
   "NetworkTables Settings": {

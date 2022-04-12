@@ -52,8 +52,8 @@ class VisionManager : public frc2::SubsystemBase {
   frc::Notifier visionNotifier;
   const int minTargetCount = 2;
   const units::meter_t targetHeight = 2.631923_m; //From Field's CAD
-  // const frc::Pose2d fieldToTarget {8.25_m, 4.07_m, {0_deg}};
-  const frc::Pose2d fieldToTarget {0_m, 0_m, {0_deg}};
+  const frc::Pose2d fieldToTarget {8.25_m, 4.07_m, {0_deg}};
+  //const frc::Pose2d fieldToTarget {0_m, 0_m, {0_deg}};
 
   const frc::Transform2d shooterToRobot {{0_m, 0_m}, 180_deg};
   frc::DigitalOutput ledRelay {2};

@@ -15,7 +15,7 @@
 #include "Commands/Common/PreloadBall/PreloadBall.h"
 #include "Commands/Common/SetIntake/SetIntake.h"
 #include "Commands/Common/SetShooter/SetShooter.h"
-
+#include "Commands/Common/SetShooterWithVision/SetShooterWithVision.h"
 // NOTE:  Consider using this command inline, rather than writing a subclass.
 // For more information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
@@ -24,54 +24,56 @@ Right_3BallAuto::Right_3BallAuto(Chassis* chassis, VisionManager* visionManager,
                                  StorageAndDeliver* storageAndDeliver,
                                  Shooter* shooter) {
   // Add your commands here, e.g.
-  AddCommands(
-      frc2::InstantCommand(
-          [chassis = chassis] {
-            chassis->resetOdometry({7.74_m, 2.48_m, {-91.5_deg}});
-          },
-          {chassis}),
-      SetIntake(intake, 12, true),
-      frc2::ParallelDeadlineGroup(
-          frc2::SequentialCommandGroup(
-              chassis->getRamseteCommand(
-                  {{7.74_m, 2.48_m, -91.5_deg}, {7.6_m, 1.6_m, -90_deg}},
-                  {2.5_mps, 2.5_mps_sq}),
-              SetShooter(shooter, 380, true),
-              frc2::ParallelCommandGroup(
-                  frc2::SequentialCommandGroup(
-                      frc2::WaitCommand(0.1_s), SetIntake(intake, 12, false),
-                      frc2::WaitCommand(0.5_s), SetIntake(intake, 0, false)),
-                  TurnToAngle(chassis, 90))),
+  AddCommands(frc2::ParallelDeadlineGroup(
+      frc2::SequentialCommandGroup(
+          frc2::InstantCommand(
+              [chassis = chassis, visionManager = visionManager] {
+                chassis->resetOdometry({7.74_m, 2.48_m, {-91.5_deg}});
+                visionManager->setLeds(false);
+              },
+              {chassis}),
+          SetIntake(intake, 12, true),
+          frc2::ParallelDeadlineGroup(
+              frc2::SequentialCommandGroup(
+                  chassis->getRamseteCommand(
+                      {{7.74_m, 2.48_m, -91.5_deg}, {7.6_m, 1.6_m, -90_deg}},
+                      {2.0_mps, 2.0_mps_sq}),
+                  frc2::WaitCommand(0.1_s), SetIntake(intake, 12, false)),
 
-          PreloadBall(storageAndDeliver).Perpetually()),
+              PreloadBall(storageAndDeliver).Perpetually()),
+          frc2::InstantCommand([visionManager = visionManager] {
+            visionManager->setLeds(true);
+          }),
+          frc2::WaitCommand(0.5_s),
+          frc2::ParallelCommandGroup(AlignToTower(chassis, visionManager),
+                                     SetIntake(intake, 0, false)),
+          frc2::WaitCommand(0.5_s),
+          AutoShoot(chassis, storageAndDeliver, visionManager, 2)
+              .WithTimeout(4_s),
+          frc2::InstantCommand([visionManager = visionManager] {
+            visionManager->setLeds(false);
+          }),
+          TurnToAngle(chassis, 160), SetIntake(intake, 12, true),
+          frc2::ParallelDeadlineGroup(
+              frc2::SequentialCommandGroup(
+                  chassis->getRamseteCommand(
+                      {{7.6_m, 1.6_m, 160_deg}, {5.0_m, 2.3_m, 180_deg}},
+                      {2.0_mps, 2.0_mps_sq}),
+                  frc2::WaitCommand(0.1_s), SetIntake(intake, 12, false)),
+              PreloadBall(storageAndDeliver).Perpetually()),
+          TurnToAngle(chassis, 180),
+          frc2::InstantCommand([visionManager = visionManager] {
+            visionManager->setLeds(true);
+          }),
+          frc2::WaitCommand(0.5_s),
+          frc2::ParallelCommandGroup(AlignToTower(chassis, visionManager),
+                                     SetIntake(intake, 0, false)),
+          frc2::WaitCommand(0.5_s),
+          AutoShoot(chassis, storageAndDeliver, visionManager, 1)
+              .WithTimeout(4_s)
 
-      frc2::InstantCommand(
-          [visionManager = visionManager] { visionManager->setLeds(true); }),
-      AlignToTower(chassis, visionManager),
-      AutoShoot(chassis, storageAndDeliver, visionManager, 2).WithTimeout(4_s),
-      frc2::InstantCommand(
-          [visionManager = visionManager] { visionManager->setLeds(false); }),
-      SetIntake(intake, 12, true),
-      chassis->getRamseteCommand(
-          {{7.6_m, 1.75_m, 90_deg}, {5.15_m, 3_m, 180_deg}},
-          {2.5_mps, 2.5_mps_sq}),
-      SetShooter(shooter, 350, true),
-
-      frc2::ParallelCommandGroup(
-          frc2::SequentialCommandGroup(
-              frc2::WaitCommand(0.1_s), SetIntake(intake, 12, false),
-              frc2::WaitCommand(0.5_s), SetIntake(intake, 0, false)),
-          TurnToAngle(chassis, 0)),
-
-      frc2::ParallelDeadlineGroup(
-          frc2::SequentialCommandGroup(chassis->getRamseteCommand(
-              {{5.15_m, 3_m, 0_deg}, {6.5_m, 2.75_m, 0_deg}},
-              {2.5_mps, 2.5_mps_sq})),
-          PreloadBall(storageAndDeliver).Perpetually()),
-        frc2::InstantCommand(
-        [visionManager = visionManager] { visionManager->setLeds(true); }),
-      AlignToTower(chassis, visionManager),
-      AutoShoot(chassis, storageAndDeliver, visionManager, 1).WithTimeout(4_s)
+              ),
+      SetShooterWithVision(shooter, visionManager).Perpetually())
 
   );
 }

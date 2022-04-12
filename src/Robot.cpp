@@ -35,6 +35,9 @@ __ `__ \/ _ \
 
 void Robot::RobotInit() {
   chassis.SetDefaultCommand(drive);
+
+  chassis.resetOdometry({7.74_m, 2.48_m, {-91.5_deg}});
+
   storageAndDeliver.SetDefaultCommand(PreloadBall(&storageAndDeliver).Perpetually());
   climber.SetDefaultCommand(SetClimberVoltage(&climber, 0.0).Perpetually());
 

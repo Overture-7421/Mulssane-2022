@@ -101,7 +101,7 @@ class Chassis : public frc2::SubsystemBase {
       wpi::array<double, 3>{0.002, 0.002, 0.002}};
 
   const double maxSpeed = 2.8;         // Meters per second
-  const double maxAcceleration = 9.0;  // Meters per second squared
+  const double maxAcceleration = 15.0;  // Meters per second squared
 
   frc::SlewRateLimiter<units::meters_per_second> rightAccelLimiter{
       units::meters_per_second_squared_t(maxAcceleration)};
@@ -112,7 +112,7 @@ class Chassis : public frc2::SubsystemBase {
   frc2::PIDController leftPID{0.0, 0, 0};
   // 0.13065
   // New and best Characterization.
-  frc::SimpleMotorFeedforward<units::meter> ff{0.59979_V, 3.1778_V / 1_mps,
+  frc::SimpleMotorFeedforward<units::meter> ff{0.59979_V, 2.8778_V / 1_mps,
                                                0.21138_V / 1_mps_sq};
 
   frc::Pose2d currentPose{0_m, 0_m, 0_rad};
