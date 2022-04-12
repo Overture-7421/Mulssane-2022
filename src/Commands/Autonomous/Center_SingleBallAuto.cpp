@@ -2,7 +2,7 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-#include "Left_2BallAuto.h"
+#include "Center_SingleBallAuto.h"
 
 #include <frc2/command/InstantCommand.h>
 #include <frc2/command/ParallelCommandGroup.h>
@@ -21,22 +21,22 @@
 // NOTE:  Consider using this command inline, rather than writing a subclass.
 // For more information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
-Left_2BallAuto::Left_2BallAuto(Chassis* chassis, VisionManager* visionManager,
+Center_SingleBallAuto::Center_SingleBallAuto(Chassis* chassis, VisionManager* visionManager,
                                Intake* intake,
                                StorageAndDeliver* storageAndDeliver,
                                Shooter* shooter) {
   // Add your commands here, e.g.
   AddCommands(frc2::InstantCommand(
                   [chassis = chassis, visionManager = visionManager] {
-                    chassis->resetOdometry({5.96_m, 5.34_m, 135_deg});
+                    chassis->resetOdometry({5.96_m, 5.0_m, 180_deg});
                     visionManager->setLeds(false);
                   },
                   {chassis}),
               frc2::ParallelDeadlineGroup(
                   frc2::SequentialCommandGroup(
-                      SetIntake(intake, 12, true),
+                      SetIntake(intake, 12, false),
                       chassis->getRamseteCommand(
-                          {{5.96_m, 5.34_m, 135_deg}, {5.2_m, 5.9_m, 135_deg}},
+                          {{5.96_m, 5.0_m, 180_deg}, {5.2_m, 5.0_m, 180_deg}},
                           {2.5_mps, 2.5_mps_sq}),
                       SetShooter(shooter, 390, true), frc2::WaitCommand(0.1_s),
                       SetIntake(intake, 12, false), frc2::WaitCommand(0.5_s),
@@ -46,7 +46,17 @@ Left_2BallAuto::Left_2BallAuto(Chassis* chassis, VisionManager* visionManager,
               frc2::InstantCommand([visionManager = visionManager] {
                 visionManager->setLeds(true);
               }), AlignToTower(chassis, visionManager),
-              AutoShoot(chassis, storageAndDeliver, visionManager, 2)
+              AutoShoot(chassis, storageAndDeliver, visionManager, 1)
 
   );
+
+
+
+
+
+
+
+
 }
+
+

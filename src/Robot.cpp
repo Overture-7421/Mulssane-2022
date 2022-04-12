@@ -75,6 +75,7 @@ void Robot::RobotInit() {
     // shooter.SetDefaultCommand(SetShooterWithVision(&shooter, &visionManager).Perpetually());
 
     autoChooser.AddOption("Left 2 Ball Auto", &left2BallAuto);
+    autoChooser.AddOption("Single Center Ball", &centerSingleBallAuto);
     autoChooser.SetDefaultOption("Right 3 Ball auto", &right3BallAuto);
     frc::SmartDashboard::PutData("Auto Chooser", &autoChooser);
     frc::SmartDashboard::PutNumber("ShooterVel", 0.0);

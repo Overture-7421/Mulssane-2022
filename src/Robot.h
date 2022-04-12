@@ -28,6 +28,7 @@ __ `__ \/ _ \
 #include "Commands/Autonomous/Right_3BallAuto/Right_3BallAuto.h"
 #include "Commands/Autonomous/Right_4BallAuto/Right_4BallAuto.h"
 #include "Commands/Autonomous/Left_2BallAuto/Left_2BallAuto.h"
+#include "Commands/Autonomous/Center_SingleBallAuto.h"
 
 
 #include "Subsystems/Chassis/Chassis.h"
@@ -78,6 +79,7 @@ class Robot : public frc::TimedRobot {
 
    Left_2BallAuto left2BallAuto {&chassis, &visionManager, &intake, &storageAndDeliver, &shooter};
    Right_3BallAuto right3BallAuto {&chassis, &visionManager, &intake, &storageAndDeliver, &shooter};
+   Center_SingleBallAuto centerSingleBallAuto {&chassis, &visionManager, &intake, &storageAndDeliver, &shooter};
 
    frc::SendableChooser<frc2::Command*> autoChooser;
 
