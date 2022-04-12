@@ -82,11 +82,12 @@ void Robot::RobotInit() {
 }
 
 void Robot::RobotPeriodic() {
+  rangeDecider.updateRangeDecision(chassis.getPose(), visionManager.getTargetPose());
   //shooter.setVelocity(frc::SmartDashboard::GetNumber("ShooterVel", 0.0));
   //shooter.setHoodState(frc::SmartDashboard::GetBoolean("HoodState", false));
   frc2::CommandScheduler::GetInstance().Run();
 
-  if(visionManager.getDistanceToTarget() < 4.6_m){
+  if(rangeDecider.getCurrentRange() == RangeDecider::RangeResult::Short){
     shooter.setHoodState(false);
   }else{
     shooter.setHoodState(true);

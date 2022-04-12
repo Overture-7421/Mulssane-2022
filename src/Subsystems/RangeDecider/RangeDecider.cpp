@@ -6,10 +6,10 @@
 
 RangeDecider::RangeDecider() {
   shortRange.minDistance = 0_m;
-  shortRange.maxDistance = 1.5_m;
+  shortRange.maxDistance = 4.1_m;
 
-  longRange.minDistance = 1.0_m;
-  longRange.maxDistance = 3.5_m;
+  longRange.minDistance = 3.8_m;
+  longRange.maxDistance = 7.5_m;
 
   currentRange = shortRange;
 }
