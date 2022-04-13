@@ -29,6 +29,7 @@ Climber::Climber() {
 
 void Climber::setPistons(bool set) { climberPiston.Set(set); }
 
+
 void Climber::setVoltage(double voltage) {
   leftClimber.SetVoltage(units::volt_t(voltage));
   rightClimber.SetVoltage(units::volt_t(voltage));

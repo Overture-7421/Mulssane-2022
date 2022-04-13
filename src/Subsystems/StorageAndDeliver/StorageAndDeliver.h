@@ -28,7 +28,7 @@ class StorageAndDeliver : public frc2::SubsystemBase {
     WPI_VictorSPX lowerFeederMotor {6};
     WPI_TalonSRX upperFeederMotor {5};
 
-    frc::DigitalInput bottomLimit {0}, topLimit {1};
+    frc::DigitalInput topLimit {1};
     frc::Counter ballCounter {&topLimit};
     frc::DigitalGlitchFilter digitalGlitchFilter;
 

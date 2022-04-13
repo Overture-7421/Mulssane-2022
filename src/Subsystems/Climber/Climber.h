@@ -7,6 +7,10 @@
 #include <frc2/command/SubsystemBase.h>
 #include <frc/Solenoid.h>
 #include <ctre/Phoenix.h>
+#include <frc/DigitalInput.h>
+#include <frc/Counter.h>
+#include <frc/DigitalGlitchFilter.h>
+
 
 class Climber : public frc2::SubsystemBase {
  public:
@@ -23,6 +27,9 @@ class Climber : public frc2::SubsystemBase {
    climberPiston{frc::PneumaticsModuleType::CTREPCM, 2};
    WPI_TalonSRX leftClimber {8}; // Left Climber INVERTED
    WPI_VictorSPX rightClimber {7}; // Right Climber
+
+   frc::DigitalInput climberWinchLimit {0};
+
   // Components (e.g. motor controllers and sensors) should generally be
   // declared private and exposed only through public methods.
 };

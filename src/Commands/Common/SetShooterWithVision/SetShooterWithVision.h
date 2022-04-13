@@ -37,8 +37,9 @@ class SetShooterWithVision
   LinearInterpolator distanceVsVelocityInterpolator {{
     {2.1, 320},
     {2.6, 335},
-    {3.0, 357},
-    {3.1, 360},
+    {3.0, 355},
+    {3.1, 357},
+    {3.2, 368},
     {3.6, 377},
     {4.1, 415}, // CON HOOD ABAJO
     {4.6, 380},

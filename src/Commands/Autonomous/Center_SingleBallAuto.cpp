@@ -36,7 +36,7 @@ Center_SingleBallAuto::Center_SingleBallAuto(Chassis* chassis, VisionManager* vi
                   frc2::SequentialCommandGroup(
                       SetIntake(intake, 12, false),
                       chassis->getRamseteCommand(
-                          {{5.96_m, 5.0_m, 180_deg}, {5.2_m, 5.0_m, 180_deg}},
+                          {{5.96_m, 5.0_m, 180_deg}, {4.9_m, 5.0_m, 180_deg}},
                           {2.5_mps, 2.5_mps_sq}),
                       SetShooter(shooter, 390, true), frc2::WaitCommand(0.1_s),
                       SetIntake(intake, 12, false), frc2::WaitCommand(0.5_s),

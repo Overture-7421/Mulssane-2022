@@ -60,7 +60,7 @@ int StorageAndDeliver::getBallsShot() { return ballCounter.Get(); }
 
 bool StorageAndDeliver::isTopSwitchPressed() { return !topLimit.Get(); }
 
-bool StorageAndDeliver::isBottomSwitchPressed() { return !bottomLimit.Get(); }
+//bool StorageAndDeliver::isBottomSwitchPressed() { return !bottomLimit.Get(); }
 
 // This method will be called once per scheduler run
 void StorageAndDeliver::Periodic() {
