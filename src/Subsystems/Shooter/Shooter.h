@@ -52,3 +52,4 @@ class Shooter : public frc2::SubsystemBase {
                                                        kFlywheelKa};
   frc::DoubleSolenoid hoodPiston{frc::PneumaticsModuleType::CTREPCM, 4, 5};
 };
+
