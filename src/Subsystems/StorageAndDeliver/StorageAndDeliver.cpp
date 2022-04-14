@@ -67,7 +67,7 @@ void StorageAndDeliver::Periodic() {
   frc::SmartDashboard::PutNumber("StorageAndDeliver/BallsShot", getBallsShot());
   frc::SmartDashboard::PutBoolean("StorageAndDeliver/TopLimit",
                                   isTopSwitchPressed());
-  frc::SmartDashboard::PutBoolean("StorageAndDeliver/BottomLimit",
-                                  isBottomSwitchPressed());
+  //frc::SmartDashboard::PutBoolean("StorageAndDeliver/BottomLimit",
+  //                                isBottomSwitchPressed());
 
 }

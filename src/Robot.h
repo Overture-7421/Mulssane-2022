@@ -28,7 +28,7 @@ __ `__ \/ _ \
 #include "Commands/Autonomous/Right_3BallAuto/Right_3BallAuto.h"
 #include "Commands/Autonomous/Right_4BallAuto/Right_4BallAuto.h"
 #include "Commands/Autonomous/Left_2BallAuto/Left_2BallAuto.h"
-#include "Commands/Autonomous/Center_SingleBallAuto.h"
+#include "Commands/Autonomous/Center_SingleBallAuto/Center_SingleBallAuto.h"
 
 
 #include "Subsystems/Chassis/Chassis.h"
