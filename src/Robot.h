@@ -30,7 +30,7 @@ __ `__ \/ _ \
 #include "Commands/Autonomous/Right_4BallAuto/Right_4BallAuto.h"
 #include "Commands/Autonomous/Left_2BallAuto/Left_2BallAuto.h"
 #include "Commands/Autonomous/Center_SingleBallAuto/Center_SingleBallAuto.h"
-
+#include "Commands/Autonomous/Left_Kidnap/Left_Kidnap.h"
 
 #include "Subsystems/Chassis/Chassis.h"
 #include "Subsystems/Climber/Climber.h"
@@ -90,6 +90,7 @@ class Robot : public frc::TimedRobot {
    Left_2BallAuto left2BallAuto {&chassis, &visionManager, &intake, &storageAndDeliver, &shooter};
    Right_3BallAuto right3BallAuto {&chassis, &visionManager, &intake, &storageAndDeliver, &shooter};
    Center_SingleBallAuto centerSingleBallAuto {&chassis, &visionManager, &intake, &storageAndDeliver, &shooter};
+   Left_Kidnap leftKidnap {&chassis, &visionManager, &intake, &storageAndDeliver, &shooter};
 
    frc::SendableChooser<frc2::Command*> autoChooser;
 

@@ -59,7 +59,7 @@ void Robot::RobotInit(){
    shootLongRangeButton.WhileHeld(SetShooterWithVision(&shooter, &visionManager))
        .WhenReleased(SetShooter(&shooter, 0.0, true));
 
-   shootShortRangeButton.WhileHeld(SetShooter(&shooter, 360.0, false))
+   shootShortRangeButton.WhileHeld(SetShooter(&shooter, 340.0, false))
        .WhenReleased(SetShooter(&shooter, 0.0, true));
 
     shootLowGoalButton.WhileActiveContinous(SetShooter(&shooter, 180.0, true)).WhenInactive(SetShooter(&shooter, 0.0, true));  
@@ -82,6 +82,7 @@ void Robot::RobotInit(){
 
     autoChooser.AddOption("Left 2 Ball Auto", &left2BallAuto);
     autoChooser.AddOption("Single Center Ball", &centerSingleBallAuto);
+    autoChooser.AddOption("Left Kidnap", &leftKidnap);
     autoChooser.SetDefaultOption("Right 3 Ball auto", &right3BallAuto);
     frc::SmartDashboard::PutData("Auto Chooser", &autoChooser);
     frc::SmartDashboard::PutNumber("ShooterVel", 0.0);
