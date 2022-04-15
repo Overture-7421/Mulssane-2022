@@ -89,18 +89,18 @@ void Robot::RobotPeriodic() {
   rangeDecider.updateRangeDecision(chassis.getPose(), visionManager.getTargetPose());
 
   //For Tabulation
-  shooter.setVelocity(frc::SmartDashboard::GetNumber("ShooterVel", 0.0));
-  shooter.setHoodState(frc::SmartDashboard::GetBoolean("HoodState", false));
+  //shooter.setVelocity(frc::SmartDashboard::GetNumber("ShooterVel", 0.0));
+  //shooter.setHoodState(frc::SmartDashboard::GetBoolean("HoodState", false));
   //For Tabulation
   
   frc2::CommandScheduler::GetInstance().Run();
 
-  /*
+  
   if(rangeDecider.getCurrentRange() == RangeDecider::RangeResult::Short){
     shooter.setHoodState(false);
   }else{
     shooter.setHoodState(true);
-  }*/
+  }
 }
 
 void Robot::AutonomousInit() {

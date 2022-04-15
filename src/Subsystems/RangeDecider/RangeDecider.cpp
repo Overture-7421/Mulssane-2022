@@ -6,9 +6,9 @@
 
 RangeDecider::RangeDecider() {
   shortRange.minDistance = 0_m;
-  shortRange.maxDistance = 4.1_m;
+  shortRange.maxDistance = 4.4_m;
 
-  longRange.minDistance = 3.8_m;
+  longRange.minDistance = 4.5_m;
   longRange.maxDistance = 7.5_m;
 
   currentRange = shortRange;
