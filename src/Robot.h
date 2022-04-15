@@ -17,6 +17,7 @@ __ `__ \/ _ \
 #include <frc/Joystick.h>
 #include <frc/Solenoid.h>
 #include <frc/TimedRobot.h>
+#include <frc/AddressableLed.h>
 #include <frc/smartdashboard/SendableChooser.h>
 #include <frc2/command/Command.h>
 #include <frc2/command/button/JoystickButton.h>
@@ -55,6 +56,15 @@ class Robot : public frc::TimedRobot {
 
  private:
   frc::Joystick joy1{0}, joy2{1};
+
+  static constexpr int kLength = 60;
+
+  //LEDS
+  frc::AddressableLED m_led{9};
+  std::array<frc::AddressableLED::LEDData, kLength>
+      m_ledBuffer;
+  int firstPixelHue = 0;
+
 
   // Subsystems
   Chassis chassis;

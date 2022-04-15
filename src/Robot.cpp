@@ -33,7 +33,13 @@ __ `__ \/ _ \
 #include "Commands/Common/SetShooterWithVision/SetShooterWithVision.h"
 #include "Commands/Common/WaitBeReadyToShoot/WaitBeReadyToShoot.h"
 
-void Robot::RobotInit() {
+void Robot::RobotInit(){
+
+  m_led.SetLength(kLength);
+  m_led.SetData(m_ledBuffer);
+  m_led.Start();
+  
+
   chassis.SetDefaultCommand(drive);
 
   chassis.resetOdometry({7.74_m, 2.48_m, {-91.5_deg}});
@@ -46,7 +52,7 @@ void Robot::RobotInit() {
                                                  frc2::WaitCommand(0.2_s),
                                                  SetIntake(&intake, 0, false)));
 
-  feederShootButton.WhileHeld(SetStorageAndDeliver(&storageAndDeliver, 8)).WhenReleased(SetStorageAndDeliver(&storageAndDeliver, 0));
+  feederShootButton.WhileHeld(SetStorageAndDeliver(&storageAndDeliver, 12)).WhenReleased(SetStorageAndDeliver(&storageAndDeliver, 0));
   spitBallsTrigger.WhileActiveContinous(
     SetStorageAndDeliver(&storageAndDeliver, -12)
   ).WhenInactive(SetStorageAndDeliver(&storageAndDeliver, 0));
@@ -87,6 +93,20 @@ void Robot::RobotInit() {
 
 void Robot::RobotPeriodic() {
   rangeDecider.updateRangeDecision(chassis.getPose(), visionManager.getTargetPose());
+
+  //LEDS
+  /*for (int i = 0; i < kLength; i++) {
+    m_ledBuffer[i].SetRGB(255, 0, 255);
+    sleep(1000);
+  }*/
+
+/*
+  for (int i = 0; i < kLength; i++) {
+    m_ledBuffer[i].SetRGB(0, 0, 0);
+    sleep(1000);
+  }
+*/
+  m_led.SetData(m_ledBuffer);
 
   //For Tabulation
   //shooter.setVelocity(frc::SmartDashboard::GetNumber("ShooterVel", 0.0));
