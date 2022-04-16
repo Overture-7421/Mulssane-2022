@@ -38,7 +38,7 @@ Left_Kidnap::Left_Kidnap(Chassis* chassis, VisionManager* visionManager,
           frc2::ParallelDeadlineGroup(
               frc2::SequentialCommandGroup(
                   chassis->getRamseteCommand(
-                      {{5.96_m, 5.34_m, 135_deg}, {5.2_m, 5.34_m, 135_deg}},
+                      {{5.96_m, 5.34_m, 135_deg}, {5.2_m, 6.0_m, 135_deg}},
                       {2.0_mps, 2.0_mps_sq}),
                   frc2::WaitCommand(0.1_s), SetIntake(intake, 12, false)),
 
@@ -59,11 +59,12 @@ Left_Kidnap::Left_Kidnap(Chassis* chassis, VisionManager* visionManager,
           frc2::ParallelDeadlineGroup(
               frc2::SequentialCommandGroup(
                   chassis->getRamseteCommand(
-                      {{5.2_m, 5.34_m, 135_deg}, {5.0_m, 2.0_m, 180_deg}},
+                      {{5.2_m, 5.34_m, 135_deg}, {4.7_m, 7.5_m, 90_deg}},
                       {2.0_mps, 2.0_mps_sq}),
                   frc2::WaitCommand(0.1_s), SetIntake(intake, 12, false)),
-              PreloadBall(storageAndDeliver).Perpetually()),
+              SetStorageAndDeliver(storageAndDeliver, 12)),
           TurnToAngle(chassis, 180),
+
           frc2::InstantCommand([visionManager = visionManager] {
             visionManager->setLeds(true);
           }),
