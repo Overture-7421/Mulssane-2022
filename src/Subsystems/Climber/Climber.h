@@ -22,11 +22,14 @@ class Climber : public frc2::SubsystemBase {
    */
   void Periodic() override;
 
+  bool isLimitSwitchPressed();
+
  private:
    frc::Solenoid 
    climberPiston{frc::PneumaticsModuleType::CTREPCM, 2};
    WPI_TalonSRX leftClimber {8}; // Left Climber INVERTED
    WPI_VictorSPX rightClimber {7}; // Right Climber
+   units::volt_t desiredVoltage;
 
    frc::DigitalInput climberWinchLimit {0};
 
