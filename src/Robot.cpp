@@ -59,10 +59,10 @@ void Robot::RobotInit(){
    shootLongRangeButton.WhileHeld(SetShooterWithVision(&shooter, &visionManager))
        .WhenReleased(SetShooter(&shooter, 0.0, true));
 
-   shootShortRangeButton.WhileHeld(SetShooter(&shooter, 340.0, false))
+   shootShortRangeButton.WhileHeld(SetShooter(&shooter, 310.0, false))
        .WhenReleased(SetShooter(&shooter, 0.0, true));
 
-    shootLowGoalButton.WhileActiveContinous(SetShooter(&shooter, 180.0, true)).WhenInactive(SetShooter(&shooter, 0.0, true));  
+    shootLowGoalButton.WhileActiveContinous(SetShooter(&shooter, 150.0, true)).WhenInactive(SetShooter(&shooter, 0.0, true));  
 
   climberButtonUp.WhenPressed(SetClimberPistonsUp(&intake, &climber))
       .WhenReleased(SetClimberPistonsDown(&climber, &intake));
@@ -111,17 +111,17 @@ void Robot::RobotPeriodic() {
 
   //For Tabulation
   //shooter.setVelocity(frc::SmartDashboard::GetNumber("ShooterVel", 0.0));
-  //shooter.setHoodState(frc::SmartDashboard::GetBoolean("HoodState", false));
+  shooter.setHoodState(frc::SmartDashboard::GetBoolean("HoodState", false));
   //For Tabulation
   
   frc2::CommandScheduler::GetInstance().Run();
 
   
-  if(rangeDecider.getCurrentRange() == RangeDecider::RangeResult::Short){
-    shooter.setHoodState(false);
-  }else{
-    shooter.setHoodState(true);
-  }
+  //if(rangeDecider.getCurrentRange() == RangeDecider::RangeResult::Short){
+  //  shooter.setHoodState(false);
+  //}else{
+  //  shooter.setHoodState(true);
+  //}
 }
 
 void Robot::AutonomousInit() {
