@@ -56,10 +56,10 @@ void Robot::RobotInit(){
    shootLongRangeButton.WhileHeld(SetShooterWithVision(&shooter, &visionManager))
        .WhenReleased(SetShooter(&shooter, 0.0, true));
 
-   shootShortRangeButton.WhileHeld(SetShooter(&shooter, 310.0, false))
+   shootShortRangeButton.WhileHeld(SetShooter(&shooter, 240.0, false))
        .WhenReleased(SetShooter(&shooter, 0.0, true));
 
-    shootLowGoalButton.WhileActiveContinous(SetShooter(&shooter, 150.0, true)).WhenInactive(SetShooter(&shooter, 0.0, true));  
+    shootLowGoalButton.WhileActiveContinous(SetShooter(&shooter, 120.0, true)).WhenInactive(SetShooter(&shooter, 0.0, true));  
 
   climberButtonUp.WhenPressed(SetClimberPistonsUp(&intake, &climber))
       .WhenReleased(SetClimberPistonsDown(&climber, &intake));
