@@ -39,7 +39,6 @@ Chassis::Chassis() {
   rightMaster.SetNeutralMode(NeutralMode::Brake);
   rightSlave1.SetNeutralMode(NeutralMode::Brake);
   rightSlave2.SetNeutralMode(NeutralMode::Brake);
-
   leftMaster.SetNeutralMode(NeutralMode::Brake);
   leftSlave1.SetNeutralMode(NeutralMode::Brake);
   leftSlave2.SetNeutralMode(NeutralMode::Brake);

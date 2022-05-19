@@ -101,7 +101,7 @@ class Chassis : public frc2::SubsystemBase {
       wpi::array<double, 3>{0.002, 0.002, 0.002}};
 
   const double maxSpeed = 1.5;         // Meters per second
-  const double maxAcceleration = 5.0;  // Meters per second squared
+  const double maxAcceleration = 15.0;  // Meters per second squared
 
   frc::SlewRateLimiter<units::meters_per_second> rightAccelLimiter{
       units::meters_per_second_squared_t(maxAcceleration)};
