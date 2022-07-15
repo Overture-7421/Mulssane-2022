@@ -53,8 +53,8 @@ void Robot::RobotInit(){
   spitBallsTrigger.WhileActiveContinous(
     SetStorageAndDeliver(&storageAndDeliver, -12)
   ).WhenInactive(SetStorageAndDeliver(&storageAndDeliver, 0));
-   //shootLongRangeButton.WhileHeld(SetShooterWithVision(&shooter, &visionManager))
-   //    .WhenReleased(SetShooter(&shooter, 0.0, true));
+   shootLongRangeButton.WhileHeld(SetShooterWithVision(&shooter, &visionManager))
+       .WhenReleased(SetShooter(&shooter, 0.0, true));
 
    shootShortRangeButton.WhileHeld(SetShooter(&shooter, 240.0, false))
        .WhenReleased(SetShooter(&shooter, 0.0, true));
