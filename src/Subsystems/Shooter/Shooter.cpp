@@ -61,14 +61,6 @@ void Shooter::Periodic() {
 
 void Shooter::setVelocity(double radsPerS) { this->radsPerSecond = radsPerS; }
 
-void Shooter::setHoodState(bool set) {
-  if (set) {
-    hoodPiston.Set(frc::DoubleSolenoid::kForward);
-  } else {
-    hoodPiston.Set(frc::DoubleSolenoid::kReverse);
-  }
-}
-
 bool Shooter::reachedVelocityTarget() { return shooterController.AtSetpoint(); }
 
 double Shooter::getVelocity() {

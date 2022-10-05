@@ -4,10 +4,9 @@
 
 #include "SetShooter.h"
 
-SetShooter::SetShooter(Shooter* shooter, double setpoint, bool hoodState) {
+SetShooter::SetShooter(Shooter* shooter, double setpoint) {
   this->shooter = shooter;
   this->setpoint = setpoint;
-  this->hoodState = hoodState;
   AddRequirements(shooter);
   // Use addRequirements() here to declare subsystem dependencies.
 }
@@ -17,7 +16,7 @@ void SetShooter::Initialize() {}
 
 // Called repeatedly when this Command is scheduled to run
 void SetShooter::Execute() {
-  shooter->setHoodState(hoodState);
+
   shooter->setVelocity(setpoint);
 }
 

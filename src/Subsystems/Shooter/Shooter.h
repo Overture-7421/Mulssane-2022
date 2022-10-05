@@ -21,7 +21,6 @@ class Shooter : public frc2::SubsystemBase {
  public:
   Shooter();
   void setVelocity(double radsPerS);
-  void setHoodState(bool set);
   bool reachedVelocityTarget();
   double getVelocity();
   void Periodic() override;
@@ -50,6 +49,5 @@ class Shooter : public frc2::SubsystemBase {
   frc2::PIDController shooterController{0.029775, 0, 0};
   frc::SimpleMotorFeedforward<units::radian> shooterFF{kFlywheelKs, kFlywheelKv,
                                                        kFlywheelKa};
-  frc::DoubleSolenoid hoodPiston{frc::PneumaticsModuleType::CTREPCM, 4, 5};
 };
 

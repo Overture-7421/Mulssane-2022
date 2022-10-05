@@ -3,7 +3,7 @@
 // the WPILib BSD license file in the root directory of this project.
 
 #pragma once
-
+#include <frc/DigitalInput.h>
 #include <frc2/command/SubsystemBase.h>
 #include <ctre/Phoenix.h>
 
@@ -11,12 +11,10 @@ class Hood : public frc2::SubsystemBase {
  public:
   Hood();
 
-  /**
-   * Will be called periodically whenever the CommandScheduler runs.
-   */
   void Periodic() override;
+  void SetMotor(double value);
 
  private:
-  WPI_VictorSPX hoodMotor{14};
-
+  WPI_TalonSRX hoodMotor{9};
+  frc::DigitalInput limitSwitch {2};
 };

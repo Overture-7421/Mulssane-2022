@@ -12,7 +12,6 @@ SetShooterWithVision::SetShooterWithVision(Shooter* shooter, VisionManager* visi
 
 // Called when the command is initially scheduled.
 void SetShooterWithVision::Initialize() {
-  shooter->setHoodState(true);
 }
 
 // Called repeatedly when this Command is scheduled to run

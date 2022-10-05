@@ -11,7 +11,6 @@
 #include <frc/filter/SlewRateLimiter.h>
 #include "Subsystems/Chassis/Chassis.h"
 #include "Subsystems/VisionManager/VisionManager.h"
-#include "Subsystems/RangeDecider/RangeDecider.h"
 #include <cmath>
 
 /**
@@ -24,7 +23,7 @@
 class DefaultDrive
     : public frc2::CommandHelper<frc2::CommandBase, DefaultDrive> {
  public:
-  DefaultDrive(Chassis* chassis, VisionManager* visionManager, RangeDecider* rangeDecider, frc::Joystick* joy);
+  DefaultDrive(Chassis* chassis, VisionManager* visionManager, frc::Joystick* joy);
 
   void Initialize() override;
 
@@ -38,7 +37,6 @@ private:
     Chassis* chassis;
     VisionManager* visionManager;
 
-    RangeDecider* rangeDecider;
     frc::Joystick* joy;
 
     const int aimButton = 6;

@@ -18,7 +18,7 @@
 class SetShooter
     : public frc2::CommandHelper<frc2::CommandBase, SetShooter> {
  public:
-  SetShooter(Shooter* shooter, double setpoint, bool hoodState);
+  SetShooter(Shooter* shooter, double setpoint);
 
   void Initialize() override;
 
@@ -30,5 +30,4 @@ class SetShooter
   private:
   Shooter* shooter;
   double setpoint;
-  bool hoodState;
 };
