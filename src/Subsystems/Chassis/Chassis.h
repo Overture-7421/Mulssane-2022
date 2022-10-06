@@ -55,13 +55,13 @@ class Chassis : public frc2::SubsystemBase {
   double convertToMeters(double sensorRawPosition);
   double convertToMetersPerSec(double rawEncoderVel);
 
-  WPI_TalonFX rightMaster{1};
-  WPI_TalonFX rightSlave1{2};
-  WPI_TalonFX rightSlave2{3};
+  WPI_TalonFX rightMaster{11};
+  WPI_TalonFX rightSlave1{12};
+  WPI_TalonFX rightSlave2{13};
 
-  WPI_TalonFX leftMaster{11};
-  WPI_TalonFX leftSlave1{12};
-  WPI_TalonFX leftSlave2{13};
+  WPI_TalonFX leftMaster{1};
+  WPI_TalonFX leftSlave1{2};
+  WPI_TalonFX leftSlave2{3};
 
   const double wheelRadius = 0.0762;  // metros
   const int encoder_CodesPerRev =

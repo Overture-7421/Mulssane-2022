@@ -5,15 +5,9 @@
 #include "Hood.h"
 
 Hood::Hood() {
-
 }
-
 // This method will be called once per scheduler run
 void Hood::Periodic() {
 
 
-}
-
-void Hood::SetMotor(double set){
-    hoodMotor.Set(set);
 }

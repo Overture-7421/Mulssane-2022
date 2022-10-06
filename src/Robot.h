@@ -50,8 +50,10 @@ class Robot : public frc::TimedRobot {
   void DisabledPeriodic() override;
   void TestInit() override;
   void TestPeriodic() override;
+  
 
  private:
+ Hood hood;
 //   frc::Joystick joy1{0}, joy2{1};
 
 //   static constexpr int kLength = 60;
@@ -70,7 +72,6 @@ class Robot : public frc::TimedRobot {
 //   StorageAndDeliver storageAndDeliver;
 //   Climber climber;
 //   VisionManager visionManager{&chassis};
-    Hood hood;
 //   DefaultDrive drive{&chassis, &visionManager, &joy1};
 //   frc2::JoystickButton intakeButton{&joy2, 5};
 //   frc2::JoystickButton feederShootButton{&joy2, 6};

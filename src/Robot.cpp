@@ -29,6 +29,7 @@
 #include "Commands/Common/SetStorageAndDeliver/SetStorageAndDeliver.h"
 #include "Commands/Common/SetShooterWithVision/SetShooterWithVision.h"
 #include "Commands/Common/WaitBeReadyToShoot/WaitBeReadyToShoot.h"
+#include <iostream>
 
 void Robot::RobotInit(){
 
@@ -98,17 +99,18 @@ void Robot::AutonomousInit() {
   //  autoChooser.GetSelected()->Schedule();
 }
 
-void Robot::AutonomousPeriodic() {}
+void Robot::AutonomousPeriodic() {
+// hood.MotorMovement(-3_V);
+}
 
 void Robot::TeleopInit() {
   // visionManager.setLeds(true);
   // frc2::CommandScheduler::GetInstance().CancelAll();
-  frc::SmartDashboard::PutNumber("AHHHHH", 0.0);
 }
 
 void Robot::TeleopPeriodic() {
-  hood.SetMotor(std::clamp(frc::SmartDashboard::GetNumber("AHHHHH", 0.0), -0.2, 0.2));
 
+ hood.MoveToLimit();
 }
 
 void Robot::DisabledInit() {
