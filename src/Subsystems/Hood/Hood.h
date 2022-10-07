@@ -31,9 +31,6 @@ class Hood : public frc2::SubsystemBase {
     }
   }
   
-  encoderOne.GetPosition();
-
-
  private:
   WPI_TalonSRX hoodMotor{9};
   frc::DigitalInput limitSwitch {2};
