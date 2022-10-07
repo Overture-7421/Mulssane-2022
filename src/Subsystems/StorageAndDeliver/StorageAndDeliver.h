@@ -25,7 +25,7 @@ class StorageAndDeliver : public frc2::SubsystemBase {
 
  private:
     // WPI_TalonSRX indexerMotor {5};
-    WPI_VictorSPX lowerFeederMotor {6};
+    WPI_VictorSPX lowerFeederMotor {7};
     WPI_TalonSRX upperFeederMotor {5};
 
     frc::DigitalInput topLimit {1};
