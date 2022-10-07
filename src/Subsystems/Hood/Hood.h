@@ -6,7 +6,8 @@
 #include <frc/DigitalInput.h>
 #include <frc2/command/SubsystemBase.h>
 #include <ctre/Phoenix.h>
-#include <units/units.h>
+#include <units/units.h> 
+#include <frc/Encoder.h>
 
 class Hood : public frc2::SubsystemBase {
  public:
@@ -29,8 +30,12 @@ class Hood : public frc2::SubsystemBase {
       MoveMotor(-3_V);
     }
   }
+  
+  encoderOne.GetPosition();
+
 
  private:
   WPI_TalonSRX hoodMotor{9};
   frc::DigitalInput limitSwitch {2};
+  frc::Encoder encoderOne {0, 1};
 };
