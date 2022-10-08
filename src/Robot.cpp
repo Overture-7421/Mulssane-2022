@@ -36,10 +36,10 @@ void Robot::RobotInit(){
   // storageAndDeliver.SetDefaultCommand(PreloadBall(&storageAndDeliver).Perpetually());
   // climber.SetDefaultCommand(SetClimberVoltage(&climber, 0.0).Perpetually());
 
-  // intakeButton.WhileHeld(SetIntake(&intake, 12, true))
-  //     .WhenReleased(frc2::SequentialCommandGroup(SetIntake(&intake, 12, false),
-  //                                                frc2::WaitCommand(0.2_s),
-  //                                                SetIntake(&intake, 0, false)));
+   intakeButton.WhileHeld(SetIntake(&intake, 12, true))
+       .WhenReleased(frc2::SequentialCommandGroup(SetIntake(&intake, 12, false),
+                                                  frc2::WaitCommand(0.2_s),
+                                                  SetIntake(&intake, 0, false)));
 
   // feederShootButton.WhileHeld(SetStorageAndDeliver(&storageAndDeliver, 12)).WhenReleased(SetStorageAndDeliver(&storageAndDeliver, 0));
   // spitBallsTrigger.WhileActiveContinous(
@@ -102,7 +102,7 @@ void Robot::TeleopInit() {
 void Robot::TeleopPeriodic() {
 
  //hood.MoveToLimit();
- //omnisMotor.Periodic();
+ omnisMotor.Periodic();
  //setOmnis.Execute();
 }
 

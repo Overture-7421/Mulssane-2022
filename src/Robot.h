@@ -57,28 +57,20 @@ class Robot : public frc::TimedRobot {
  private:
  Hood hood;
  Omnis omnisMotor;
- 
-//   frc::Joystick joy1{0}, joy2{1};
 
-//   static constexpr int kLength = 60;
-
-//   //LEDS
-//   frc::AddressableLED m_led{9};
-//   std::array<frc::AddressableLED::LEDData, kLength>
-//       m_ledBuffer;
-//   int firstPixelHue = 0;
-
+ frc::Joystick joy1{0}, joy2{1};
+ static constexpr int kLength = 60;
 
   // Subsystems
-//   Chassis chassis;
-//   Shooter shooter;
-//   Intake intake;
+ Chassis chassis;
+ Shooter shooter;
+ Intake intake;
 //   StorageAndDeliver storageAndDeliver;
 //   Climber climber;
 //   VisionManager visionManager{&chassis};
 //   DefaultDrive drive{&chassis, &visionManager, &joy1};
-//   frc2::JoystickButton intakeButton{&joy2, 5};
-//   frc2::JoystickButton feederShootButton{&joy2, 6};
+  frc2::JoystickButton intakeButton{&joy2, 5};
+  frc2::JoystickButton feederShootButton{&joy2, 6};
 
 //   frc2::JoystickButton shootLongRangeButton{&joy2, 1};
 //   frc2::JoystickButton shootShortRangeButton{&joy2, 2};
