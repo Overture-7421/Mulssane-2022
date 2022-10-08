@@ -1,12 +1,3 @@
-/*
-    __  _____  ____   __________ ___    _   ________   ____        __          __     ______          __   
-   /  |/  / / / / /  / ___/ ___//   |  / | / / ____/  / __ \____  / /_  ____  / /_   / ____/___  ____/ /__ 
-  / /|_/ / / / / /   \__ \\__ \/ /| | /  |/ / __/    / /_/ / __ \/ __ \/ __ \/ __/  / /   / __ \/ __  / _ \
- / /  / / /_/ / /______/ /__/ / ___ |/ /|  / /___   / _, _/ /_/ / /_/ / /_/ / /_   / /___/ /_/ / /_/ /  __/
-/_/  /_/\____/_____/____/____/_/  |_/_/ |_/_____/  /_/ |_|\____/_.___/\____/\__/   \____/\____/\__,_/\___/ 
-                                                                                                           
-*/
-
 #include "Robot.h"
 
 #include <wpi/PortForwarder.h>
@@ -79,7 +70,7 @@ void Robot::RobotInit(){
   //   // shooter.SetDefaultCommand(SetShooterWithVision(&shooter, &visionManager).Perpetually());
 
   //   autoChooser.AddOption("Left 2 Ball Auto", &left2BallAuto);
-  //   autoChooser.AddOption("Single Center Ball", &centerSingleBallAuto);
+  //   autoChooser.AddOption("Single Center Ball", ¢erSingleBallAuto);
   //   autoChooser.AddOption("Left Kidnap", &leftKidnap);
   //   autoChooser.SetDefaultOption("Right 3 Ball auto", &right3BallAuto);
   //   frc::SmartDashboard::PutData("Auto Chooser", &autoChooser);
@@ -110,7 +101,9 @@ void Robot::TeleopInit() {
 
 void Robot::TeleopPeriodic() {
 
- hood.MoveToLimit();
+ //hood.MoveToLimit();
+ //omnisMotor.Periodic();
+ //setOmnis.Execute();
 }
 
 void Robot::DisabledInit() {

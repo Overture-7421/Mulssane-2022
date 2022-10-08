@@ -28,6 +28,7 @@
 #include "Commands/Autonomous/Left_2BallAuto/Left_2BallAuto.h"
 #include "Commands/Autonomous/Center_SingleBallAuto/Center_SingleBallAuto.h"
 #include "Commands/Autonomous/Left_Kidnap/Left_Kidnap.h"
+#include "Commands/Common/SetOmnis/SetOmnis.h"    //-- Command Include :)
 
 #include "Subsystems/Chassis/Chassis.h"
 #include "Subsystems/Climber/Climber.h"
@@ -36,6 +37,7 @@
 #include "Subsystems/StorageAndDeliver/StorageAndDeliver.h"
 #include "Subsystems/VisionManager/VisionManager.h"
 #include "Subsystems/Hood/Hood.h"
+#include "Subsystems/Omnis/Omnis.h"
 #include "Utils/Interpolation/LinearInterpolator/LinearInterpolator.h"
 
 class Robot : public frc::TimedRobot {
@@ -54,6 +56,8 @@ class Robot : public frc::TimedRobot {
 
  private:
  Hood hood;
+ Omnis omnisMotor;
+ 
 //   frc::Joystick joy1{0}, joy2{1};
 
 //   static constexpr int kLength = 60;
