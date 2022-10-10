@@ -14,8 +14,7 @@
  * directly; this is crucially important, or else the decorator functions in
  * Command will *not* work!
  */
-class SetIntake
-    : public frc2::CommandHelper<frc2::CommandBase, SetIntake> {
+class SetIntake : public frc2::CommandHelper<frc2::CommandBase, SetIntake> {
  public:
   SetIntake(Intake* intake, double voltage, bool pistonSet);
 

@@ -7,20 +7,17 @@
 #include <frc2/command/SubsystemBase.h>
 
 class Omnis : public frc2::SubsystemBase {
- public:
+public:
   Omnis();
-
-
+  void setVoltage(double voltage);
 
   /**
    * Will be called periodically whenever the CommandScheduler runs.
    */
   void Periodic() override;
 
- private:
- 
- 
- WPI_VictorSPX omnisMotor {4};
+private:
+  WPI_VictorSPX omnisMotor{ 4 };
 
   // Components (e.g. motor controllers and sensors) should generally be
   // declared private and exposed only through public methods.

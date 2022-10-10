@@ -4,9 +4,11 @@
 
 #include "PreloadBall.h"
 #include <iostream>
-PreloadBall::PreloadBall(StorageAndDeliver* storageAndDeliver) {
+PreloadBall::PreloadBall(StorageAndDeliver* storageAndDeliver, Omnis* omnis) {
   this->storageAndDeliver = storageAndDeliver;
+  this->omnis = omnis;
   AddRequirements(storageAndDeliver);
+  AddRequirements(omnis);
   // Use addRequirements() here to declare subsystem dependencies.
 }
 
@@ -17,17 +19,13 @@ void PreloadBall::Initialize() {
 
 // Called repeatedly when this Command is scheduled to run
 void PreloadBall::Execute() {
-    if(!storageAndDeliver->isTopSwitchPressed()){
-        storageAndDeliver->setFeederVoltage(7);
-    }else{
-        storageAndDeliver->setFeederVoltage(0);
-    }
-
-    // if(!storageAndDeliver->isBottomSwitchPressed()){
-    //     storageAndDeliver->setIndexerVoltage(10);
-    // }else{
-    //     storageAndDeliver->setIndexerVoltage(0);
-    // }
+  if (storageAndDeliver->isBottomSwitchPressed() && storageAndDeliver->isTopSwitchPressed()) {
+    storageAndDeliver->setLowerFeederVoltage(0);
+    storageAndDeliver->setUpperFeederVoltage(0);
+    omnis->setVoltage(0);
+  } else if (storageAndDeliver->isTopSwitchPressed()) {
+    storageAndDeliver->setUpperFeederVoltage(0);
+  }
 }
 
 // Called once the command ends or is interrupted.
@@ -37,5 +35,5 @@ void PreloadBall::End(bool interrupted) {
 
 // Returns true when the command should end.
 bool PreloadBall::IsFinished() {
-  return storageAndDeliver->isTopSwitchPressed();
+  return (storageAndDeliver->isTopSwitchPressed() && storageAndDeliver->isBottomSwitchPressed());
 }

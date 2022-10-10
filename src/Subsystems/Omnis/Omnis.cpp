@@ -4,9 +4,21 @@
 
 #include "Omnis.h"
 
-Omnis::Omnis() = default;
+Omnis::Omnis() {
+    omnisMotor.SetStatusFramePeriod(
+        ctre::phoenix::motorcontrol::StatusFrameEnhanced::Status_1_General, 20);
+    omnisMotor.SetStatusFramePeriod(
+        ctre::phoenix::motorcontrol::StatusFrameEnhanced::Status_2_Feedback0,
+        255);
+
+    omnisMotor.ConfigOpenloopRamp(0.1);
+}
+
+void Omnis::setVoltage(double voltage) {
+    omnisMotor.SetVoltage(units::volt_t(voltage));
+    // -8_V
+}
 
 // This method will be called once per scheduler run
 void Omnis::Periodic() {
-    omnisMotor.SetVoltage(-8_V);
 }

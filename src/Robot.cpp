@@ -22,24 +22,23 @@
 #include "Commands/Common/WaitBeReadyToShoot/WaitBeReadyToShoot.h"
 #include <iostream>
 
-void Robot::RobotInit(){
+void Robot::RobotInit() {
 
   // m_led.SetLength(kLength);
   // m_led.SetData(m_ledBuffer);
   // m_led.Start();
-  
+
 
   // chassis.SetDefaultCommand(drive);
-
   // chassis.resetOdometry({7.74_m, 2.48_m, {-91.5_deg}});
 
-  // storageAndDeliver.SetDefaultCommand(PreloadBall(&storageAndDeliver).Perpetually());
+  storageAndDeliver.SetDefaultCommand(PreloadBall(&storageAndDeliver, &omnisMotor).Perpetually());
   // climber.SetDefaultCommand(SetClimberVoltage(&climber, 0.0).Perpetually());
 
-   intakeButton.WhileHeld(SetIntake(&intake, 12, true))
-       .WhenReleased(frc2::SequentialCommandGroup(SetIntake(&intake, 12, false),
-                                                  frc2::WaitCommand(0.2_s),
-                                                  SetIntake(&intake, 0, false)));
+  intakeButton.WhileHeld(SetIntake(&intake, 12, true))
+    .WhenReleased(frc2::SequentialCommandGroup(SetIntake(&intake, 12, false),
+      frc2::WaitCommand(0.2_s),
+      SetIntake(&intake, 0, false)));
 
   // feederShootButton.WhileHeld(SetStorageAndDeliver(&storageAndDeliver, 12)).WhenReleased(SetStorageAndDeliver(&storageAndDeliver, 0));
   // spitBallsTrigger.WhileActiveContinous(
@@ -86,12 +85,12 @@ void Robot::RobotPeriodic() {
 }
 
 void Robot::AutonomousInit() {
-   //autocommand = std::make_unique<Right_4BallAuto>(&chassis, &visionManager);
-  //  autoChooser.GetSelected()->Schedule();
+  //autocommand = std::make_unique<Right_4BallAuto>(&chassis, &visionManager);
+ //  autoChooser.GetSelected()->Schedule();
 }
 
 void Robot::AutonomousPeriodic() {
-// hood.MotorMovement(-3_V);
+  // hood.MotorMovement(-3_V);
 }
 
 void Robot::TeleopInit() {
@@ -100,10 +99,6 @@ void Robot::TeleopInit() {
 }
 
 void Robot::TeleopPeriodic() {
-
- //hood.MoveToLimit();
- omnisMotor.Periodic();
- //setOmnis.Execute();
 }
 
 void Robot::DisabledInit() {

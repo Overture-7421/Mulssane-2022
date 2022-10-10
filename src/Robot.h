@@ -1,10 +1,10 @@
 /*
-    __  _____  ____   __________ ___    _   ________   ____        __          __     ______          __   
-   /  |/  / / / / /  / ___/ ___//   |  / | / / ____/  / __ \____  / /_  ____  / /_   / ____/___  ____/ /__ 
+    __  _____  ____   __________ ___    _   ________   ____        __          __     ______          __
+   /  |/  / / / / /  / ___/ ___//   |  / | / / ____/  / __ \____  / /_  ____  / /_   / ____/___  ____/ /__
   / /|_/ / / / / /   \__ \\__ \/ /| | /  |/ / __/    / /_/ / __ \/ __ \/ __ \/ __/  / /   / __ \/ __  / _ \
  / /  / / /_/ / /______/ /__/ / ___ |/ /|  / /___   / _, _/ /_/ / /_/ / /_/ / /_   / /___/ /_/ / /_/ /  __/
-/_/  /_/\____/_____/____/____/_/  |_/_/ |_/_____/  /_/ |_|\____/_.___/\____/\__/   \____/\____/\__,_/\___/ 
-                                                                                                           
+/_/  /_/\____/_____/____/____/_/  |_/_/ |_/_____/  /_/ |_|\____/_.___/\____/\__/   \____/\____/\__,_/\___/
+
 */
 
 #pragma once
@@ -41,7 +41,7 @@
 #include "Utils/Interpolation/LinearInterpolator/LinearInterpolator.h"
 
 class Robot : public frc::TimedRobot {
- public:
+public:
   void RobotInit() override;
   void RobotPeriodic() override;
   void AutonomousInit() override;
@@ -52,39 +52,39 @@ class Robot : public frc::TimedRobot {
   void DisabledPeriodic() override;
   void TestInit() override;
   void TestPeriodic() override;
-  
 
- private:
- Hood hood;
- Omnis omnisMotor;
 
- frc::Joystick joy1{0}, joy2{1};
- static constexpr int kLength = 60;
+private:
+  static constexpr int kLength = 60;
 
-  // Subsystems
- Chassis chassis;
- Shooter shooter;
- Intake intake;
-//   StorageAndDeliver storageAndDeliver;
-//   Climber climber;
-//   VisionManager visionManager{&chassis};
-//   DefaultDrive drive{&chassis, &visionManager, &joy1};
-  frc2::JoystickButton intakeButton{&joy2, 5};
-  frc2::JoystickButton feederShootButton{&joy2, 6};
+  /* Subsystems */
+  Chassis chassis;
+  Shooter shooter;
+  Intake intake;
+  StorageAndDeliver storageAndDeliver;
+  Hood hood;
+  Omnis omnisMotor;
+  //   Climber climber;
+  //   VisionManager visionManager{&chassis};
+  //   DefaultDrive drive{&chassis, &visionManager, &joy1};
 
-//   frc2::JoystickButton shootLongRangeButton{&joy2, 1};
-//   frc2::JoystickButton shootShortRangeButton{&joy2, 2};
-//   frc2::Trigger shootLowGoalButton {[joy2 = &joy2] { return joy2->GetRawAxis(3) > 0.5 && !joy2->GetRawButton(3); }};
-//   frc2::Trigger spitBallsTrigger {[joy2 = &joy2] { return joy2->GetRawAxis(2) > 0.5 && !joy2->GetRawButton(3); }};
+  /* Buttons */
+  frc::Joystick joy1{ 0 }, joy2{ 1 };
+  frc2::JoystickButton intakeButton{ &joy2, 5 };
+  frc2::JoystickButton feederShootButton{ &joy2, 6 };
+  //   frc2::JoystickButton shootLongRangeButton{&joy2, 1};
+  //   frc2::JoystickButton shootShortRangeButton{&joy2, 2};
+  //   frc2::Trigger shootLowGoalButton {[joy2 = &joy2] { return joy2->GetRawAxis(3) > 0.5 && !joy2->GetRawButton(3); }};
+  //   frc2::Trigger spitBallsTrigger {[joy2 = &joy2] { return joy2->GetRawAxis(2) > 0.5 && !joy2->GetRawButton(3); }};
+  //   frc2::JoystickButton climberButtonUp{&joy2, 4};
+  //   frc2::JoystickButton climberButtonMotorEnable{&joy2, 3};
 
-//   frc2::JoystickButton climberButtonUp{&joy2, 4};
-//   frc2::JoystickButton climberButtonMotorEnable{&joy2, 3};
+  /* Autonomos */
+  //    Left_2BallAuto left2BallAuto {&chassis, &visionManager, &intake, &storageAndDeliver, &shooter};
+  //    Right_3BallAuto right3BallAuto {&chassis, &visionManager, &intake, &storageAndDeliver, &shooter};
+  //    Center_SingleBallAuto centerSingleBallAuto {&chassis, &visionManager, &intake, &storageAndDeliver, &shooter};
+  //    Left_Kidnap leftKidnap {&chassis, &visionManager, &intake, &storageAndDeliver, &shooter};
 
-//    Left_2BallAuto left2BallAuto {&chassis, &visionManager, &intake, &storageAndDeliver, &shooter};
-//    Right_3BallAuto right3BallAuto {&chassis, &visionManager, &intake, &storageAndDeliver, &shooter};
-//    Center_SingleBallAuto centerSingleBallAuto {&chassis, &visionManager, &intake, &storageAndDeliver, &shooter};
-//    Left_Kidnap leftKidnap {&chassis, &visionManager, &intake, &storageAndDeliver, &shooter};
-
-//    frc::SendableChooser<frc2::Command*> autoChooser;
+  //    frc::SendableChooser<frc2::Command*> autoChooser;
 
 };
