@@ -28,7 +28,6 @@
 #include "Commands/Autonomous/Left_2BallAuto/Left_2BallAuto.h"
 #include "Commands/Autonomous/Center_SingleBallAuto/Center_SingleBallAuto.h"
 #include "Commands/Autonomous/Left_Kidnap/Left_Kidnap.h"
-#include "Commands/Common/SetOmnis/SetOmnis.h"    //-- Command Include :)
 
 #include "Subsystems/Chassis/Chassis.h"
 #include "Subsystems/Climber/Climber.h"
@@ -37,7 +36,6 @@
 #include "Subsystems/StorageAndDeliver/StorageAndDeliver.h"
 #include "Subsystems/VisionManager/VisionManager.h"
 #include "Subsystems/Hood/Hood.h"
-#include "Subsystems/Omnis/Omnis.h"
 #include "Utils/Interpolation/LinearInterpolator/LinearInterpolator.h"
 
 class Robot : public frc::TimedRobot {
@@ -63,7 +61,6 @@ private:
   Intake intake;
   StorageAndDeliver storageAndDeliver;
   Hood hood;
-  Omnis omnisMotor;
   //   Climber climber;
   //   VisionManager visionManager{&chassis};
   //   DefaultDrive drive{&chassis, &visionManager, &joy1};

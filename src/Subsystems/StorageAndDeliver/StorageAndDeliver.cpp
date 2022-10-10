@@ -6,29 +6,38 @@
 
 #include <frc/smartdashboard/SmartDashboard.h>
 StorageAndDeliver::StorageAndDeliver() {
+  /* Upper Feeder Motor Configuration  */
   upperFeederMotor.SetStatusFramePeriod(
     ctre::phoenix::motorcontrol::StatusFrameEnhanced::Status_1_General, 20);
   upperFeederMotor.SetStatusFramePeriod(
     ctre::phoenix::motorcontrol::StatusFrameEnhanced::Status_2_Feedback0,
     255);
-
-  lowerFeederMotor.SetStatusFramePeriod(
-    ctre::phoenix::motorcontrol::StatusFrameEnhanced::Status_1_General, 20);
-  lowerFeederMotor.SetStatusFramePeriod(
-    ctre::phoenix::motorcontrol::StatusFrameEnhanced::Status_2_Feedback0,
-    255);
-
   upperFeederMotor.ConfigOpenloopRamp(0.1);
-  lowerFeederMotor.ConfigOpenloopRamp(0.1);
-
-  lowerFeederMotor.SetInverted(true);
-
   upperFeederMotor.ConfigSupplyCurrentLimit(
     SupplyCurrentLimitConfiguration(true, 15, 0, 1));
-
   upperFeederMotor.SetNeutralMode(NeutralMode::Brake);
+
+  /* Lower Feeder Motor Configuration */
+  lowerFeederMotor.SetStatusFramePeriod(
+    ctre::phoenix::motorcontrol::StatusFrameEnhanced::Status_1_General, 20);
+  lowerFeederMotor.SetStatusFramePeriod(
+    ctre::phoenix::motorcontrol::StatusFrameEnhanced::Status_2_Feedback0,
+    255);
+  lowerFeederMotor.ConfigOpenloopRamp(0.1);
+  lowerFeederMotor.SetInverted(true);
   lowerFeederMotor.SetNeutralMode(NeutralMode::Brake);
 
+  /* Omnis Motor Configuration */
+  omnisMotor.SetStatusFramePeriod(
+    ctre::phoenix::motorcontrol::StatusFrameEnhanced::Status_1_General, 20);
+  omnisMotor.SetStatusFramePeriod(
+    ctre::phoenix::motorcontrol::StatusFrameEnhanced::Status_2_Feedback0,
+    255);
+
+  omnisMotor.ConfigOpenloopRamp(0.1);
+  omnisMotor.SetNeutralMode(NeutralMode::Brake);
+
+  /* Counter Configuration */
   digitalGlitchFilter.SetPeriodNanoSeconds(1850000);
   ballCounter.SetUpSourceEdge(true, false);
 
@@ -43,6 +52,10 @@ void StorageAndDeliver::setUpperFeederVoltage(double voltage) {
 
 void StorageAndDeliver::setLowerFeederVoltage(double voltage) {
   lowerFeederMotor.SetVoltage(units::volt_t(voltage));
+}
+
+void StorageAndDeliver::setOmnisMotorVoltage(double voltage) {
+  omnisMotor.SetVoltage(units::volt_t(voltage));
 }
 
 int StorageAndDeliver::getBallsShot() { return ballCounter.Get(); }

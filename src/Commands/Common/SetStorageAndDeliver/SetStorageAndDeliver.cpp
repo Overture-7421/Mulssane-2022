@@ -19,6 +19,7 @@ void SetStorageAndDeliver::Initialize() {}
 void SetStorageAndDeliver::Execute() {
   storageAndDeliver->setUpperFeederVoltage(voltage);
   storageAndDeliver->setLowerFeederVoltage(voltage);
+  storageAndDeliver->setOmnisMotorVoltage(voltage);
 }
 
 // Called once the command ends or is interrupted.

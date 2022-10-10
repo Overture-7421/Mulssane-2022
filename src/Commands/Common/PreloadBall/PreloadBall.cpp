@@ -4,11 +4,9 @@
 
 #include "PreloadBall.h"
 #include <iostream>
-PreloadBall::PreloadBall(StorageAndDeliver* storageAndDeliver, Omnis* omnis) {
+PreloadBall::PreloadBall(StorageAndDeliver* storageAndDeliver) {
   this->storageAndDeliver = storageAndDeliver;
-  this->omnis = omnis;
   AddRequirements(storageAndDeliver);
-  AddRequirements(omnis);
   // Use addRequirements() here to declare subsystem dependencies.
 }
 
@@ -22,7 +20,7 @@ void PreloadBall::Execute() {
   if (storageAndDeliver->isBottomSwitchPressed() && storageAndDeliver->isTopSwitchPressed()) {
     storageAndDeliver->setLowerFeederVoltage(0);
     storageAndDeliver->setUpperFeederVoltage(0);
-    omnis->setVoltage(0);
+    storageAndDeliver->setOmnisMotorVoltage(0);
   } else if (storageAndDeliver->isTopSwitchPressed()) {
     storageAndDeliver->setUpperFeederVoltage(0);
   }

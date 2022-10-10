@@ -15,6 +15,7 @@ public:
   StorageAndDeliver();
   void setUpperFeederVoltage(double voltage);
   void setLowerFeederVoltage(double voltage);
+  void setOmnisMotorVoltage(double voltage);
   int getBallsShot();
   bool isTopSwitchPressed();
   bool isBottomSwitchPressed();
@@ -24,6 +25,7 @@ public:
   void Periodic() override;
 
 private:
+  WPI_VictorSPX omnisMotor{ 4 };
   WPI_VictorSPX lowerFeederMotor{ 7 };
   WPI_TalonSRX upperFeederMotor{ 5 };
 
