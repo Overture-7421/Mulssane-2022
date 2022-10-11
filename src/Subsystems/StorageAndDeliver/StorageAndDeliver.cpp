@@ -13,8 +13,6 @@ StorageAndDeliver::StorageAndDeliver() {
     ctre::phoenix::motorcontrol::StatusFrameEnhanced::Status_2_Feedback0,
     255);
   upperFeederMotor.ConfigOpenloopRamp(0.1);
-  upperFeederMotor.ConfigSupplyCurrentLimit(
-    SupplyCurrentLimitConfiguration(true, 15, 0, 1));
   upperFeederMotor.SetNeutralMode(NeutralMode::Brake);
 
   /* Lower Feeder Motor Configuration */
@@ -23,9 +21,11 @@ StorageAndDeliver::StorageAndDeliver() {
   lowerFeederMotor.SetStatusFramePeriod(
     ctre::phoenix::motorcontrol::StatusFrameEnhanced::Status_2_Feedback0,
     255);
+  lowerFeederMotor.ConfigSupplyCurrentLimit(
+    SupplyCurrentLimitConfiguration(true, 15, 0, 1));
   lowerFeederMotor.ConfigOpenloopRamp(0.1);
-  lowerFeederMotor.SetInverted(true);
   lowerFeederMotor.SetNeutralMode(NeutralMode::Brake);
+  lowerFeederMotor.SetInverted(true);
 
   /* Omnis Motor Configuration */
   omnisMotor.SetStatusFramePeriod(
@@ -33,7 +33,7 @@ StorageAndDeliver::StorageAndDeliver() {
   omnisMotor.SetStatusFramePeriod(
     ctre::phoenix::motorcontrol::StatusFrameEnhanced::Status_2_Feedback0,
     255);
-
+  omnisMotor.SetInverted(true);
   omnisMotor.ConfigOpenloopRamp(0.1);
   omnisMotor.SetNeutralMode(NeutralMode::Brake);
 

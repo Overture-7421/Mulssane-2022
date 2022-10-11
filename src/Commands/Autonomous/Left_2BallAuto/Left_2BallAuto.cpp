@@ -24,7 +24,7 @@
 Left_2BallAuto::Left_2BallAuto(Chassis* chassis, VisionManager* visionManager,
                                Intake* intake,
                                StorageAndDeliver* storageAndDeliver,
-                               Shooter* shooter) {
+                               Shooter* shooter, Hood* hood) {
   // Add your commands here, e.g.
   AddCommands(frc2::InstantCommand(
                   [chassis = chassis, visionManager = visionManager] {

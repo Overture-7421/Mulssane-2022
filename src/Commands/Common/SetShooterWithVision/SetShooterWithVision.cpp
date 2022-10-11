@@ -4,10 +4,11 @@
 
 #include "SetShooterWithVision.h"
 
-SetShooterWithVision::SetShooterWithVision(Shooter* shooter, VisionManager* visionManager) {
+SetShooterWithVision::SetShooterWithVision(Shooter* shooter, Hood* hood, VisionManager* visionManager) {
   this->shooter = shooter;
+  this->hood = hood;
   this->visionManager = visionManager;
-  AddRequirements(shooter);
+  AddRequirements({shooter, hood});
 }
 
 // Called when the command is initially scheduled.
@@ -17,8 +18,11 @@ void SetShooterWithVision::Initialize() {
 // Called repeatedly when this Command is scheduled to run
 void SetShooterWithVision::Execute() {
   const auto distance = visionManager->getDistanceToTarget().value();
-  double shooterSetpoint = distanceVsVelocityInterpolator.getY(distance) + 9;
+  double shooterSetpoint = distanceVsVelocityInterpolator.getY(distance);
   shooter->setVelocity(shooterSetpoint);
+
+  double hoodSetpoint = distanceVsAngleInterpolator.getY(distance);
+  hood->SetHoodAngle(hoodSetpoint);
 }
 
 // Called once the command ends or is interrupted.

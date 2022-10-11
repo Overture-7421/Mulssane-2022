@@ -22,7 +22,7 @@
 Right_3BallAuto::Right_3BallAuto(Chassis* chassis, VisionManager* visionManager,
                                  Intake* intake,
                                  StorageAndDeliver* storageAndDeliver,
-                                 Shooter* shooter) {
+                                 Shooter* shooter, Hood* hood) {
   // Add your commands here, e.g.
   AddCommands(frc2::ParallelDeadlineGroup(
       frc2::SequentialCommandGroup(
@@ -73,7 +73,7 @@ Right_3BallAuto::Right_3BallAuto(Chassis* chassis, VisionManager* visionManager,
               .WithTimeout(4_s)
 
               ),
-      SetShooterWithVision(shooter, visionManager).Perpetually())
+      SetShooterWithVision(shooter, hood, visionManager).Perpetually())
 
   );
 }

@@ -62,17 +62,17 @@ private:
   StorageAndDeliver storageAndDeliver;
   Hood hood;
   //   Climber climber;
-  //   VisionManager visionManager{&chassis};
-  //   DefaultDrive drive{&chassis, &visionManager, &joy1};
+  VisionManager visionManager{&chassis};
+  DefaultDrive drive{&chassis, &visionManager, &joy1};
 
   /* Buttons */
   frc::Joystick joy1{ 0 }, joy2{ 1 };
   frc2::JoystickButton intakeButton{ &joy2, 5 };
   frc2::JoystickButton feederShootButton{ &joy2, 6 };
-  //   frc2::JoystickButton shootLongRangeButton{&joy2, 1};
+  frc2::JoystickButton shootWithVisionButton{&joy2, 1};
   //   frc2::JoystickButton shootShortRangeButton{&joy2, 2};
   //   frc2::Trigger shootLowGoalButton {[joy2 = &joy2] { return joy2->GetRawAxis(3) > 0.5 && !joy2->GetRawButton(3); }};
-  //   frc2::Trigger spitBallsTrigger {[joy2 = &joy2] { return joy2->GetRawAxis(2) > 0.5 && !joy2->GetRawButton(3); }};
+  frc2::Trigger spitBallsTrigger {[joy2 = &joy2] { return joy2->GetRawAxis(2) > 0.5 && !joy2->GetRawButton(3); }};
   //   frc2::JoystickButton climberButtonUp{&joy2, 4};
   //   frc2::JoystickButton climberButtonMotorEnable{&joy2, 3};
 

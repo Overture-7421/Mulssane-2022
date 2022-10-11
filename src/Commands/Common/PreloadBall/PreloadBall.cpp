@@ -17,12 +17,18 @@ void PreloadBall::Initialize() {
 
 // Called repeatedly when this Command is scheduled to run
 void PreloadBall::Execute() {
-  if (storageAndDeliver->isBottomSwitchPressed() && storageAndDeliver->isTopSwitchPressed()) {
+  if(!storageAndDeliver->isTopSwitchPressed()){
+    storageAndDeliver->setUpperFeederVoltage(4);
+  }else{
+    storageAndDeliver->setUpperFeederVoltage(0);
+  }
+
+  if(storageAndDeliver->isBottomSwitchPressed() && storageAndDeliver->isTopSwitchPressed()){
     storageAndDeliver->setLowerFeederVoltage(0);
-    storageAndDeliver->setUpperFeederVoltage(0);
     storageAndDeliver->setOmnisMotorVoltage(0);
-  } else if (storageAndDeliver->isTopSwitchPressed()) {
-    storageAndDeliver->setUpperFeederVoltage(0);
+  }else{
+    storageAndDeliver->setLowerFeederVoltage(4);
+    storageAndDeliver->setOmnisMotorVoltage(6);
   }
 }
 

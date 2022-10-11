@@ -26,11 +26,11 @@ public:
 
 private:
   WPI_VictorSPX omnisMotor{ 4 };
-  WPI_VictorSPX lowerFeederMotor{ 7 };
-  WPI_TalonSRX upperFeederMotor{ 5 };
+  WPI_TalonSRX lowerFeederMotor{ 5 };
+  WPI_VictorSPX upperFeederMotor{ 7 };
 
-  frc::DigitalInput topLimit{ 0 };
-  frc::DigitalInput bottomLimit{ 1 };
+  frc::DigitalInput topLimit{ 1 };
+  frc::DigitalInput bottomLimit{ 0 };
   frc::Counter ballCounter{ &topLimit };
   frc::DigitalGlitchFilter digitalGlitchFilter;
 

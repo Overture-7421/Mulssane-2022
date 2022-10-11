@@ -29,23 +29,24 @@ void Robot::RobotInit() {
   // m_led.Start();
 
 
-  // chassis.SetDefaultCommand(drive);
+  chassis.SetDefaultCommand(drive);
   // chassis.resetOdometry({7.74_m, 2.48_m, {-91.5_deg}});
 
   storageAndDeliver.SetDefaultCommand(PreloadBall(&storageAndDeliver).Perpetually());
   // climber.SetDefaultCommand(SetClimberVoltage(&climber, 0.0).Perpetually());
 
   intakeButton.WhileHeld(SetIntake(&intake, 12, true))
-    .WhenReleased(frc2::SequentialCommandGroup(SetIntake(&intake, 12, false),
-      frc2::WaitCommand(0.2_s),
-      SetIntake(&intake, 0, false)));
+     .WhenReleased(frc2::SequentialCommandGroup(SetIntake(&intake, 12, false),
+       frc2::WaitCommand(0.2_s),
+       SetIntake(&intake, 0, false)));
 
-  // feederShootButton.WhileHeld(SetStorageAndDeliver(&storageAndDeliver, 12)).WhenReleased(SetStorageAndDeliver(&storageAndDeliver, 0));
-  // spitBallsTrigger.WhileActiveContinous(
-  //   SetStorageAndDeliver(&storageAndDeliver, -12)
-  // ).WhenInactive(SetStorageAndDeliver(&storageAndDeliver, 0));
-  //  shootLongRangeButton.WhileHeld(SetShooterWithVision(&shooter, &visionManager))
-  //      .WhenReleased(SetShooter(&shooter, 0.0));
+  feederShootButton.WhileHeld(SetStorageAndDeliver(&storageAndDeliver, 6)).WhenReleased(SetStorageAndDeliver(&storageAndDeliver, 0));
+   spitBallsTrigger.WhileActiveContinous(
+     SetStorageAndDeliver(&storageAndDeliver, -12)
+   ).WhenInactive(SetStorageAndDeliver(&storageAndDeliver, 0));
+   
+    shootWithVisionButton.WhileHeld(SetShooterWithVision(&shooter, &hood, &visionManager))
+        .WhenReleased(SetShooter(&shooter, 0.0));
 
   //  shootShortRangeButton.WhileHeld(SetShooter(&shooter, 240.0))
   //      .WhenReleased(SetShooter(&shooter, 0.0));
@@ -94,11 +95,15 @@ void Robot::AutonomousPeriodic() {
 }
 
 void Robot::TeleopInit() {
-  // visionManager.setLeds(true);
+  visionManager.setLeds(true);
   // frc2::CommandScheduler::GetInstance().CancelAll();
+  // frc::SmartDashboard::PutNumber("ShooterVel", 0.0);
+  // frc::SmartDashboard::PutNumber("HoodAngle", 0.0);
 }
 
 void Robot::TeleopPeriodic() {
+  // shooter.setVelocity(frc::SmartDashboard::GetNumber("ShooterVel", 0.0));
+  // hood.SetHoodAngle(frc::SmartDashboard::GetNumber("HoodAngle", 0.0));
 }
 
 void Robot::DisabledInit() {

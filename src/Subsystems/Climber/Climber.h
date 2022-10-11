@@ -30,7 +30,7 @@ private:
   WPI_VictorSPX rightClimber{ 7 }; // Right Climber
   units::volt_t desiredVoltage;
 
-  frc::DigitalInput climberWinchLimit{ 0 };
+  frc::DigitalInput climberWinchLimit{ 3 };
 
   // Components (e.g. motor controllers and sensors) should generally be
   // declared private and exposed only through public methods.

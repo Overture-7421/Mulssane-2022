@@ -57,16 +57,16 @@ class VisionManager : public frc2::SubsystemBase {
   //const frc::Pose2d fieldToTarget {0_m, 0_m, {0_deg}};
 
   const frc::Transform2d shooterToRobot {{0_m, 0_m}, 180_deg};
-  frc::DigitalOutput ledRelay {2};
+  frc::DigitalOutput ledRelay {4};
   Chassis* chassis;
 
 };
 
 namespace CameraConstants {
-  const frc::Rotation2d pitch {35_deg};
-  const units::meter_t height = 30.11_in;
+  const frc::Rotation2d pitch {32.5_deg};
+  const units::meter_t height = 32.5_in;
   const double vpw = 2.0 * units::math::tan(58.5_deg / 2.0);
   const double vph = 2.0 *  units::math::tan(45.6_deg / 2.0);
   const std::pair<double, double> resolution {640, 480};
-  const frc::Transform2d cameraToRobot {{-12.5_in, 16.1_in}, 180_deg};
+  const frc::Transform2d cameraToRobot {{-6_in, 0_in}, 180_deg};
 }
