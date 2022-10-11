@@ -26,8 +26,8 @@ public:
 private:
   frc::Solenoid
     climberPiston{ frc::PneumaticsModuleType::CTREPCM, 2 };
-  WPI_TalonSRX leftClimber{ 8 }; // Left Climber INVERTED
-  WPI_VictorSPX rightClimber{ 7 }; // Right Climber
+  WPI_TalonSRX leftClimber{ 6 }; // Left Climber INVERTED
+  WPI_VictorSPX rightClimber{ 10 }; // Right Climber
   units::volt_t desiredVoltage;
 
   frc::DigitalInput climberWinchLimit{ 3 };

@@ -36,46 +36,46 @@ void Robot::RobotInit() {
   // climber.SetDefaultCommand(SetClimberVoltage(&climber, 0.0).Perpetually());
 
   intakeButton.WhileHeld(SetIntake(&intake, 12, true))
-     .WhenReleased(frc2::SequentialCommandGroup(SetIntake(&intake, 12, false),
-       frc2::WaitCommand(0.2_s),
-       SetIntake(&intake, 0, false)));
+    .WhenReleased(frc2::SequentialCommandGroup(SetIntake(&intake, 12, false),
+      frc2::WaitCommand(0.2_s),
+      SetIntake(&intake, 0, false)));
 
   feederShootButton.WhileHeld(SetStorageAndDeliver(&storageAndDeliver, 6)).WhenReleased(SetStorageAndDeliver(&storageAndDeliver, 0));
-   spitBallsTrigger.WhileActiveContinous(
-     SetStorageAndDeliver(&storageAndDeliver, -12)
-   ).WhenInactive(SetStorageAndDeliver(&storageAndDeliver, 0));
-   
-    shootWithVisionButton.WhileHeld(SetShooterWithVision(&shooter, &hood, &visionManager))
-        .WhenReleased(SetShooter(&shooter, 0.0));
+  spitBallsTrigger.WhileActiveContinous(
+    SetStorageAndDeliver(&storageAndDeliver, -12)
+  ).WhenInactive(SetStorageAndDeliver(&storageAndDeliver, 0));
+
+  shootWithVisionButton.WhileHeld(SetShooterWithVision(&shooter, &hood, &visionManager))
+    .WhenReleased(SetShooter(&shooter, 0.0));
 
   //  shootShortRangeButton.WhileHeld(SetShooter(&shooter, 240.0))
   //      .WhenReleased(SetShooter(&shooter, 0.0));
 
   //   shootLowGoalButton.WhileActiveContinous(SetShooter(&shooter, 120.0)).WhenInactive(SetShooter(&shooter, 0.0));  
 
-  // climberButtonUp.WhenPressed(SetClimberPistonsUp(&intake, &climber))
-  //     .WhenReleased(SetClimberPistonsDown(&climber, &intake));
+  climberButtonUp.WhenPressed(SetClimberPistonsUp(&intake, &climber))
+    .WhenReleased(SetClimberPistonsDown(&climber, &intake));
 
-  // climberButtonMotorEnable
-  //     .WhileHeld(
-  //         [climber = &climber, intake = &intake, joy2 = &joy2] {
-  //           double voltage =
-  //               (joy2->GetRawAxis(2) * 12.0) - (joy2->GetRawAxis(3) * 12.0);
-  //           climber->setVoltage(voltage);
-  //           intake->setPistons(true);
-  //         },
-  //         {&climber, &intake})
-  //     .WhenReleased(frc2::ParallelCommandGroup(SetClimberVoltage(&climber, 0)));
+  climberButtonMotorEnable
+    .WhileHeld(
+      [climber = &climber, intake = &intake, joy2 = &joy2] {
+        double voltage =
+          (joy2->GetRawAxis(2) * 12.0) - (joy2->GetRawAxis(3) * 12.0);
+        climber->setVoltage(voltage);
+        intake->setPistons(true);
+      },
+      { &climber, &intake })
+    .WhenReleased(frc2::ParallelCommandGroup(SetClimberVoltage(&climber, 0)));
 
-  //   // shooter.SetDefaultCommand(SetShooterWithVision(&shooter, &visionManager).Perpetually());
+      // shooter.SetDefaultCommand(SetShooterWithVision(&shooter, &visionManager).Perpetually());
 
-  //   autoChooser.AddOption("Left 2 Ball Auto", &left2BallAuto);
-  //   autoChooser.AddOption("Single Center Ball", ¢erSingleBallAuto);
-  //   autoChooser.AddOption("Left Kidnap", &leftKidnap);
-  //   autoChooser.SetDefaultOption("Right 3 Ball auto", &right3BallAuto);
-  //   frc::SmartDashboard::PutData("Auto Chooser", &autoChooser);
-  //   frc::SmartDashboard::PutNumber("ShooterVel", 0.0);
-  //   frc::SmartDashboard::PutBoolean("HoodState", false);
+    //   autoChooser.AddOption("Left 2 Ball Auto", &left2BallAuto);
+    //   autoChooser.AddOption("Single Center Ball", ¢erSingleBallAuto);
+    //   autoChooser.AddOption("Left Kidnap", &leftKidnap);
+    //   autoChooser.SetDefaultOption("Right 3 Ball auto", &right3BallAuto);
+    //   frc::SmartDashboard::PutData("Auto Chooser", &autoChooser);
+    //   frc::SmartDashboard::PutNumber("ShooterVel", 0.0);
+    //   frc::SmartDashboard::PutBoolean("HoodState", false);
 
 
 
