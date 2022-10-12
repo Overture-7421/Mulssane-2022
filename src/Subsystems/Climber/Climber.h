@@ -5,7 +5,7 @@
 #pragma once
 
 #include <frc2/command/SubsystemBase.h>
-#include <frc/Solenoid.h>
+#include <frc/DoubleSolenoid.h>
 #include <ctre/Phoenix.h>
 #include <frc/DigitalInput.h>
 #include <frc/Counter.h>
@@ -24,9 +24,9 @@ public:
   bool isLimitSwitchPressed();
 
 private:
-  frc::Solenoid
-    climberPiston{ frc::PneumaticsModuleType::CTREPCM, 2 };
-  WPI_TalonSRX leftClimber{ 6 }; // Left Climber INVERTED
+  frc::DoubleSolenoid
+    climberPiston{ frc::PneumaticsModuleType::CTREPCM, 3, 2};
+  WPI_VictorSPX leftClimber{ 6 }; // Left Climber INVERTED
   WPI_VictorSPX rightClimber{ 10 }; // Right Climber
   units::volt_t desiredVoltage;
 

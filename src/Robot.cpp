@@ -17,6 +17,7 @@
 #include "Commands/Common/SetClimberVoltage/SetClimberVoltage.h"
 #include "Commands/Common/SetIntake/SetIntake.h"
 #include "Commands/Common/SetShooter/SetShooter.h"
+#include "Commands/Common/SetHood/SetHood.h"
 #include "Commands/Common/SetStorageAndDeliver/SetStorageAndDeliver.h"
 #include "Commands/Common/SetShooterWithVision/SetShooterWithVision.h"
 #include "Commands/Common/WaitBeReadyToShoot/WaitBeReadyToShoot.h"
@@ -42,16 +43,16 @@ void Robot::RobotInit() {
 
   feederShootButton.WhileHeld(SetStorageAndDeliver(&storageAndDeliver, 6)).WhenReleased(SetStorageAndDeliver(&storageAndDeliver, 0));
   spitBallsTrigger.WhileActiveContinous(
-    SetStorageAndDeliver(&storageAndDeliver, -12)
-  ).WhenInactive(SetStorageAndDeliver(&storageAndDeliver, 0));
+    frc2::ParallelCommandGroup(SetStorageAndDeliver(&storageAndDeliver, -12), SetIntake(&intake, -12, true))
+  ).WhenInactive(frc2::ParallelCommandGroup(SetStorageAndDeliver(&storageAndDeliver, 0), SetIntake(&intake, 0, false)));
 
   shootWithVisionButton.WhileHeld(SetShooterWithVision(&shooter, &hood, &visionManager))
     .WhenReleased(SetShooter(&shooter, 0.0));
 
-  //  shootShortRangeButton.WhileHeld(SetShooter(&shooter, 240.0))
-  //      .WhenReleased(SetShooter(&shooter, 0.0));
+  shootShortRangeButton.WhileHeld(frc2::ParallelCommandGroup(SetShooter(&shooter, 180.0), SetHood(&hood, 0.15)))
+        .WhenReleased(SetShooter(&shooter, 0.0));
 
-  //   shootLowGoalButton.WhileActiveContinous(SetShooter(&shooter, 120.0)).WhenInactive(SetShooter(&shooter, 0.0));  
+  shootLowGoalButton.WhileActiveContinous(frc2::ParallelCommandGroup(SetShooter(&shooter, 110.0), SetHood(&hood, 1.0))).WhenInactive(SetShooter(&shooter, 0.0));  
 
   climberButtonUp.WhenPressed(SetClimberPistonsUp(&intake, &climber))
     .WhenReleased(SetClimberPistonsDown(&climber, &intake));
@@ -69,11 +70,11 @@ void Robot::RobotInit() {
 
       // shooter.SetDefaultCommand(SetShooterWithVision(&shooter, &visionManager).Perpetually());
 
-    //   autoChooser.AddOption("Left 2 Ball Auto", &left2BallAuto);
+    autoChooser.AddOption("Left 2 Ball Auto", &left2BallAuto);
     //   autoChooser.AddOption("Single Center Ball", ¢erSingleBallAuto);
     //   autoChooser.AddOption("Left Kidnap", &leftKidnap);
-    //   autoChooser.SetDefaultOption("Right 3 Ball auto", &right3BallAuto);
-    //   frc::SmartDashboard::PutData("Auto Chooser", &autoChooser);
+    autoChooser.SetDefaultOption("Right 3 Ball auto", &right3BallAuto);
+    frc::SmartDashboard::PutData("Auto Chooser", &autoChooser);
     //   frc::SmartDashboard::PutNumber("ShooterVel", 0.0);
     //   frc::SmartDashboard::PutBoolean("HoodState", false);
 
@@ -87,7 +88,7 @@ void Robot::RobotPeriodic() {
 
 void Robot::AutonomousInit() {
   //autocommand = std::make_unique<Right_4BallAuto>(&chassis, &visionManager);
- //  autoChooser.GetSelected()->Schedule();
+  autoChooser.GetSelected()->Schedule();
 }
 
 void Robot::AutonomousPeriodic() {
@@ -95,8 +96,7 @@ void Robot::AutonomousPeriodic() {
 }
 
 void Robot::TeleopInit() {
-  visionManager.setLeds(true);
-  // frc2::CommandScheduler::GetInstance().CancelAll();
+  frc2::CommandScheduler::GetInstance().CancelAll();
   // frc::SmartDashboard::PutNumber("ShooterVel", 0.0);
   // frc::SmartDashboard::PutNumber("HoodAngle", 0.0);
 }

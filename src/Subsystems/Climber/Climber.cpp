@@ -27,7 +27,13 @@ Climber::Climber() {
   setPistons(false);
 }
 
-void Climber::setPistons(bool set) { climberPiston.Set(set); }
+void Climber::setPistons(bool set) { 
+  if (set) {
+    climberPiston.Set(frc::DoubleSolenoid::kForward);
+  } else {
+    climberPiston.Set(frc::DoubleSolenoid::kReverse);
+  }
+ }
 
 void Climber::setVoltage(double voltage) {
   desiredVoltage = units::volt_t(voltage);
@@ -44,4 +50,5 @@ void Climber::Periodic() {
     leftClimber.SetVoltage(desiredVoltage);
     rightClimber.SetVoltage(desiredVoltage);
   }
+  frc::SmartDashboard::PutNumber("Climber/LimitSwitch", isLimitSwitchPressed());
 }

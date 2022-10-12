@@ -18,7 +18,7 @@ void PreloadBall::Initialize() {
 // Called repeatedly when this Command is scheduled to run
 void PreloadBall::Execute() {
   if(!storageAndDeliver->isTopSwitchPressed()){
-    storageAndDeliver->setUpperFeederVoltage(4);
+    storageAndDeliver->setUpperFeederVoltage(3.5);
   }else{
     storageAndDeliver->setUpperFeederVoltage(0);
   }
