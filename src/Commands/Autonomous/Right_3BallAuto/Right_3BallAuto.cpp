@@ -16,6 +16,8 @@
 #include "Commands/Common/SetIntake/SetIntake.h"
 #include "Commands/Common/SetShooter/SetShooter.h"
 #include "Commands/Common/SetShooterWithVision/SetShooterWithVision.h"
+#include "Commands/Common/SetStorageAndDeliver/SetStorageAndDeliver.h"
+
 // NOTE:  Consider using this command inline, rather than writing a subclass.
 // For more information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
@@ -61,10 +63,11 @@ Right_3BallAuto::Right_3BallAuto(Chassis* chassis, VisionManager* visionManager,
                       {2.0_mps, 2.0_mps_sq}),
                   frc2::WaitCommand(0.1_s), SetIntake(intake, 12, false)),
               PreloadBall(storageAndDeliver).Perpetually()),
+          SetStorageAndDeliver(storageAndDeliver, 0.0),
           TurnToAngle(chassis, 180),
-          frc2::InstantCommand([visionManager = visionManager] {
+          frc2::InstantCommand([visionManager = visionManager, storageAndDeliver = storageAndDeliver] {
             visionManager->setLeds(true);
-          }),
+                      }),
           frc2::WaitCommand(0.5_s),
           frc2::ParallelCommandGroup(AlignToTower(chassis, visionManager),
                                      SetIntake(intake, 0, false)),
