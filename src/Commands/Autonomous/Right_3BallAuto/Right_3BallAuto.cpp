@@ -50,7 +50,10 @@ Right_3BallAuto::Right_3BallAuto(Chassis* chassis, VisionManager* visionManager,
           frc2::ParallelCommandGroup(AlignToTower(chassis, visionManager),
                                      SetIntake(intake, 0, false)),
           frc2::WaitCommand(0.5_s),
-          AutoShoot(chassis, storageAndDeliver, visionManager, 2)
+          AutoShoot(chassis, storageAndDeliver, visionManager, 1)
+              .WithTimeout(4_s),
+          frc2::WaitCommand(0.5_s),
+          AutoShoot(chassis, storageAndDeliver, visionManager, 1)
               .WithTimeout(4_s),
           frc2::InstantCommand([visionManager = visionManager] {
             visionManager->setLeds(false);
@@ -59,7 +62,7 @@ Right_3BallAuto::Right_3BallAuto(Chassis* chassis, VisionManager* visionManager,
           frc2::ParallelDeadlineGroup(
               frc2::SequentialCommandGroup(
                   chassis->getRamseteCommand(
-                      {{7.6_m, 1.6_m, 160_deg}, {5.0_m, 3.0_m, 180_deg}},
+                      {{7.6_m, 1.6_m, 160_deg}, {5.0_m, 3.0_m, 90_deg}},
                       {2.0_mps, 2.0_mps_sq}),
                   frc2::WaitCommand(0.1_s), SetIntake(intake, 12, false)),
               PreloadBall(storageAndDeliver).Perpetually()),
@@ -73,8 +76,10 @@ Right_3BallAuto::Right_3BallAuto(Chassis* chassis, VisionManager* visionManager,
                                      SetIntake(intake, 0, false)),
           frc2::WaitCommand(1.5_s),
           AutoShoot(chassis, storageAndDeliver, visionManager, 1)
+              .WithTimeout(4_s),
+          frc2::WaitCommand(0.5_s),
+          AutoShoot(chassis, storageAndDeliver, visionManager, 1)
               .WithTimeout(4_s)
-
               ),
       SetShooterWithVision(shooter, hood, visionManager).Perpetually())
 

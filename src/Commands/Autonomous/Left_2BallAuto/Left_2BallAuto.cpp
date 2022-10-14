@@ -47,7 +47,7 @@ Left_2BallAuto::Left_2BallAuto(Chassis* chassis, VisionManager* visionManager,
               frc2::InstantCommand([visionManager = visionManager] {
                 visionManager->setLeds(true);
               }), AlignToTower(chassis, visionManager),
-              AutoShoot(chassis, storageAndDeliver, visionManager, 2)
+              AutoShoot(chassis, storageAndDeliver, visionManager, 3)
 
   );
 }
