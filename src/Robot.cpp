@@ -49,7 +49,7 @@ void Robot::RobotInit() {
   shootWithVisionButton.WhileHeld(SetShooterWithVision(&shooter, &hood, &visionManager))
     .WhenReleased(SetShooter(&shooter, 0.0));
 
-  shootShortRangeButton.WhileHeld(frc2::ParallelCommandGroup(SetShooter(&shooter, 180.0), SetHood(&hood, 0.15)))
+  shootShortRangeButton.WhileHeld(frc2::ParallelCommandGroup(SetShooter(&shooter, 190.0), SetHood(&hood, 0.20)))
         .WhenReleased(SetShooter(&shooter, 0.0));
 
   shootLowGoalButton.WhileActiveContinous(frc2::ParallelCommandGroup(SetShooter(&shooter, 110.0), SetHood(&hood, 1.0))).WhenInactive(SetShooter(&shooter, 0.0));  

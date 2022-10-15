@@ -37,11 +37,11 @@ class SetShooterWithVision
   Hood* hood;
   VisionManager* visionManager;
   LinearInterpolator distanceVsVelocityInterpolator {{
-    {1.5, 227},
-    {2.25, 230},
-    {3.0, 250},
-    {3.75, 277},
-    {4.5, 295}
+    {1.5, 242},
+    {2.25, 245},
+    {3.0, 265},
+    {3.75, 292},
+    {4.5, 310}
     //{3.8, 395},
     //{4.1, 427},
     //{4.5, 405} 
