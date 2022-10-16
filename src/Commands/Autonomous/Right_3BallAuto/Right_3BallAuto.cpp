@@ -12,11 +12,11 @@
 
 #include "Commands/Autonomous/AlignToTower/AlignToTower.h"
 #include "Commands/Autonomous/TurnToAngle/TurnToAngle.h"
-#include "Commands/Common/PreloadBall/PreloadBall.h"
 #include "Commands/Common/SetIntake/SetIntake.h"
 #include "Commands/Common/SetShooter/SetShooter.h"
 #include "Commands/Common/SetShooterWithVision/SetShooterWithVision.h"
 #include "Commands/Common/SetStorageAndDeliver/SetStorageAndDeliver.h"
+#include "Commands/Common/AutoPreloadBall/AutoPreloadBall.h"
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.
 // For more information, see:
@@ -42,7 +42,7 @@ Right_3BallAuto::Right_3BallAuto(Chassis* chassis, VisionManager* visionManager,
                       {2.0_mps, 2.0_mps_sq}),
                   frc2::WaitCommand(0.1_s), SetIntake(intake, 12, false)),
 
-              PreloadBall(storageAndDeliver).Perpetually()),
+              AutoPreloadBall(storageAndDeliver).Perpetually()),
           frc2::InstantCommand([visionManager = visionManager] {
             visionManager->setLeds(true);
           }),
@@ -52,7 +52,7 @@ Right_3BallAuto::Right_3BallAuto(Chassis* chassis, VisionManager* visionManager,
           frc2::WaitCommand(0.5_s),
           AutoShoot(chassis, storageAndDeliver, visionManager, 1)
               .WithTimeout(4_s),
-          frc2::WaitCommand(0.5_s),
+          frc2::WaitCommand(1_s),
           AutoShoot(chassis, storageAndDeliver, visionManager, 1)
               .WithTimeout(4_s),
           frc2::InstantCommand([visionManager = visionManager] {
@@ -62,10 +62,10 @@ Right_3BallAuto::Right_3BallAuto(Chassis* chassis, VisionManager* visionManager,
           frc2::ParallelDeadlineGroup(
               frc2::SequentialCommandGroup(
                   chassis->getRamseteCommand(
-                      {{7.6_m, 1.6_m, 160_deg}, {5.0_m, 3.0_m, 90_deg}},
+                      {{7.6_m, 1.6_m, 160_deg}, {5.3_m, 3.7_m, 90_deg}},
                       {2.0_mps, 2.0_mps_sq}),
                   frc2::WaitCommand(0.1_s), SetIntake(intake, 12, false)),
-              PreloadBall(storageAndDeliver).Perpetually()),
+              AutoPreloadBall(storageAndDeliver).Perpetually()),
           SetStorageAndDeliver(storageAndDeliver, 0.0),
           TurnToAngle(chassis, 180),
           frc2::InstantCommand([visionManager = visionManager, storageAndDeliver = storageAndDeliver] {
@@ -77,7 +77,7 @@ Right_3BallAuto::Right_3BallAuto(Chassis* chassis, VisionManager* visionManager,
           frc2::WaitCommand(1.5_s),
           AutoShoot(chassis, storageAndDeliver, visionManager, 1)
               .WithTimeout(4_s),
-          frc2::WaitCommand(0.5_s),
+          frc2::WaitCommand(1_s),
           AutoShoot(chassis, storageAndDeliver, visionManager, 1)
               .WithTimeout(4_s)
               ),
