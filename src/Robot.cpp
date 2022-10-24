@@ -1,16 +1,5 @@
 #include "Robot.h"
-
-#include <wpi/PortForwarder.h>
-#include <ctre/Phoenix.h>
-#include <frc/smartdashboard/SmartDashboard.h>
 #include <frc2/command/CommandScheduler.h>
-#include <frc2/command/ParallelCommandGroup.h>
-#include <frc2/command/SequentialCommandGroup.h>
-#include <frc2/command/WaitCommand.h>
-#include <frc2/command/PerpetualCommand.h>
-#include <frc2/command/InstantCommand.h>
-#include <frc2/command/RunCommand.h>
-
 
 void Robot::RobotInit() {
 }
