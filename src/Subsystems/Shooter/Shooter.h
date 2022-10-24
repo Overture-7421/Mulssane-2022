@@ -21,7 +21,6 @@ class Shooter : public frc2::SubsystemBase {
  public:
   Shooter();
   void setVelocity(double radsPerS);
-  void setHoodState(bool set);
   bool reachedVelocityTarget();
   double getVelocity();
   void Periodic() override;
@@ -39,17 +38,16 @@ class Shooter : public frc2::SubsystemBase {
   frc::SlewRateLimiter<units::radian> limiter{400_rad_per_s};
 
   // Volts
-  static constexpr auto kFlywheelKs = 0.56374_V;
+  static constexpr auto kFlywheelKs = 0.25_V;
 
   // Volts per (radian per second)
-  static constexpr auto kFlywheelKv = 0.017273_V / 1_rad_per_s;
+  static constexpr auto kFlywheelKv = 0.022_V / 1_rad_per_s;
 
   // Volts per (radian per second squared)
-  static constexpr auto kFlywheelKa = 0.00116_V / 1_rad_per_s_sq;
+  static constexpr auto kFlywheelKa = 0.0066873_V / 1_rad_per_s_sq;
 
-  frc2::PIDController shooterController{0.029775, 0, 0};
+  frc2::PIDController shooterController{0.035, 0, 0};
   frc::SimpleMotorFeedforward<units::radian> shooterFF{kFlywheelKs, kFlywheelKv,
                                                        kFlywheelKa};
-  frc::DoubleSolenoid hoodPiston{frc::PneumaticsModuleType::CTREPCM, 4, 5};
 };
 

@@ -11,11 +11,9 @@
 
 #include "Utils/Utils.h"
 
-DefaultDrive::DefaultDrive(Chassis* chassis, VisionManager* visionManager,
-                           RangeDecider* rangeDecider, frc::Joystick* joy) {
+DefaultDrive::DefaultDrive(Chassis* chassis, VisionManager* visionManager, frc::Joystick* joy) {
   this->chassis = chassis;
   this->visionManager = visionManager;
-  this->rangeDecider = rangeDecider;
   this->joy = joy;
   AddRequirements(chassis);
   // Use addRequirements() here to declare subsystem dependencies.

@@ -11,6 +11,7 @@
 #include "Subsystems/VisionManager/VisionManager.h"
 #include "Subsystems/Intake/Intake.h"
 #include "Subsystems/Shooter/Shooter.h"
+#include "Subsystems/Hood/Hood.h"
 #include "Commands/Autonomous/AlignToTower/AlignToTower.h"
 #include "Commands/Autonomous/FeedNBalls/FeedNBalls.h"
 #include "Commands/Autonomous/AutoShoot/AutoShoot.h"
@@ -19,5 +20,5 @@ class Right_3BallAuto
     : public frc2::CommandHelper<frc2::SequentialCommandGroup,
                                  Right_3BallAuto> {
  public:
-  Right_3BallAuto(Chassis* chassis, VisionManager* visionManager, Intake* intake, StorageAndDeliver* storageAndDeliver, Shooter* shooter);
+  Right_3BallAuto(Chassis* chassis, VisionManager* visionManager, Intake* intake, StorageAndDeliver* storageAndDeliver, Shooter* shooter, Hood* hood);
 };

@@ -65,7 +65,7 @@ class Chassis : public frc2::SubsystemBase {
 
   const double wheelRadius = 0.0762;  // metros
   const int encoder_CodesPerRev =
-      2048 * 14.4;  // 2048 Flacon * 14.4 por la reduccion
+      2048 * 12;  // 2048 Flacon * 14.4 por la reduccion
 
   double rightTargetVel = 0.0;
   double leftTargetVel = 0.0;
@@ -89,7 +89,7 @@ class Chassis : public frc2::SubsystemBase {
       wpi::array<double, 3>{0.001, 0.001, 0.001},
       wpi::array<double, 3>{0.002, 0.002, 0.002}};
 
-  const double maxSpeed = 3;         // Meters per second
+  const double maxSpeed = 3.5;         // Meters per second
   const double maxAcceleration = 25.0;  // Meters per second squared
 
   frc::SlewRateLimiter<units::meters_per_second> rightAccelLimiter{
@@ -101,8 +101,8 @@ class Chassis : public frc2::SubsystemBase {
   frc2::PIDController leftPID{0.0, 0, 0};
   // 0.13065
   // New and best Characterization.
-  frc::SimpleMotorFeedforward<units::meter> ff{0.59979_V, 2.8778_V / 1_mps,
-                                               0.21138_V / 1_mps_sq};
+  frc::SimpleMotorFeedforward<units::meter> ff{0.64071_V, 2.5662_V / 1_mps,
+                                               0.27128_V / 1_mps_sq};
 
   frc::Pose2d currentPose{0_m, 0_m, 0_rad};
 

@@ -13,10 +13,12 @@
 #include <frc2/command/PerpetualCommand.h>
 
 #include "Commands/Autonomous/TurnToAngle/TurnToAngle.h"
-#include "Commands/Common/PreloadBall/PreloadBall.h"
 #include "Commands/Common/SetIntake/SetIntake.h"
 #include "Commands/Common/SetShooter/SetShooter.h"
+#include "Commands/Common/SetHood/SetHood.h"
 #include "Commands/Common/SetStorageAndDeliver/SetStorageAndDeliver.h"
+#include "Commands/Common/AutoPreloadBall/AutoPreloadBall.h"
+
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.
 // For more information, see:
@@ -24,7 +26,7 @@
 Left_2BallAuto::Left_2BallAuto(Chassis* chassis, VisionManager* visionManager,
                                Intake* intake,
                                StorageAndDeliver* storageAndDeliver,
-                               Shooter* shooter) {
+                               Shooter* shooter, Hood* hood) {
   // Add your commands here, e.g.
   AddCommands(frc2::InstantCommand(
                   [chassis = chassis, visionManager = visionManager] {
@@ -38,15 +40,22 @@ Left_2BallAuto::Left_2BallAuto(Chassis* chassis, VisionManager* visionManager,
                       chassis->getRamseteCommand(
                           {{5.96_m, 5.34_m, 135_deg}, {5.2_m, 6.0_m, 135_deg}},
                           {2.5_mps, 2.5_mps_sq}),
-                      SetShooter(shooter, 380, true), frc2::WaitCommand(0.1_s),
-                      SetIntake(intake, 12, false), frc2::WaitCommand(0.5_s),
+                      SetShooter(shooter, 265), SetHood(hood, 0.25), frc2::WaitCommand(0.6_s),
+                      SetIntake(intake, 12, false), frc2::WaitCommand(0.6_s),
                       SetIntake(intake, 0, false)),
-                  PreloadBall(storageAndDeliver).Perpetually()),
+                  AutoPreloadBall(storageAndDeliver).Perpetually()),
 
               frc2::InstantCommand([visionManager = visionManager] {
                 visionManager->setLeds(true);
               }), AlignToTower(chassis, visionManager),
-              AutoShoot(chassis, storageAndDeliver, visionManager, 2)
-
+                  frc2::WaitCommand(1.5_s),
+                  AutoShoot(chassis, storageAndDeliver, visionManager, 1),
+                  frc2::WaitCommand(1.5_s),
+                  AutoShoot(chassis, storageAndDeliver, visionManager, 1),
+                  frc2::WaitCommand(1.5_s),
+                  AutoShoot(chassis, storageAndDeliver, visionManager, 1),
+                      chassis->getRamseteCommand(
+                          {{5.96_m, 5.34_m, 135_deg}, {5.8_m, 6.5_m, 135_deg}},
+                          {2.5_mps, 2.5_mps_sq})
   );
 }

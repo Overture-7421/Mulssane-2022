@@ -6,7 +6,7 @@
 
 #include <frc2/command/CommandBase.h>
 #include <frc2/command/CommandHelper.h>
-#include "Subsystems/StorageAndDeliver/StorageAndDeliver.h"
+#include <Subsystems/Hood/Hood.h>
 /**
  * An example command.
  *
@@ -14,9 +14,10 @@
  * directly; this is crucially important, or else the decorator functions in
  * Command will *not* work!
  */
-class PreloadBall : public frc2::CommandHelper<frc2::CommandBase, PreloadBall> {
-public:
-  PreloadBall(StorageAndDeliver* storageAndDeliver);
+class SetHood
+    : public frc2::CommandHelper<frc2::CommandBase, SetHood> {
+ public:
+  SetHood(Hood* hood, double setpoint);
 
   void Initialize() override;
 
@@ -25,6 +26,7 @@ public:
   void End(bool interrupted) override;
 
   bool IsFinished() override;
-private:
-  StorageAndDeliver* storageAndDeliver;
+  private:
+  Hood* hood;
+  double setpoint;
 };

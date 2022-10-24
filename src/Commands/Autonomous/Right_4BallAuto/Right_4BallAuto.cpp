@@ -14,7 +14,7 @@
 // For more information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
 Right_4BallAuto::Right_4BallAuto(Chassis* chassis,
-                                 VisionManager* visionManager) {
+                                 VisionManager* visionManager, Hood* hood) {
   // Add your commands here, e.g.
   AddCommands(frc2::InstantCommand(
                   [chassis = chassis] {

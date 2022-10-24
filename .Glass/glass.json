@@ -1,10 +1,10 @@
 {
   "NetworkTables": {
     "SmartDashboard": {
-      "Intake": {
+      "Climber": {
         "open": true
       },
-      "VisionManager": {
+      "Intake": {
         "open": true
       },
       "open": true
@@ -38,7 +38,7 @@
     "Plot <0>": {
       "plots": [
         {
-          "height": 757,
+          "height": -18,
           "series": [
             {
               "color": [

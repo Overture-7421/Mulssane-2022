@@ -11,6 +11,7 @@
 #include "Subsystems/VisionManager/VisionManager.h"
 #include "Subsystems/Intake/Intake.h"
 #include "Subsystems/Shooter/Shooter.h"
+#include "Subsystems/Hood/Hood.h"
 #include "Commands/Autonomous/AlignToTower/AlignToTower.h"
 #include "Commands/Autonomous/FeedNBalls/FeedNBalls.h"
 #include "Commands/Autonomous/AutoShoot/AutoShoot.h"
@@ -20,5 +21,5 @@ class Left_Kidnap
     : public frc2::CommandHelper<frc2::SequentialCommandGroup, 
                                   Left_Kidnap> {
  public:
-  Left_Kidnap(Chassis* chassis, VisionManager* visionManager, Intake* intake, StorageAndDeliver* storageAndDeliver, Shooter* shooter);
+  Left_Kidnap(Chassis* chassis, VisionManager* visionManager, Intake* intake, StorageAndDeliver* storageAndDeliver, Shooter* shooter, Hood* hood);
 };

@@ -14,9 +14,9 @@
  * directly; this is crucially important, or else the decorator functions in
  * Command will *not* work!
  */
-class PreloadBall : public frc2::CommandHelper<frc2::CommandBase, PreloadBall> {
+class AutoPreloadBall : public frc2::CommandHelper<frc2::CommandBase, AutoPreloadBall> {
 public:
-  PreloadBall(StorageAndDeliver* storageAndDeliver);
+  AutoPreloadBall(StorageAndDeliver* storageAndDeliver);
 
   void Initialize() override;
 

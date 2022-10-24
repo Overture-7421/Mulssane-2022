@@ -5,7 +5,7 @@
 #include "SetStorageAndDeliver.h"
 
 SetStorageAndDeliver::SetStorageAndDeliver(StorageAndDeliver* storageAndDeliver,
-                                           double voltage) {
+  double voltage) {
   this->storageAndDeliver = storageAndDeliver;
   this->voltage = voltage;
   AddRequirements(storageAndDeliver);
@@ -17,8 +17,9 @@ void SetStorageAndDeliver::Initialize() {}
 
 // Called repeatedly when this Command is scheduled to run
 void SetStorageAndDeliver::Execute() {
-  storageAndDeliver->setFeederVoltage(voltage);
-  storageAndDeliver->setIndexerVoltage(voltage);
+  storageAndDeliver->setUpperFeederVoltage(voltage);
+  storageAndDeliver->setLowerFeederVoltage(voltage);
+  storageAndDeliver->setOmnisMotorVoltage(voltage);
 }
 
 // Called once the command ends or is interrupted.

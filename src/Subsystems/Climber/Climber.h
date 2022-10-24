@@ -5,15 +5,14 @@
 #pragma once
 
 #include <frc2/command/SubsystemBase.h>
-#include <frc/Solenoid.h>
+#include <frc/DoubleSolenoid.h>
 #include <ctre/Phoenix.h>
 #include <frc/DigitalInput.h>
 #include <frc/Counter.h>
 #include <frc/DigitalGlitchFilter.h>
 
-
 class Climber : public frc2::SubsystemBase {
- public:
+public:
   Climber();
   void setPistons(bool set);
   void setVoltage(double voltage);
@@ -24,14 +23,14 @@ class Climber : public frc2::SubsystemBase {
 
   bool isLimitSwitchPressed();
 
- private:
-   frc::Solenoid 
-   climberPiston{frc::PneumaticsModuleType::CTREPCM, 2};
-   WPI_TalonSRX leftClimber {8}; // Left Climber INVERTED
-   WPI_VictorSPX rightClimber {7}; // Right Climber
-   units::volt_t desiredVoltage;
+private:
+  frc::DoubleSolenoid
+    climberPiston{ frc::PneumaticsModuleType::CTREPCM, 3, 2};
+  WPI_VictorSPX leftClimber{ 6 }; // Left Climber INVERTED
+  WPI_VictorSPX rightClimber{ 10 }; // Right Climber
+  units::volt_t desiredVoltage;
 
-   frc::DigitalInput climberWinchLimit {0};
+  frc::DigitalInput climberWinchLimit{ 3 };
 
   // Components (e.g. motor controllers and sensors) should generally be
   // declared private and exposed only through public methods.

@@ -59,7 +59,7 @@ void VisionManager::Periodic() {
   frc::SmartDashboard::PutBoolean("VisionManager/ChassisAligned",
                                   isChassisAligned());
 
-  ledRelay.Set(camera.GetLEDMode() == photonlib::kOn);
+  ledRelay.Set(!(camera.GetLEDMode() == photonlib::kOn));
 }
 
 bool VisionManager::updateCircleFit(

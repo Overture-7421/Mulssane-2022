@@ -19,7 +19,7 @@ class Intake : public frc2::SubsystemBase {
   void Periodic() override;
 
  private:
-   frc::DoubleSolenoid intakePiston{frc::PneumaticsModuleType::CTREPCM, 0, 1};
+   frc::DoubleSolenoid intakePiston{frc::PneumaticsModuleType::CTREPCM, 1, 0};
    WPI_TalonSRX intakeMotor{8}; // Intake
 
   // Components (e.g. motor controllers and sensors) should generally be
