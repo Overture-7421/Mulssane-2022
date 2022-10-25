@@ -5,6 +5,8 @@
 #pragma once
 
 #include <frc2/command/SubsystemBase.h>
+#include <ctre/Phoenix.h>
+#include <frc/DoubleSolenoid.h>
 
 class Intake : public frc2::SubsystemBase {
  public:
@@ -18,4 +20,13 @@ class Intake : public frc2::SubsystemBase {
  private:
   // Components (e.g. motor controllers and sensors) should generally be
   // declared private and exposed only through public methods.
+  
+  TalonSRX intakeMotor {9};
+  frc::DoubleSolenoid intakeSolenoid {frc::PneumaticsModuleType::CTREPCM, 1, 2};
+
+//maybe in commands >> common
+//intakeSolenoid.Set(frc::DoubleSolenoid::Value::kOff);
+//exampleDoublePCM.Set(frc::DoubleSolenoid::Value::kForward);
+//exampleDoublePCM.Set(frc::DoubleSolenoid::Value::kReverse);
+
 };
