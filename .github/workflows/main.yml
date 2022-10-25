@@ -38,7 +38,7 @@ jobs:
           style: file
           files-changed-only: false
           database: 'build/compile_commands/linuxathena'
-          extra-args: '-stdlib=libstdc++'
+          extra-args: '-stdlib=libstdc++ -I/home/runner/.gradle/toolchains/frc/2022/roborio/arm-frc2022-linux-gnueabi/usr/include/c++/7.3.0 -I/home/runner/.gradle/toolchains/frc/2022/roborio/arm-frc2022-linux-gnueabi/usr/include/'
           
       - name: Fail fast?!
         if: steps.linter.outputs.checks-failed > 0
