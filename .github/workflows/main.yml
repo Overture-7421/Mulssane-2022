@@ -10,12 +10,12 @@ jobs:
       with:
         java-version: 11
         distribution: microsoft
-    - name: Setup Roborio Toolchain
+    - name: Setup Gradle and Install Roborio Toolchain
       uses: gradle/gradle-build-action@v2.3.3
       with:
         gradle-version: current
         arguments: installRoboRioToolchain
-    - name: Setup Gradle and Build Roborio Executable
+    - name: Build Roborio Executable
       uses: gradle/gradle-build-action@v2.3.3
       with:
         gradle-version: current
