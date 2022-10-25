@@ -1,7 +1,22 @@
 name: Gradle Build on PRs
 on: pull_request
 jobs:
-  gradle:
+  cpp-linter:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: cpp-linter/cpp-linter-action@v2
+        id: linter
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          style: file
+          
+      - name: Fail fast?!
+        if: steps.linter.outputs.checks-failed > 0
+        run: exit 1
+    
+  build-executable:
     runs-on: windows-latest
     steps:
     - uses: actions/checkout@v3
