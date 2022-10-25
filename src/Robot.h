@@ -1,10 +1,6 @@
 #pragma once
 
 #include <frc/TimedRobot.h>
-<<<<<<< HEAD
-
-=======
->>>>>>> main
 
 class Robot : public frc::TimedRobot {
 public:
