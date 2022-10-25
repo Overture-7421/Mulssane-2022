@@ -5,6 +5,8 @@
 #pragma once
 
 #include <frc2/command/SubsystemBase.h>
+#include <frc/DigitalInput.h>
+#include <ctre/phoenix/motorcontrol/can/TalonSRX.h>
 
 class Hood : public frc2::SubsystemBase {
  public:
@@ -16,6 +18,9 @@ class Hood : public frc2::SubsystemBase {
   void Periodic() override;
 
  private:
+ frc::DigitalInput hoodSwitch {2};
+ ctre::phoenix::motorcontrol::can::TalonSRX hoodMotor {9};
+
   // Components (e.g. motor controllers and sensors) should generally be
   // declared private and exposed only through public methods.
 };
