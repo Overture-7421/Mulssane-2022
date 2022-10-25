@@ -8,36 +8,22 @@
 
 #include "Robot.h"
 
-#include <iostream>
-#include <frc/smartdashboard/SmartDashboard.h>
-#include <ctre/Phoenix.h>
-#include "frc2/command/CommandScheduler.h"
-
 void Robot::RobotInit(){
-  chassis.SetDefaultCommand(defaultDrive);
 }
 
 void Robot::RobotPeriodic() {
-  frc2::CommandScheduler::GetInstance().Run();
 }
 
 void Robot::AutonomousInit() {
-
-  autocommand = std::make_unique<RamseteTests>(&chassis);
-
-
-  autocommand->Schedule();
 }
 
 void Robot::AutonomousPeriodic() {
 }
 
 void Robot::TeleopInit() {
-  frc::SmartDashboard::PutNumber("Shooter/VelocityTarget_RadsPerS", 0.0);
 }
 
 void Robot::TeleopPeriodic() {
-  shooter.setVelocity(frc::SmartDashboard::GetNumber("Shooter/VelocityTarget_RadsPerS", 0.0));
 }
 
 void Robot::DisabledInit() {

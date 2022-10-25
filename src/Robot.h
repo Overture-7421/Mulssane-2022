@@ -12,18 +12,8 @@ __ `__ \/ _ \
 
 #pragma once
 
-#include <frc/Joystick.h>
 #include <frc/TimedRobot.h>
-#include <frc/smartdashboard/SendableChooser.h>
-#include <frc2/command/Command.h>
 
-#include <string>
-
-#include "Autonomous/RamseteTests/RamseteTests.h"
-#include "Autonomous/TurnToAngle/TurnToAngle.h"
-#include "Subsystems/Chassis.h"
-#include "Subsystems/Shooter.h"
-#include "Teleop/DefaultDrive.h"
 
 class Robot : public frc::TimedRobot {
  public:
@@ -37,12 +27,4 @@ class Robot : public frc::TimedRobot {
   void DisabledPeriodic() override;
   void TestInit() override;
   void TestPeriodic() override;
-
- private:
-  std::unique_ptr<frc2::SequentialCommandGroup> autocommand;
-  Shooter shooter;
-  Chassis chassis;
-  frc::Joystick joy{0};
-  DefaultDrive defaultDrive{&chassis, &joy};
-  TurnToAngle turnToAngle{&chassis, 0};
 };
