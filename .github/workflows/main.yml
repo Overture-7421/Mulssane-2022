@@ -5,6 +5,18 @@ jobs:
     runs-on: windows-latest
     steps:
       - uses: actions/checkout@v3
+      - name: Setup Gradle and Install Roborio Toolchain
+        uses: gradle/gradle-build-action@v2.3.3
+        with:
+          gradle-version: current
+          arguments: installRoboRioToolchain
+          
+      - name: Get Compile Commands
+        uses: gradle/gradle-build-action@v2.3.3
+        with:
+          gradle-version: current
+          arguments: generateCompileCommands
+      
       - uses: cpp-linter/cpp-linter-action@v2
         id: linter
         env:
@@ -12,6 +24,7 @@ jobs:
         with:
           style: file
           files-changed-only: false
+          database: build\compile_commands\linuxathena
           
       - name: Fail fast?!
         if: steps.linter.outputs.checks-failed > 0
