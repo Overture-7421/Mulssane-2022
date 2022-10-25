@@ -17,14 +17,15 @@ struct Utils {
    * axisValue = The raw axis value given by the joystick
    * deadzone = The threshold for when the axis is considered as valid
    * exponentialGain = How much of an Exponential curve we want
-   * 
+   *
    * To learn more: https://www.desmos.com/calculator/kvubon8yfw?lang=es
    *
    * */
-  static double ApplyAxisFilter(double axisValue, double deadzone = DEFAULT_DEADZONE,
+  static double ApplyAxisFilter(double axisValue,
+                                double deadzone = DEFAULT_DEADZONE,
                                 double exponentialGain = DEFAULT_EXP_GAIN) {
     double axisMag = std::abs(axisValue);
-    if(axisMag < deadzone) {
+    if (axisMag < deadzone) {
       return 0.0;
     }
 
