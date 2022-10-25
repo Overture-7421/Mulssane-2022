@@ -30,7 +30,7 @@ jobs:
         with:
           style: file
           files-changed-only: false
-          database: build\compile_commands\linuxathena
+          database: 'build/compile_commands/linuxathena'
           
       - name: Fail fast?!
         if: steps.linter.outputs.checks-failed > 0
