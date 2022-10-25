@@ -1,4 +1,6 @@
 #include <cmath>
+#define DEFAULT_DEADZONE 0.15
+#define DEFAULT_EXP_GAIN 0.15
 
 struct Utils {
   template <typename T>
@@ -18,10 +20,12 @@ struct Utils {
    * To learn more: https://www.desmos.com/calculator/kvubon8yfw?lang=es
    *
    * */
-  static double ApplyAxisFilter(double axisValue, double deadzone = 0.15,
-                                double exponentialGain = 0.9) {
+  static double ApplyAxisFilter(double axisValue, double deadzone = DEFAULT_DEADZONE,
+                                double exponentialGain = DEFAULT_EXP_GAIN) {
     double axisMag = std::abs(axisValue);
-    if(axisMag < deadzone) return 0.0;
+    if(axisMag < deadzone) {
+      return 0.0;
+    }
 
     double res =
         exponentialGain * std::pow((axisMag - deadzone) / (1 - deadzone), 3) +
