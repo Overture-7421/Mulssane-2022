@@ -5,6 +5,11 @@ jobs:
     runs-on: windows-latest
     steps:
     - uses: actions/checkout@v3
+    - name: Setup Java JDK
+      uses: actions/setup-java@v3.6.0
+      with:
+        java-version: 11
+        distribution: microsoft
     - name: Setup Gradle and Build Roborio Executable
       uses: gradle/gradle-build-action@v2.3.3
       with:
