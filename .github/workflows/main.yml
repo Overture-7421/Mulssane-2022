@@ -1,7 +1,7 @@
 name: PR Check Workflow
 on: pull_request
 jobs:
-  cpp-linter:
+  build-and-linter:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -11,14 +11,17 @@ jobs:
           java-version: 11
           distribution: microsoft
           
-      - name: Install g++
-        run: sudo apt-get install g++
-        
       - name: Setup Gradle and Install Roborio Toolchain
         uses: gradle/gradle-build-action@v2.3.3
         with:
           gradle-version: current
           arguments: installRoboRioToolchain
+          
+      - name: Build
+        uses: gradle/gradle-build-action@v2.3.3
+        with:
+          gradle-version: current
+          arguments: frcUserProgramReleaseExecutable
           
       - name: Get Compile Commands
         uses: gradle/gradle-build-action@v2.3.3
@@ -39,23 +42,3 @@ jobs:
       - name: Fail fast?!
         if: steps.linter.outputs.checks-failed > 0
         run: exit 1
-    
-  build-executable:
-    runs-on: ubuntu-latest
-    steps:
-    - uses: actions/checkout@v3
-    - name: Setup Java JDK
-      uses: actions/setup-java@v3.6.0
-      with:
-        java-version: 11
-        distribution: microsoft
-    - name: Setup Gradle and Install Roborio Toolchain
-      uses: gradle/gradle-build-action@v2.3.3
-      with:
-        gradle-version: current
-        arguments: installRoboRioToolchain
-    - name: Build Roborio Executable
-      uses: gradle/gradle-build-action@v2.3.3
-      with:
-        gradle-version: current
-        arguments: frcUserProgramReleaseExecutable
