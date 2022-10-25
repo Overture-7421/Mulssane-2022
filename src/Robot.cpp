@@ -2,6 +2,7 @@
 #include <frc2/command/CommandScheduler.h>
 
 void Robot::RobotInit() {
+  intake.invertIntakeMotor();
 }
 
 void Robot::RobotPeriodic() {

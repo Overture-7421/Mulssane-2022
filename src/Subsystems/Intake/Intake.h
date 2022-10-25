@@ -12,6 +12,10 @@ class Intake : public frc2::SubsystemBase {
     intakeMotor.Set(TalonSRXControlMode::PercentOutput, 0.5); //Pending to define speed...
     };
     
+  void invertIntakeMotor() {
+    intakeMotor.SetInverted(true);
+    };
+    
     //set doubleSolenoid Off, Forward or Reverse
   void solenoidOff() {
     intakeSolenoid.Set(frc::DoubleSolenoid::Value::kOff);
@@ -25,10 +29,12 @@ class Intake : public frc2::SubsystemBase {
     intakeSolenoid.Set(frc::DoubleSolenoid::Value::kReverse);
     };
     
-    void Periodic() override;
+  void Periodic() override;
+
+  
 
  private:
  //Declare Talon and Solenoid of the Intake
- TalonSRX intakeMotor {9};
+ TalonSRX intakeMotor {8};
  frc::DoubleSolenoid intakeSolenoid {frc::PneumaticsModuleType::CTREPCM, 1, 2};
 };
