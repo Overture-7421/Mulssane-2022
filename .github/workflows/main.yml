@@ -5,6 +5,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
+      - run: sudo apt-get install build-essential
       - name: Setup Java JDK
         uses: actions/setup-java@v3.6.0
         with:
