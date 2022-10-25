@@ -4,6 +4,9 @@ jobs:
   gradle:
     runs-on: windows-latest
     steps:
+    - name: List Contents
+      uses: enricomarino/actions@v2
+      
     - name: Setup Gradle
       uses: gradle/gradle-build-action@v2.3.3
       with:
