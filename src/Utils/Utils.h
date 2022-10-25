@@ -1,8 +1,9 @@
 #include <cmath>
-#define DEFAULT_DEADZONE 0.15
-#define DEFAULT_EXP_GAIN 0.15
 
 struct Utils {
+  static const double DEFAULT_DEADZONE = 0.15;
+  static const double DEFAULT_EXP_GAIN = 0.15;
+
   template <typename T>
   static int sgn(T val) {
     return (T(0) < val) - (val < T(0));
