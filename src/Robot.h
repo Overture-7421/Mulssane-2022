@@ -3,7 +3,7 @@
 #include <frc/TimedRobot.h>
 
 class Robot : public frc::TimedRobot {
-public:
+ public:
   void RobotInit() override;
   void RobotPeriodic() override;
   void AutonomousInit() override;
@@ -13,5 +13,5 @@ public:
   void DisabledInit() override;
   void DisabledPeriodic() override;
   void TestInit() override;
-  void TestPeriodic() override; 
+  void TestPeriodic() override;
 };

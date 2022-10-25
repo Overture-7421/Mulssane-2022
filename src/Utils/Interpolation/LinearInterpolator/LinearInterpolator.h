@@ -11,6 +11,7 @@ class LinearInterpolator {
  public:
   LinearInterpolator(const DataTable& dataTable);
   double getY(double x);
+
  private:
   std::array<DataTable::iterator, 2> getInterpolationPoints(double value);
   DataTable dataTable;
