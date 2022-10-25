@@ -1,0 +1,11 @@
+name: Gradle Build on PRs
+on: pull_request
+jobs:
+  gradle:
+    runs-on: windows-latest
+    steps:
+    - name: Setup and Execute Gradle Build Action
+      uses: gradle/gradle-build-action@v2.3.3
+      with:
+        gradle-version: current
+    
