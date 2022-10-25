@@ -1,6 +1,7 @@
 #pragma once
 
 #include <frc/TimedRobot.h>
+#include <Subsystems/Intake/Intake.h>
 
 class Robot : public frc::TimedRobot {
 public:
@@ -14,4 +15,6 @@ public:
   void DisabledPeriodic() override;
   void TestInit() override;
   void TestPeriodic() override; 
+private:
+  Intake intake;
 };

@@ -19,6 +19,8 @@ void Robot::TeleopInit() {
 }
 
 void Robot::TeleopPeriodic() {
+  intake.initializeMotor();
+  intake.solenoidForward();
 }
 
 void Robot::DisabledInit() {
