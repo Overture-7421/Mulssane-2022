@@ -34,6 +34,7 @@ jobs:
           style: file
           files-changed-only: false
           database: 'build/compile_commands/linuxathena'
+          extra-args: '-stdlib=libstdc++'
           
       - name: Fail fast?!
         if: steps.linter.outputs.checks-failed > 0
