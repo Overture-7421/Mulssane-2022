@@ -31,7 +31,7 @@ jobs:
       - uses: cpp-linter/cpp-linter-action@v2
         id: linter
         with:
-          style: file
+          style: Google
           files-changed-only: false
           database: 'build/compile_commands/linuxathena'
           extra-args: '-stdlib=libstdc++ -I/home/runner/.gradle/toolchains/frc/2022/roborio/arm-frc2022-linux-gnueabi/usr/lib/gcc/arm-frc2022-linux-gnueabi/7.3.0/include -I/home/runner/.gradle/toolchains/frc/2022/roborio/arm-frc2022-linux-gnueabi/usr/lib/gcc/arm-frc2022-linux-gnueabi/7.3.0/include-fixed -I/home/runner/.gradle/toolchains/frc/2022/roborio/arm-frc2022-linux-gnueabi/usr/include/c++/7.3.0 -I/home/runner/.gradle/toolchains/frc/2022/roborio/arm-frc2022-linux-gnueabi/usr/include/c++/7.3.0/arm-frc2022-linux-gnueabi -I/home/runner/.gradle/toolchains/frc/2022/roborio/arm-frc2022-linux-gnueabi/usr/include/c++/7.3.0/backward -I/home/runner/.gradle/toolchains/frc/2022/roborio/arm-frc2022-linux-gnueabi/usr/include'
