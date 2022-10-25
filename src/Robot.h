@@ -2,6 +2,7 @@
 
 #include <frc/TimedRobot.h>
 #include <Subsystems/Intake/Intake.h>
+#include <frc/Joystick.h>
 
 class Robot : public frc::TimedRobot {
 public:
@@ -17,4 +18,10 @@ public:
   void TestPeriodic() override; 
 private:
   Intake intake;
+frc::Joystick* m_leftJoystick;
+frc::Joystick* m_rightJoystick;
+
+  
+
+  
 };

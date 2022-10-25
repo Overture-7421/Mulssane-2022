@@ -22,6 +22,7 @@ void Robot::TeleopInit() {
 void Robot::TeleopPeriodic() {
   intake.initializeMotor();
   intake.solenoidForward();
+  //add intake.solenoidReverse when clicked on controller
 }
 
 void Robot::DisabledInit() {
