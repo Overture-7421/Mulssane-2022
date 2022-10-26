@@ -15,6 +15,7 @@ public:
   void TestInit() override;
   void TestPeriodic() override; 
 
-  Private:
-  Shooter shoot;
+  private:
+  Shooter Shooter();
+
 };
