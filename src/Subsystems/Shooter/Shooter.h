@@ -18,6 +18,9 @@ class Shooter : public frc2::SubsystemBase {
   void Shoot() {shooter_Left.Set(-.5);
                 shooter_Right.Set(.5);}
 
+  void Stop_Shooting() {shooter_Left.Set(-0);
+                shooter_Right.Set(-0);}
+
   void Periodic() override;
 
  private:

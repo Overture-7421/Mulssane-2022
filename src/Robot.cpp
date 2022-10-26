@@ -11,6 +11,7 @@ void Robot::AutonomousInit() {
 }
 
 void Robot::AutonomousPeriodic() {
+  shooter.Stop_Shooting();
 }
 
 void Robot::TeleopInit() {
