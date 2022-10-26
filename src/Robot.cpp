@@ -18,7 +18,7 @@ void Robot::TeleopInit() {
 }
 
 void Robot::TeleopPeriodic() {
-  shooter.Shoot();
+  Storage.StoreBall();
 }
 
 void Robot::DisabledInit() {

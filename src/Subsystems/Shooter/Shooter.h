@@ -23,6 +23,7 @@ class Shooter : public frc2::SubsystemBase {
   WPI_TalonFX shooter_Left{14};
   WPI_TalonFX shooter_Right{15};
 
+
   // Components (e.g. motor controllers and sensors) should generally be
   // declared private and exposed only through public methods.
 };

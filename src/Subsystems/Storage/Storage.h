@@ -12,6 +12,10 @@ class Storage : public frc2::SubsystemBase {
  public:
   Storage();
 
+  void StoreBall() {Position1.Set(-.5);
+                    Position2.Set(.5);
+                    Omnis.Set(.5);    };
+
   /**
    * Will be called periodically whenever the CommandScheduler runs.
    */
@@ -19,9 +23,9 @@ class Storage : public frc2::SubsystemBase {
 
  private:
 
-WPI_TalonFX Position2 {7};
-VictorSPX Position1 {5};
-VictorSPX Omnis {4};
+WPI_TalonSRX Position2 {7};
+WPI_VictorSPX Position1 {5};
+WPI_VictorSPX Omnis {4};
 
   // Components (e.g. motor controllers and sensors) should generally be
   // declared private and exposed only through public methods.

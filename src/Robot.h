@@ -1,7 +1,7 @@
 #pragma once
 
 #include <frc/TimedRobot.h>
-#include <Subsystems/Shooter/Shooter.h>
+#include <Subsystems/Storage/Storage.h>
 
 class Robot : public frc::TimedRobot {
 public:
@@ -17,5 +17,5 @@ public:
   void TestPeriodic() override; 
   
   private:
-  Shooter shooter;
+  Storage storage;
 };
