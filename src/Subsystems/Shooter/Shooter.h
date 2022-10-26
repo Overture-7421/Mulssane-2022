@@ -15,8 +15,8 @@ class Shooter : public frc2::SubsystemBase {
   /**
    * Will be called periodically whenever the CommandScheduler runs.
    */
-  void shoot() {shooter_Left(-.5);
-                shooter_Right(.5);}
+  void Shoot() {shooter_Left.Set(-.5);
+                shooter_Right.Set(.5);}
 
  private:
   WPI_TalonFX shooter_Left{14};
