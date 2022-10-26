@@ -14,8 +14,12 @@ class Storage : public frc2::SubsystemBase {
 
   void StoreBall() {Position1.Set(-.5);
                     Position2.Set(.5);
-                    Omnis.Set(.5);    }
-
+                    Omnis.Set(.5);    };
+  
+  void StopAll() {Position1.Set(0);
+                    Position2.Set(0);
+                    Omnis.Set(0);    }
+  
   /**
    * Will be called periodically whenever the CommandScheduler runs.
    */
