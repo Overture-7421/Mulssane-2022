@@ -12,9 +12,9 @@ class Storage : public frc2::SubsystemBase {
  public:
   Storage();
 
-  void StoreBall() {Position1.Set(-.5);
-                    Position2.Set(.5);
-                    Omnis.Set(.5);    };
+  void StoreBall() {Position1.Set(-0.5);
+                    Position2.Set(0.5);
+                    Omnis.Set(0.5);    };
   
   void StopAll() {Position1.Set(0);
                     Position2.Set(0);
@@ -27,8 +27,8 @@ class Storage : public frc2::SubsystemBase {
 
  private:
 
-WPI_TalonSRX Position2 {7};
-WPI_VictorSPX Position1 {5};
+WPI_VictorSPX Position2 {7};
+WPI_TalonSRX Position1 {5};
 WPI_VictorSPX Omnis {4};
 
   // Components (e.g. motor controllers and sensors) should generally be
