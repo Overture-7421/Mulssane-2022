@@ -17,6 +17,5 @@ public:
   void TestPeriodic() override; 
 
   private:
-  Shooter Shooter;
-
+  Shooter shooter;
 };
