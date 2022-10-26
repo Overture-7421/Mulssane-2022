@@ -1,5 +1,6 @@
 #include "Robot.h"
 #include <frc2/command/CommandScheduler.h>
+#include <Subsystems/Storage/Storage.h>
 
 void Robot::RobotInit() {
 }
@@ -18,7 +19,7 @@ void Robot::TeleopInit() {
 }
 
 void Robot::TeleopPeriodic() {
-  Storage.StoreBall();
+  StoreBall.Storage();
 }
 
 void Robot::DisabledInit() {
