@@ -12,6 +12,7 @@ void Robot::AutonomousInit() {
 }
 
 void Robot::AutonomousPeriodic() {
+  storage.StopAll();
 }
 
 void Robot::TeleopInit() {
@@ -19,7 +20,7 @@ void Robot::TeleopInit() {
 }
 
 void Robot::TeleopPeriodic() {
-  StoreBall.Storage();
+  storage.StoreBall();
 }
 
 void Robot::DisabledInit() {
