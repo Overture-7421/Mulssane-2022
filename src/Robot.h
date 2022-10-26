@@ -14,4 +14,7 @@ public:
   void DisabledPeriodic() override;
   void TestInit() override;
   void TestPeriodic() override; 
+
+  Private:
+  Shooter shoot;
 };
