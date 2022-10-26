@@ -7,4 +7,4 @@
 Shooter::Shooter() = default;
 
 // This method will be called once per scheduler run
-void Shooter::Shoot() {}
+void Shooter::Periodic() {}

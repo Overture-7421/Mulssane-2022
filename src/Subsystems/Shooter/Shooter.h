@@ -18,6 +18,8 @@ class Shooter : public frc2::SubsystemBase {
   void Shoot() {shooter_Left.Set(-.5);
                 shooter_Right.Set(.5);}
 
+  void Periodic() override;
+
  private:
   WPI_TalonFX shooter_Left{14};
   WPI_TalonFX shooter_Right{15};
