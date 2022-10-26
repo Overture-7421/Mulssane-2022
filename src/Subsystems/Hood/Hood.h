@@ -12,6 +12,29 @@ class Hood : public frc2::SubsystemBase {
  public:
   Hood();
 
+  bool getSwitch(){
+    if (hoodSwitch.Get() == 0){
+      return true; 
+    }else{
+      return false;
+    }
+  }
+
+  void voltageMotor(){
+
+    hoodMotor.Set(ctre::phoenix::motorcontrol::ControlMode::PercentOutput, 0.5);
+  }
+
+  void NevoltageMotor(){
+
+    hoodMotor.Set(ctre::phoenix::motorcontrol::ControlMode::PercentOutput, -0.5);
+  }
+
+  void NovoltageMotor(){
+
+    hoodMotor.Set(ctre::phoenix::motorcontrol::ControlMode::PercentOutput, 0);
+  }
+
   /**
    * Will be called periodically whenever the CommandScheduler runs.
    */
@@ -24,3 +47,5 @@ class Hood : public frc2::SubsystemBase {
   // Components (e.g. motor controllers and sensors) should generally be
   // declared private and exposed only through public methods.
 };
+
+

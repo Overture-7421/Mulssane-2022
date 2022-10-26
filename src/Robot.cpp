@@ -1,5 +1,6 @@
 #include "Robot.h"
 #include <frc2/command/CommandScheduler.h>
+#include <iostream>
 
 void Robot::RobotInit() {
 }
@@ -12,6 +13,7 @@ void Robot::AutonomousInit() {
 }
 
 void Robot::AutonomousPeriodic() {
+  hood.NevoltageMotor();
 }
 
 void Robot::TeleopInit() {
@@ -19,6 +21,8 @@ void Robot::TeleopInit() {
 }
 
 void Robot::TeleopPeriodic() {
+  hood.voltageMotor();
+  std::cout << hood.getSwitch()<< std::endl;
 }
 
 void Robot::DisabledInit() {

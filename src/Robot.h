@@ -1,6 +1,8 @@
 #pragma once
 
 #include <frc/TimedRobot.h>
+#include <Subsystems/Hood/Hood.h>
+#include <frc/XboxController.h>
 
 class Robot : public frc::TimedRobot {
 public:
@@ -14,4 +16,8 @@ public:
   void DisabledPeriodic() override;
   void TestInit() override;
   void TestPeriodic() override; 
+  private:
+  Hood hood;
+  frc::XboxController PointShoot{1};
+  Button = GetXButton();
 };
