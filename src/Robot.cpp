@@ -12,12 +12,7 @@ void Robot::AutonomousInit() {
 }
 
 void Robot::AutonomousPeriodic() {
-<<<<<<< HEAD
-  shooter.Stop_Shooting();
-=======
   shooter.Stop_shoot();
-
->>>>>>> 69e28f1dce4240effd04083c11933967074f0fa9
 }
 
 void Robot::TeleopInit() {
@@ -25,9 +20,10 @@ void Robot::TeleopInit() {
 }
 
 void Robot::TeleopPeriodic() {
-  StoreBall.Storage();
+  shooter.Shoot();
+  
 }
-π ∏
+
 void Robot::DisabledInit() {
 }
 

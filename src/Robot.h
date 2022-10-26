@@ -18,4 +18,18 @@ public:
 
   private:
   Shooter shooter;
+
+  frc::XboxController xbox {0};
+
+  bool Leftbump = false;
+  bool Rightbump = false;
+  bool bA = false;
+  bool bB = false;
+  bool bX = false;
+  bool bY = false;
+
+  double left_x = 0.0;
+  double left_y = 0.0;
+  double right_x = 0.0;
+  double right_y = 0.0;
 };

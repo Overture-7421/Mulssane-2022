@@ -6,6 +6,10 @@
 
 #include <frc2/command/SubsystemBase.h>
 #include <ctre/Phoenix.h>
+#include "frc/DataLogManager.h"
+#include "frc/DriverStation.h"
+#include <frc/XboxController.h>
+
 
 
 class Shooter : public frc2::SubsystemBase {
@@ -17,6 +21,11 @@ class Shooter : public frc2::SubsystemBase {
    */
   void Shoot() {
     
+
+
+
+
+
     shooter_Left.Set(-.5);
     shooter_Right.Set(.5);
   
@@ -35,6 +44,8 @@ class Shooter : public frc2::SubsystemBase {
   void Periodic() override;
 
  private:
+ 
+  frc::XboxController xbox{0};
   WPI_TalonFX shooter_Left{14};
   WPI_TalonFX shooter_Right{15};
 
