@@ -19,6 +19,15 @@ void Robot::TeleopInit() {
 }
 
 void Robot::TeleopPeriodic() {
+  chassis.moveForward(controller1.GetLeftY() * 8);
+  
+  double xSide = controller1.GetRightX() * 8;
+  if (xSide > 0)
+  {
+    chassis.moveRight(xSide);
+  } else {
+    chassis.moveLeft(xSide);
+  }
   
 }
 
