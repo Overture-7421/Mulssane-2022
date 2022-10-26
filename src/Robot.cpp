@@ -1,5 +1,6 @@
 #include "Robot.h"
 #include <frc2/command/CommandScheduler.h>
+#include <Subsystems/Storage/Storage.h>
 
 void Robot::RobotInit() {
 }
@@ -11,7 +12,12 @@ void Robot::AutonomousInit() {
 }
 
 void Robot::AutonomousPeriodic() {
+<<<<<<< HEAD
   shooter.Stop_Shooting();
+=======
+  shooter.Stop_shoot();
+
+>>>>>>> 69e28f1dce4240effd04083c11933967074f0fa9
 }
 
 void Robot::TeleopInit() {
@@ -19,9 +25,9 @@ void Robot::TeleopInit() {
 }
 
 void Robot::TeleopPeriodic() {
-  shooter.Shoot();
+  StoreBall.Storage();
 }
-
+π ∏
 void Robot::DisabledInit() {
 }
 
