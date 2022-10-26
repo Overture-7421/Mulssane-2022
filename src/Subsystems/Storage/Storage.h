@@ -6,34 +6,28 @@
 
 #include <frc2/command/SubsystemBase.h>
 #include <ctre/Phoenix.h>
+#include <ctre/phoenix/motorcontrol/can/VictorSPX.h>
 
-
-class Shooter : public frc2::SubsystemBase {
+class Storage : public frc2::SubsystemBase {
  public:
-  Shooter();
+  Storage();
+
+  void StoreBall() {
+    
+    Position1.Set(-.5);
+    Position2.Set(.5);
+    Omnis.Set(.5);    }
 
   /**
    * Will be called periodically whenever the CommandScheduler runs.
    */
-  void Shoot() {
-    
-    shooter_Left.Set(-.5);
-    shooter_Right.Set(.5);
-  
-  }
-
-   void Stop_shoot() {
-    
-    shooter_Left.Set(0);
-    shooter_Right.Set(0);
-  
-  }
-
   void Periodic() override;
 
  private:
-  WPI_TalonFX shooter_Left{14};
-  WPI_TalonFX shooter_Right{15};
+
+WPI_TalonSRX Position2 {7};
+WPI_VictorSPX Position1 {5};
+WPI_VictorSPX Omnis {4};
 
   // Components (e.g. motor controllers and sensors) should generally be
   // declared private and exposed only through public methods.
