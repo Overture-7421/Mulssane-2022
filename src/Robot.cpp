@@ -29,7 +29,7 @@ void Robot::TeleopPeriodic() {
   
   else {
     intake.desinitializeMotor();
-    intake.solenoidOff();
+    intake.solenoidReverse();
     }
   }
   
