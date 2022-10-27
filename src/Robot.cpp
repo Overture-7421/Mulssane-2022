@@ -21,20 +21,16 @@ void Robot::TeleopInit()
 }
 
 void Robot::TeleopPeriodic() {
-  /*if (joystick.GetTriggerPressed() == true){
-    intake.initializeMotor();
-    intake.solenoidForward();
-    }
-  else {
-    intake.desinitializeMotor();
-    intake.solenoidReverse();
-  }
-  */
-  while(joystick.GetTriggerPressed() == true){
+  
+  if (joystick.GetTop() == true){
     intake.initializeMotor();
     intake.solenoidForward();
   }
   
+  else {
+    intake.desinitializeMotor();
+    intake.solenoidOff();
+    }
   }
   
   //add intake.solenoidReverse when clicked on controller
