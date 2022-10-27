@@ -13,7 +13,7 @@ class Intake : public frc2::SubsystemBase {
     };
 
   void initializeMotor() {
-    intakeMotor.Set(TalonSRXControlMode::PercentOutput, 2); //Pending to define speed...
+    intakeMotor.Set(TalonSRXControlMode::PercentOutput, 4); //Pending to define speed...
     };
 
   void desinitializeMotor() {
@@ -40,5 +40,5 @@ class Intake : public frc2::SubsystemBase {
  private:
  //Declare Talon and Solenoid of the Intake
  TalonSRX intakeMotor {8};
- frc::DoubleSolenoid intakeSolenoid {frc::PneumaticsModuleType::CTREPCM, 1, 2};
+ frc::DoubleSolenoid intakeSolenoid {frc::PneumaticsModuleType::CTREPCM, 1, 0};
 };

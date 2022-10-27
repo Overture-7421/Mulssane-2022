@@ -22,6 +22,8 @@ void Robot::TeleopInit()
 
 void Robot::TeleopPeriodic() {
   
+  
+
   if (joystick.GetTop() == true){
     intake.initializeMotor();
     intake.solenoidForward();
