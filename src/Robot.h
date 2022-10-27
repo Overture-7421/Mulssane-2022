@@ -1,5 +1,4 @@
 #pragma once
-
 #include <frc/TimedRobot.h>
 #include <Subsystems/Intake/Intake.h>
 #include <frc/Joystick.h>
@@ -16,12 +15,8 @@ public:
   void DisabledPeriodic() override;
   void TestInit() override;
   void TestPeriodic() override; 
+
 private:
+  frc::Joystick joystick;
   Intake intake;
-frc::Joystick* m_leftJoystick;
-frc::Joystick* m_rightJoystick;
-
-  
-
-  
 };

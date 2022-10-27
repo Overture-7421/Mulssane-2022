@@ -15,18 +15,31 @@ void Robot::AutonomousInit() {
 void Robot::AutonomousPeriodic() {
 }
 
-void Robot::TeleopInit() {
+void Robot::TeleopInit() 
+{
   frc2::CommandScheduler::GetInstance().CancelAll();
 }
 
 void Robot::TeleopPeriodic() {
-  intake.initializeMotor();
-  intake.solenoidForward();
+  /*if (joystick.GetTriggerPressed() == true){
+    intake.initializeMotor();
+    intake.solenoidForward();
+    }
+  else {
+    intake.desinitializeMotor();
+    intake.solenoidReverse();
+  }
+  */
+  while(joystick.GetTriggerPressed() == true){
+    intake.initializeMotor();
+    intake.solenoidForward();
+  }
+  
+  }
+  
   //add intake.solenoidReverse when clicked on controller
-}
 
-void Robot::DisabledInit() {
-}
+void Robot::DisabledInit() {}
 
 void Robot::DisabledPeriodic() {}
 

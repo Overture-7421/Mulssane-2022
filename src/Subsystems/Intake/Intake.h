@@ -15,6 +15,10 @@ class Intake : public frc2::SubsystemBase {
   void initializeMotor() {
     intakeMotor.Set(TalonSRXControlMode::PercentOutput, 0.5); //Pending to define speed...
     };
+
+  void desinitializeMotor() {
+    intakeMotor.Set(TalonSRXControlMode::PercentOutput, 0.0); //Pending to define speed...
+    };
     
     //set doubleSolenoid Off, Forward or Reverse
   void solenoidOff() {
