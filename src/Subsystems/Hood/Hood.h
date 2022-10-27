@@ -20,17 +20,14 @@ class Hood : public frc2::SubsystemBase {
     }
   }
 
-  void voltageMotor(){
+  void VoltageMotor(){
 
     hoodMotor.Set(ctre::phoenix::motorcontrol::ControlMode::PercentOutput, 0.5);
   }
-
-  void NevoltageMotor(){
-
+  void neVoltageMotor(){
     hoodMotor.Set(ctre::phoenix::motorcontrol::ControlMode::PercentOutput, -0.5);
   }
-
-  void NovoltageMotor(){
+  void noVoltageMotor(){
 
     hoodMotor.Set(ctre::phoenix::motorcontrol::ControlMode::PercentOutput, 0);
   }

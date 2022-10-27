@@ -1,19 +1,23 @@
 #include "Robot.h"
 #include <frc2/command/CommandScheduler.h>
 #include <iostream>
+#include <frc/XboxController.h>
+#include <frc/smartdashboard/SmartDashboard.h>
 
 void Robot::RobotInit() {
 }
 
 void Robot::RobotPeriodic() {
   frc2::CommandScheduler::GetInstance().Run();
+  frc::SmartDashboard::PutBoolean("buttonX : ",buttonX);
+  frc::SmartDashboard::PutBoolean("buttonY : ",buttonY);
 }
 
 void Robot::AutonomousInit() {
 }
 
 void Robot::AutonomousPeriodic() {
-  hood.NevoltageMotor();
+  hood.neVoltageMotor();
 }
 
 void Robot::TeleopInit() {
@@ -21,9 +25,38 @@ void Robot::TeleopInit() {
 }
 
 void Robot::TeleopPeriodic() {
-  hood.voltageMotor();
   std::cout << hood.getSwitch()<< std::endl;
-}
+
+  buttonX = PointShoot.GetXButton();
+  buttonY = PointShoot.GetYButton();
+
+  bool XbuttonVolt();{
+    if (PointShoot.GetXButtonPressed() == true){
+      return hood.VoltageMotor();
+    }else{
+      return hood.noVoltageMotor();
+    }
+  }
+
+  bool YbuttonVolt();{
+    if(PointShoot.GetYButtonPressed() == true){
+      return hood.neVoltageMotor();
+    }else{
+      return hood.noVoltageMotor();
+    }
+  } 
+
+  };
+
+  //XbuttonVolt();
+  //if (buttonX == true){return hood.VoltageMotor();}
+  //else {return hood.noVoltageMotor();}
+
+  //YbuttonVolt();
+  //if (buttonY == true){return hood.neVoltageMotor();}
+  //else {return hood.noVoltageMotor();}
+
+
 
 void Robot::DisabledInit() {
 }

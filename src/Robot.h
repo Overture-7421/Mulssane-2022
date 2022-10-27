@@ -18,6 +18,9 @@ public:
   void TestPeriodic() override; 
   private:
   Hood hood;
-  frc::XboxController PointShoot{1};
-  Button = GetXButton();
+  frc::XboxController PointShoot{0};
+
+  bool buttonX = false;
+  bool buttonY = false;
+
 };
