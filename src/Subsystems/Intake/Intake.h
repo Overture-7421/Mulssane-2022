@@ -13,7 +13,7 @@ class Intake : public frc2::SubsystemBase {
     };
 
   void initializeMotor() {
-    intakeMotor.Set(TalonSRXControlMode::PercentOutput, 4); //Pending to define speed...
+    intakeMotor.Set(TalonSRXControlMode::PercentOutput, 6); //Pending to define speed...
     };
 
   void desinitializeMotor() {

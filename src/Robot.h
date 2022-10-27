@@ -17,6 +17,6 @@ public:
   void TestPeriodic() override; 
 
 private:
-  frc::Joystick joystick;
+  frc::Joystick joystick {0};
   Intake intake;
 };

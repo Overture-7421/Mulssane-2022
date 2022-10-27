@@ -3,6 +3,7 @@
 
 void Robot::RobotInit() {
   intake.invertIntakeMotor();
+
 }
 
 void Robot::RobotPeriodic() {
@@ -24,7 +25,7 @@ void Robot::TeleopPeriodic() {
   
   
 
-  if (joystick.GetTop() == true){
+  if (joystick.GetRawButton(5) == true){
     intake.initializeMotor();
     intake.solenoidForward();
   }
