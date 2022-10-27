@@ -19,8 +19,15 @@ void Robot::TeleopInit() {
 }
 
 void Robot::TeleopPeriodic() {
-  chassis.moveForward(controller1.GetLeftY() * 8);
+  //chassis.moveForward(controller1.GetLeftY() * 8);
   
+  /*double ySide = controller1.GetLeftY() * 8;
+  if (ySide > 0)
+  {
+    chassis.moveForward(ySide);
+  }
+  */
+ //esto yo lo hice y sigue sin funcionar :) #CesarAyuda
   double xSide = controller1.GetRightX() * 8;
   if (xSide > 0)
   {
@@ -59,4 +66,4 @@ int main() {
 
 
 // No fue facil, pero nos llevo al mundial y nos dejo en el ranking 29, se agradece infinitamente, gracias por compliar, gracias por avisarnos de errores, gracias por ser tan C++. 
-// Mulssane es un gran robot y su programa lo es tambien, excelente trabajo. 
+// Mulssane es un gran robot y su programa lo es tambien, excelente trabajo. sus
