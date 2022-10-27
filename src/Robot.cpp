@@ -17,7 +17,7 @@ void Robot::AutonomousInit() {
 }
 
 void Robot::AutonomousPeriodic() {
-  hood.neVoltageMotor();
+  hood.negativeVoltageMotor();
 }
 
 void Robot::TeleopInit() {
@@ -27,36 +27,20 @@ void Robot::TeleopInit() {
 void Robot::TeleopPeriodic() {
   std::cout << hood.getSwitch()<< std::endl;
 
-  buttonX = PointShoot.GetXButton();
-  buttonY = PointShoot.GetYButton();
+  bool buttonX = PointShoot.GetXButton(); 
 
-  bool XbuttonVolt();{
-    if (PointShoot.GetXButtonPressed() == true){
-      return hood.VoltageMotor();
-    }else{
-      return hood.noVoltageMotor();
-    }
-  }
+  bool buttonY = PointShoot.GetYButton();
 
-  bool YbuttonVolt();{
-    if(PointShoot.GetYButtonPressed() == true){
-      return hood.neVoltageMotor();
-    }else{
-      return hood.noVoltageMotor();
-    }
-  } 
+  if (buttonX == true){
+    hood.VoltageMotor();}
+    else if (buttonY == true){
+      hood.negativeVoltageMotor();}
+      else {hood.noneVoltageMotor();}
+
+  
+  
 
   };
-
-  //XbuttonVolt();
-  //if (buttonX == true){return hood.VoltageMotor();}
-  //else {return hood.noVoltageMotor();}
-
-  //YbuttonVolt();
-  //if (buttonY == true){return hood.neVoltageMotor();}
-  //else {return hood.noVoltageMotor();}
-
-
 
 void Robot::DisabledInit() {
 }
