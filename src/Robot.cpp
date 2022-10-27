@@ -1,5 +1,8 @@
 #include "Robot.h"
 #include <frc2/command/CommandScheduler.h>
+#ifndef RUNNING_FRC_TESTS
+#include <frc/DriverStation.h>
+#include <frc/livewindow/LiveWindow.h>
 
 void Robot::RobotInit() {
 }
@@ -19,25 +22,25 @@ void Robot::TeleopInit() {
 }
 
 void Robot::TeleopPeriodic() {
-  //chassis.moveForward(controller1.GetLeftY() * 8);
-  
-  /*double ySide = controller1.GetLeftY() * 8;
-  if (ySide > 0)
+  double xSide = controller1.GetRightX() * 4;
+  if (xSide > 0 || xSide < 0)
   {
-    chassis.moveForward(ySide);
-  }
-  */
- //esto yo lo hice y sigue sin funcionar :) #CesarAyuda
-  double xSide = controller1.GetRightX() * 8;
-  if (xSide > 0)
-  {
-    chassis.moveRight(xSide);
-  } else {
+    if (xSide > 0){
+      chassis.moveRight(xSide);
+    }
+    else if (xSide < 0){
     chassis.moveLeft(xSide);
+    }
   }
+  double ySide = controller1.GetLeftY() * 4;
+  if (ySide > 0 || ySide < 0){
+      chassis.moveForward(ySide);
+  }
+  
+  
   
 }
-
+//voltaje BAJADO
 void Robot::DisabledInit() {
 }
 
@@ -47,9 +50,7 @@ void Robot::TestInit() {}
 
 void Robot::TestPeriodic() {}
 
-#ifndef RUNNING_FRC_TESTS
-#include <frc/DriverStation.h>
-#include <frc/livewindow/LiveWindow.h>
+
 int main() {
   // These warnings generate console prints that cause scheduling jitter
   frc::DriverStation::SilenceJoystickConnectionWarning(true);
