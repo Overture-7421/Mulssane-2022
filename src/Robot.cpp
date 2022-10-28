@@ -22,7 +22,7 @@ void Robot::TeleopInit() {
 }
 
 void Robot::TeleopPeriodic() {
-  double xSide = controller1.GetRightX() * 4;
+  /*double xSide = m_leftJoystick.GetRightX() * 4;
   if (xSide > 0 || xSide < 0)
   {
     if (xSide > 0){
@@ -32,12 +32,12 @@ void Robot::TeleopPeriodic() {
     chassis.moveLeft(xSide);
     }
   }
-  double ySide = controller1.GetLeftY() * 4;
+  double ySide = m_rightJoystick.GetLeftY() * 4;
   if (ySide > 0 || ySide < 0){
       chassis.moveForward(ySide);
   }
-  
-  
+  */
+  //#CesarAyuda
   
 }
 //voltaje BAJADO

@@ -2,7 +2,7 @@
 
 #include <frc/TimedRobot.h>
 #include <Subsystems/Chassis.h>
-#include <frc/XboxController.h>
+#include <frc/Joystick.h>
 
 class Robot : public frc::TimedRobot {
 public:
@@ -21,5 +21,6 @@ public:
 
   private:
   Chassis chassis;
-  frc::XboxController controller1{0};
+  frc::Joystick* m_leftJoystick;
+  frc::Joystick* m_rightJoystick;
 };
