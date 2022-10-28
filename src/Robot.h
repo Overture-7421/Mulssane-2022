@@ -2,7 +2,7 @@
 
 #include <frc/TimedRobot.h>
 #include <Subsystems/Hood/Hood.h>
-#include <frc/XboxController.h>
+#include <frc/Joystick.h>
 
 class Robot : public frc::TimedRobot {
 public:
@@ -19,7 +19,7 @@ public:
 
   private:
   Hood hood;
-  frc::XboxController PointShoot{0};
+  frc::Joystick PointShoot{0};
   bool buttonX = false;
   bool buttonY = false;
 };

@@ -9,15 +9,12 @@ void Robot::RobotInit() {
 
 void Robot::RobotPeriodic() {
   frc2::CommandScheduler::GetInstance().Run();
-  frc::SmartDashboard::PutBoolean("buttonX : ",buttonX);
-  frc::SmartDashboard::PutBoolean("buttonY : ",buttonY);
 }
 
 void Robot::AutonomousInit() {
 }
 
 void Robot::AutonomousPeriodic() {
-  hood.negativeVoltageMotor();
 }
 
 void Robot::TeleopInit() {
@@ -27,20 +24,16 @@ void Robot::TeleopInit() {
 void Robot::TeleopPeriodic() {
   std::cout << hood.getSwitch()<< std::endl;
 
-  bool buttonX = PointShoot.GetXButton(); 
+  bool buttonX = PointShoot.GetRawButton(3); 
 
-  bool buttonY = PointShoot.GetYButton();
+  bool buttonY = PointShoot.GetRawButton(4);
 
   if (buttonX == true){
     hood.VoltageMotor();}
     else if (buttonY == true){
       hood.negativeVoltageMotor();}
-      else {hood.noneVoltageMotor();}
-
-  
-  
-
-  };
+      else {hood.noneVoltageMotor();}  
+};
 
 void Robot::DisabledInit() {
 }

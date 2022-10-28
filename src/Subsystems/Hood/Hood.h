@@ -6,7 +6,7 @@
 
 #include <frc2/command/SubsystemBase.h>
 #include <frc/DigitalInput.h>
-#include <ctre/phoenix/motorcontrol/can/TalonSRX.h>
+#include <ctre/Phoenix.h>
 
 class Hood : public frc2::SubsystemBase {
  public:
@@ -21,13 +21,13 @@ class Hood : public frc2::SubsystemBase {
   }
 
   void VoltageMotor(){
-    hoodMotor.Set(ctre::phoenix::motorcontrol::ControlMode::PercentOutput, 0.5);
+    hoodMotor.Set(TalonSRXControlMode::PercentOutput, 0.5);
   }
   void negativeVoltageMotor(){
-    hoodMotor.Set(ctre::phoenix::motorcontrol::ControlMode::PercentOutput, -0.5);
+    hoodMotor.Set(TalonSRXControlMode::PercentOutput, -0.5);
   }
   void noneVoltageMotor(){
-    hoodMotor.Set(ctre::phoenix::motorcontrol::ControlMode::PercentOutput, 0);
+    hoodMotor.Set(TalonSRXControlMode::PercentOutput, 0);
   }
 
   /**
@@ -37,7 +37,7 @@ class Hood : public frc2::SubsystemBase {
 
  private:
  frc::DigitalInput hoodSwitch {2};
- ctre::phoenix::motorcontrol::can::TalonSRX hoodMotor {9};
+ TalonSRX hoodMotor {9};
 
   // Components (e.g. motor controllers and sensors) should generally be
   // declared private and exposed only through public methods.
