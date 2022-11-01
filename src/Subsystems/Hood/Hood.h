@@ -6,7 +6,7 @@
 
 #include <frc2/command/SubsystemBase.h>
 #include <frc/DigitalInput.h>
-#include <ctre/Phoenix.h>
+#include <ctre/phoenix.h>
 
 class Hood : public frc2::SubsystemBase {
  public:
@@ -20,7 +20,10 @@ class Hood : public frc2::SubsystemBase {
     }
   }
 
-  void VoltageMotor(){
+  void VoltageMotor(double x){
+    hoodMotor.SetVoltage(units::volt_t(x));}
+
+  /*void VoltageMotor(){
     hoodMotor.Set(TalonSRXControlMode::PercentOutput, 0.5);
   }
   void negativeVoltageMotor(){
@@ -28,7 +31,8 @@ class Hood : public frc2::SubsystemBase {
   }
   void noneVoltageMotor(){
     hoodMotor.Set(TalonSRXControlMode::PercentOutput, 0);
-  }
+  }*/
+  
 
   /**
    * Will be called periodically whenever the CommandScheduler runs.
@@ -37,7 +41,7 @@ class Hood : public frc2::SubsystemBase {
 
  private:
  frc::DigitalInput hoodSwitch {2};
- TalonSRX hoodMotor {9};
+ WPI_TalonSRX hoodMotor {9};
 
   // Components (e.g. motor controllers and sensors) should generally be
   // declared private and exposed only through public methods.

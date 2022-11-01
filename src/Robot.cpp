@@ -29,10 +29,10 @@ void Robot::TeleopPeriodic() {
   bool buttonY = PointShoot.GetRawButton(4);
 
   if (buttonX == true){
-    hood.VoltageMotor();}
+    hood.VoltageMotor(4);}
     else if (buttonY == true){
-      hood.negativeVoltageMotor();}
-      else {hood.noneVoltageMotor();}  
+      hood.VoltageMotor(-4);}
+      else {hood.VoltageMotor(0);}  
 };
 
 void Robot::DisabledInit() {
