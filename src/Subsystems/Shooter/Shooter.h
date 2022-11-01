@@ -8,7 +8,7 @@
 #include <ctre/Phoenix.h>
 #include "frc/DataLogManager.h"
 #include "frc/DriverStation.h"
-#include <frc/XboxController.h>
+#include <frc/Joystick.h>
 
 
 
@@ -20,7 +20,8 @@ class Shooter : public frc2::SubsystemBase {
    * Will be called periodically whenever the CommandScheduler runs.
    */
   void Shoot() {
-    
+     
+bool frc::Joystick::GetTrigger(3) const;
 
 
 
@@ -44,8 +45,6 @@ class Shooter : public frc2::SubsystemBase {
   void Periodic() override;
 
  private:
- 
-  frc::XboxController xbox{0};
   WPI_TalonFX shooter_Left{14};
   WPI_TalonFX shooter_Right{15};
 
