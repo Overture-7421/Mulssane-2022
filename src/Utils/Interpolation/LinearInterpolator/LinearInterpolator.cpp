@@ -4,9 +4,10 @@
 
 #include "LinearInterpolator.h"
 
+#include <fmt/format.h>
+
 #include <algorithm>
 #include <iostream>
-#include <fmt/format.h>
 
 LinearInterpolator::LinearInterpolator(const DataTable& dataTable) {
   this->dataTable = dataTable;
@@ -22,8 +23,8 @@ double LinearInterpolator::getY(double x) {
   const auto& endPoint = points[1];
 
   double change = ((endPoint->second - startPoint->second) /
-                               (endPoint->first - startPoint->first)) *
-                                  (x - startPoint->first);
+                   (endPoint->first - startPoint->first)) *
+                  (x - startPoint->first);
   return startPoint->second + change;
 }
 

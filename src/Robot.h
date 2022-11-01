@@ -5,7 +5,7 @@
 #include <frc/Joystick.h>
 
 class Robot : public frc::TimedRobot {
-public:
+ public:
   void RobotInit() override;
   void RobotPeriodic() override;
   void AutonomousInit() override;
