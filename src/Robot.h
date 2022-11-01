@@ -19,7 +19,7 @@ class Robot : public frc::TimedRobot {
 
   private:
   Hood hood;
-  frc::Joystick PointShoot{0};
+  frc::Joystick Joystick{0};
   bool buttonX = false;
   bool buttonY = false;
 };

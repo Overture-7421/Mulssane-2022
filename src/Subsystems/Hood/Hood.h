@@ -6,7 +6,7 @@
 
 #include <frc2/command/SubsystemBase.h>
 #include <frc/DigitalInput.h>
-#include <ctre/phoenix.h>
+#include <ctre/Phoenix.h>
 
 class Hood : public frc2::SubsystemBase {
  public:
