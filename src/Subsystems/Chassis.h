@@ -5,7 +5,7 @@
 #pragma once
 
 #include <frc2/command/SubsystemBase.h>
-#include <ctre/phoenix/motorcontrol/can/WPI_TalonFX.h>
+#include <ctre/Phoenix.h>
 
 class Chassis : public frc2::SubsystemBase {
  public:
@@ -49,11 +49,11 @@ class Chassis : public frc2::SubsystemBase {
  private:
   // Components (e.g. motor controllers and sensors) should generally be
   // declared private and exposed only through public methods.
-  ctre::phoenix::motorcontrol::can::WPI_TalonFX chassisLeftMaster{1};
-  ctre::phoenix::motorcontrol::can::WPI_TalonFX leftSlave_1{2}; 
-  ctre::phoenix::motorcontrol::can::WPI_TalonFX leftSlave_2{3};
-  ctre::phoenix::motorcontrol::can::WPI_TalonFX chassisRightMaster{11};
-  ctre::phoenix::motorcontrol::can::WPI_TalonFX rightSlave_1{12}; 
-  ctre::phoenix::motorcontrol::can::WPI_TalonFX rightSlave_2{13}; 
+  WPI_TalonFX chassisLeftMaster{1};
+  WPI_TalonFX leftSlave_1{2}; 
+  WPI_TalonFX leftSlave_2{3};
+  WPI_TalonFX chassisRightMaster{11};
+  WPI_TalonFX rightSlave_1{12}; 
+  WPI_TalonFX rightSlave_2{13}; 
    
 };
