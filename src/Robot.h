@@ -19,4 +19,5 @@ public:
 private:
   frc::Joystick joystick {0};
   Intake intake;
+  Climber climber;
 };

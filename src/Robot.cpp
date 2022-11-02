@@ -3,6 +3,7 @@
 
 void Robot::RobotInit() {
   intake.invertIntakeMotor();
+  climber.invertClimberMotor();
 
 }
 
@@ -22,8 +23,6 @@ void Robot::TeleopInit()
 }
 
 void Robot::TeleopPeriodic() {
-  
-  
 
   if (joystick.GetRawButton(5) == true){
     intake.moveIntakeMotor();
