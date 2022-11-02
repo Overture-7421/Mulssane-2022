@@ -65,5 +65,6 @@
         "*.inc": "cpp",
         "variant": "cpp"
     },
-    "C_Cpp.dimInactiveRegions": false
+    "C_Cpp.dimInactiveRegions": false,
+    "C_Cpp.clang_format_fallbackStyle": "Google"
 }
