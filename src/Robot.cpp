@@ -26,8 +26,6 @@ void Robot::TeleopPeriodic() {
     hood.VoltageMotor(4);
   } else if (buttonY) {
     hood.VoltageMotor(-4);
-  } else if (hood.getSwitch()) {
-    hood.VoltageMotor(0);
   } else {
     hood.VoltageMotor(0);
   }
