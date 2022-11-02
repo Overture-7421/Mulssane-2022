@@ -21,11 +21,11 @@ void Robot::TeleopPeriodic() {
   bool buttonX = Joystick.GetRawButton(3); 
   bool buttonY = Joystick.GetRawButton(4);
 
-  if (buttonX == true){
-    hood.VoltageMotor(4);}
-    else if (buttonY == true){
-      hood.VoltageMotor(-4);}
-      else {hood.VoltageMotor(0);}  
+  if (buttonX){
+    hood.VoltageMotor(4);
+  } else if (buttonY){
+    hood.VoltageMotor(-4);
+  } else {hood.VoltageMotor(0);}  
 };
 void Robot::DisabledInit() {}
 

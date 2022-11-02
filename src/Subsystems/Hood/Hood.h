@@ -13,26 +13,13 @@ class Hood : public frc2::SubsystemBase {
   Hood();
 
   bool getSwitch(){
-    if (hoodSwitch.Get() == 0){
-      return true; 
-    }else{
-      return false;
-    }
-  }
+    if (hoodSwitch.Get()){
+      return true;}
+      
+      return false;}
 
   void VoltageMotor(double x){
     hoodMotor.SetVoltage(units::volt_t(x));}
-
-  /*void VoltageMotor(){
-    hoodMotor.Set(TalonSRXControlMode::PercentOutput, 0.5);
-  }
-  void negativeVoltageMotor(){
-    hoodMotor.Set(TalonSRXControlMode::PercentOutput, -0.5);
-  }
-  void noneVoltageMotor(){
-    hoodMotor.Set(TalonSRXControlMode::PercentOutput, 0);
-  }*/
-  
 
   /**
    * Will be called periodically whenever the CommandScheduler runs.
