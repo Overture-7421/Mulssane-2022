@@ -5,6 +5,7 @@
 #include <ctre/phoenix/motorcontrol/can/WPI_TalonFX.h>
 #include <ctre/phoenix/motorcontrol/can/WPI_VictorSPX.h>
 
+
 class Intake : public frc2::SubsystemBase {
  public:
  Intake();
@@ -15,12 +16,11 @@ class Intake : public frc2::SubsystemBase {
     };
 
   void moveIntakeMotor() {
-    intakeMotor.SetVoltage(TalonSRXControlMode::Current, 6_V);
-    intakeMotor.Set(TalonSRXControlMode::PercentOutput, 1);
+    intakeMotor.SetVoltage(units::volt_t (6));
     };
 
   void stopIntakeMotor() {
-    intakeMotor.Set(TalonSRXControlMode::PercentOutput, 0.0);
+    intakeMotor.SetVoltage(units::volt_t (0));
     };
     
     //set doubleSolenoid Forward or Reverse
@@ -37,6 +37,6 @@ class Intake : public frc2::SubsystemBase {
 
  private:
  //Declare Talon and Solenoid of the Intake
- TalonSRX intakeMotor {8};
+ WPI_TalonSRX intakeMotor {8};
  frc::DoubleSolenoid intakeSolenoid {frc::PneumaticsModuleType::CTREPCM, 1, 0};
 };
