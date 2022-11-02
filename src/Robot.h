@@ -1,6 +1,8 @@
 #pragma once
 
 #include <frc/TimedRobot.h>
+#include <Subsystems/Hood/Hood.h>
+#include <frc/Joystick.h>
 
 class Robot : public frc::TimedRobot {
  public:
@@ -13,5 +15,11 @@ class Robot : public frc::TimedRobot {
   void DisabledInit() override;
   void DisabledPeriodic() override;
   void TestInit() override;
-  void TestPeriodic() override;
+  void TestPeriodic() override; 
+
+  private:
+  Hood hood;
+  frc::Joystick Joystick{0};
+  bool buttonX = false;
+  bool buttonY = false;
 };

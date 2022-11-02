@@ -1,6 +1,9 @@
 #include "Robot.h"
 
 #include <frc2/command/CommandScheduler.h>
+#include <iostream>
+#include <frc/XboxController.h>
+#include <frc/smartdashboard/SmartDashboard.h>
 
 void Robot::RobotInit() {}
 
@@ -12,8 +15,18 @@ void Robot::AutonomousPeriodic() {}
 
 void Robot::TeleopInit() { frc2::CommandScheduler::GetInstance().CancelAll(); }
 
-void Robot::TeleopPeriodic() {}
+void Robot::TeleopPeriodic() {
+  std::cout << hood.getSwitch()<< std::endl;
 
+  bool buttonX = Joystick.GetRawButton(3); 
+  bool buttonY = Joystick.GetRawButton(4);
+
+  if (buttonX){
+    hood.VoltageMotor(4);
+  } else if (buttonY){
+    hood.VoltageMotor(-4);
+  } else {hood.VoltageMotor(0);}  
+};
 void Robot::DisabledInit() {}
 
 void Robot::DisabledPeriodic() {}
