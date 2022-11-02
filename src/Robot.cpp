@@ -25,13 +25,13 @@ void Robot::TeleopInit()
 void Robot::TeleopPeriodic() {
 
   if (joystick.GetRawButton(5) == true){
-    intake.moveIntakeMotor();
-    intake.intakeSolenoidForward();
+    intake.initializeMotor();
+    intake.solenoidForward();
   }
   
   else {
-    intake.stopIntakeMotor();
-    intake.intakeSolenoidReverse();
+    intake.desinitializeMotor();
+    intake.solenoidReverse();
     }
   }
   
