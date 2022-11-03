@@ -21,6 +21,5 @@ public:
 
   private:
   Chassis chassis;
-  frc::Joystick* m_leftJoystick;
-  frc::Joystick* m_rightJoystick;
+  frc::Joystick joystick {0};
 };
