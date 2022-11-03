@@ -20,13 +20,7 @@ class Shooter : public frc2::SubsystemBase {
    * Will be called periodically whenever the CommandScheduler runs.
    */
   void Shoot() {
-     
-bool frc::Joystick::GetTrigger(3) const;
-
-
-
-
-
+    
     shooter_Left.Set(-.5);
     shooter_Right.Set(.5);
   

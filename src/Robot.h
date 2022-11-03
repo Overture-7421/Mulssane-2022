@@ -2,6 +2,7 @@
 
 #include <frc/TimedRobot.h>
 #include <Subsystems/Shooter/Shooter.h>
+#include <frc/Joystick.h>
 
 class Robot : public frc::TimedRobot {
 public:
@@ -19,8 +20,8 @@ public:
   private:
   Shooter shooter;
 
-  frc::Joystick elJOYSTICK{1};
+  frc::Joystick elJOYSTICK{0};
 
-  
+  double Trigger = 0.0;
 
 };

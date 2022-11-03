@@ -1,6 +1,7 @@
 #include "Robot.h"
 #include <frc2/command/CommandScheduler.h>
-#include <Subsystems/Storage/Storage.h>
+#include <Subsystems/Shooter/Shooter.h>
+#include <frc/Joystick.h>
 
 void Robot::RobotInit() {
 }
@@ -20,7 +21,17 @@ void Robot::TeleopInit() {
 }
 
 void Robot::TeleopPeriodic() {
+
+
+Trigger = elJOYSTICK.GetRawAxis(3);
+
+  if(Trigger >= 0.5){
+  
   shooter.Shoot();
+
+  }else {
+  shooter.Stop_shoot();
+  };
   
 }
 
