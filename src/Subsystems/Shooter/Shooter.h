@@ -19,22 +19,12 @@ class Shooter : public frc2::SubsystemBase {
   /**
    * Will be called periodically whenever the CommandScheduler runs.
    */
-  void Shoot() {
-    
-    shooter_Left.Set(-.5);
-    shooter_Right.Set(.5);
+  void Shoot(double x) {
+
+    shooter_Left.Set(-x);
+    shooter_Right.Set(x);
   
   }
-
-   void Stop_shoot() {
-    
-    shooter_Left.Set(0);
-    shooter_Right.Set(0);
-  
-  }
-
-  void Stop_Shooting() {shooter_Left.Set(-0);
-                shooter_Right.Set(-0);}
 
   void Periodic() override;
 

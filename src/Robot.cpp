@@ -25,12 +25,12 @@ void Robot::TeleopPeriodic() {
 
 Trigger = elJOYSTICK.GetRawAxis(3);
 
-  if(Trigger >= 0.5){
+  if(Trigger >= 0.1){
   
-  shooter.Shoot();
+  shooter.Shoot(Trigger);
 
   }else {
-  shooter.Stop_shoot();
+  shooter.Shoot(0);
   };
   
 }
