@@ -1,19 +1,18 @@
 #include "Robot.h"
+
+#include <frc/XboxController.h>
+#include <frc/smartdashboard/SmartDashboard.h>
 #include <frc2/command/CommandScheduler.h>
 
-void Robot::RobotInit() {
-  intake.invertIntakeMotor();
-}
+#include <iostream>
 
-void Robot::RobotPeriodic() {
-  frc2::CommandScheduler::GetInstance().Run();
-}
+void Robot::RobotInit() {}
 
-void Robot::AutonomousInit() {
-}
+void Robot::RobotPeriodic() { frc2::CommandScheduler::GetInstance().Run(); }
 
-void Robot::AutonomousPeriodic() {
-}
+void Robot::AutonomousInit() {}
+
+void Robot::AutonomousPeriodic() {}
 
 void Robot::TeleopInit() 
 {
@@ -56,10 +55,7 @@ int main() {
 }
 #endif
 
-
-
-
-
-
-// No fue facil, pero nos llevo al mundial y nos dejo en el ranking 29, se agradece infinitamente, gracias por compliar, gracias por avisarnos de errores, gracias por ser tan C++. 
-// Mulssane es un gran robot y su programa lo es tambien, excelente trabajo. 
+// No fue facil, pero nos llevo al mundial y nos dejo en el ranking 29, se
+// agradece infinitamente, gracias por compliar, gracias por avisarnos de
+// errores, gracias por ser tan C++. Mulssane es un gran robot y su programa lo
+// es tambien, excelente trabajo.
