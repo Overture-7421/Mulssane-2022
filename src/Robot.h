@@ -4,7 +4,7 @@
 #include <frc/Joystick.h>
 
 class Robot : public frc::TimedRobot {
-public:
+  public:
   void RobotInit() override;
   void RobotPeriodic() override;
   void AutonomousInit() override;
@@ -16,8 +16,8 @@ public:
   void TestInit() override;
   void TestPeriodic() override; 
 
-private:
-  frc::Joystick joystick {0};
+  private:
   Intake intake;
-  Climber climber;
+  frc::Joystick joystick{0};
+  
 };

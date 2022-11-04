@@ -3,8 +3,6 @@
 
 void Robot::RobotInit() {
   intake.invertIntakeMotor();
-  climber.invertClimberMotor();
-
 }
 
 void Robot::RobotPeriodic() {
