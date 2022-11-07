@@ -5,21 +5,10 @@
 #pragma once
 
 #include <frc2/command/SubsystemBase.h>
-#include <frc/DigitalInput.h>
-#include <ctre/Phoenix.h>
 
-class Hood : public frc2::SubsystemBase {
+class Climber : public frc2::SubsystemBase {
  public:
-  Hood();
-
-  bool getSwitch(){
-    if (hoodSwitch.Get()){
-      return true;}
-      
-      return false;}
-
-  void VoltageMotor(double x){
-    hoodMotor.SetVoltage(units::volt_t(x));}
+  Climber();
 
   /**
    * Will be called periodically whenever the CommandScheduler runs.
@@ -27,11 +16,6 @@ class Hood : public frc2::SubsystemBase {
   void Periodic() override;
 
  private:
- frc::DigitalInput hoodSwitch {2};
- WPI_TalonSRX hoodMotor {9};
-
   // Components (e.g. motor controllers and sensors) should generally be
   // declared private and exposed only through public methods.
 };
-
-
