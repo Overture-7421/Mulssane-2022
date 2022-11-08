@@ -14,22 +14,26 @@ void Robot::AutonomousInit() {}
 
 void Robot::AutonomousPeriodic() {}
 
-void Robot::TeleopInit() { frc2::CommandScheduler::GetInstance().CancelAll(); }
+void Robot::TeleopInit() 
+{
+  frc2::CommandScheduler::GetInstance().CancelAll();
+}
 
 void Robot::TeleopPeriodic() {
-  std::cout << hood.getSwitch() << std::endl;
 
-  bool buttonX = Joystick.GetRawButton(3);
-  bool buttonY = Joystick.GetRawButton(4);
-
-  if (buttonX) {
-    hood.VoltageMotor(4);
-  } else if (buttonY) {
-    hood.VoltageMotor(-4);
-  } else {
-    hood.VoltageMotor(0);
+  if (joystick.GetRawButton(5) == true){
+    intake.initializeMotor();
+    intake.solenoidForward();
   }
-};
+  
+  else {
+    intake.desinitializeMotor();
+    intake.solenoidReverse();
+    }
+  }
+  
+  //add intake.solenoidReverse when clicked on controller
+
 void Robot::DisabledInit() {}
 
 void Robot::DisabledPeriodic() {}

@@ -1,11 +1,10 @@
 #pragma once
-
 #include <frc/TimedRobot.h>
-#include <Subsystems/Hood/Hood.h>
+#include <Subsystems/Intake/Intake.h>
 #include <frc/Joystick.h>
 
 class Robot : public frc::TimedRobot {
- public:
+  public:
   void RobotInit() override;
   void RobotPeriodic() override;
   void AutonomousInit() override;
@@ -18,8 +17,7 @@ class Robot : public frc::TimedRobot {
   void TestPeriodic() override; 
 
   private:
-  Hood hood;
-  frc::Joystick Joystick{0};
-  bool buttonX = false;
-  bool buttonY = false;
+  Intake intake;
+  frc::Joystick joystick{0};
+  
 };
