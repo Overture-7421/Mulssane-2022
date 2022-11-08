@@ -18,9 +18,14 @@ void Robot::TeleopInit() { frc2::CommandScheduler::GetInstance().CancelAll(); }
 
 void Robot::TeleopPeriodic() {
   std::cout << hood.getSwitch() << std::endl;
+  
 
-  bool buttonX = Joystick.GetRawButton(3);
-  bool buttonY = Joystick.GetRawButton(4);
+  buttonX = Joystick.GetRawButton(3);
+  buttonY = Joystick.GetRawButton(4);
+
+  if (hood.getSwitch()){
+    buttonY = false;
+  }
 
   if (buttonX) {
     hood.VoltageMotor(4);
@@ -29,6 +34,7 @@ void Robot::TeleopPeriodic() {
   } else {
     hood.VoltageMotor(0);
   }
+  
 };
 void Robot::DisabledInit() {}
 

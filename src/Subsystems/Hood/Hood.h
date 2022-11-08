@@ -12,19 +12,21 @@ class Hood : public frc2::SubsystemBase {
  public:
   Hood();
 
-  bool getSwitch(){
-    if (hoodSwitch.Get()){
-      return true;}
-      
-      return false;}
-
   void VoltageMotor(double x){
-    hoodMotor.SetVoltage(units::volt_t(x));}
+    hoodMotor.SetVoltage(units::volt_t(x));
+    }
 
   /**
    * Will be called periodically whenever the CommandScheduler runs.
    */
   void Periodic() override;
+
+   bool getSwitch(){
+    if (!hoodSwitch.Get()){
+      return true;
+      }
+      return false;
+      }
 
  private:
  frc::DigitalInput hoodSwitch {2};
