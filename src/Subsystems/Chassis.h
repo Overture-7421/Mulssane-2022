@@ -67,11 +67,20 @@ class Chassis : public frc2::SubsystemBase {
   }
 
   void getPID(double leftMPS, double rightMPS){
-     double leftPID =  LeftPIDcontroller.Calculate(getLeftSpeed(), leftMPS);
-     double rightPID =  RightPIDcontroller.Calculate(getRightSpeed(), rightMPS);
+     double leftPID =  LeftPIDcontroller.Calculate(getLeftSpeed(), leftMPS) + leftMPS * leftF;
+     double rightPID =  RightPIDcontroller.Calculate(getRightSpeed(), rightMPS) + rightMPS * rightF;
     wheelVoltage(leftPID, rightPID);
   }
 
+  void setPIDvaluesLeft(double kP, double kI, double kD, double f){
+    LeftPIDcontroller.SetPID(kP, kI, kD);
+    leftF = f;
+  }
+
+  void setPIDvaluesRight(double kP, double kI, double kD, double f){
+    RightPIDcontroller.SetPID(kP, kI, kD);
+    rightF = f;
+  }
 
   /**
    * Will be called periodically whenever the CommandScheduler runs.
@@ -95,4 +104,7 @@ class Chassis : public frc2::SubsystemBase {
 
   frc2::PIDController LeftPIDcontroller{0, 0, 0};
   frc2::PIDController RightPIDcontroller{0, 0, 0};
+
+  double leftF = 2.9;
+  double rightF = 2.75;
 };
