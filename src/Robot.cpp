@@ -1,6 +1,6 @@
 #include "Robot.h"
 
-#include <frc/XboxController.h>
+#include <frc/Joystick.h>
 #include <frc/smartdashboard/SmartDashboard.h>
 #include <frc2/command/CommandScheduler.h>
 
@@ -23,17 +23,37 @@ void Robot::TeleopPeriodic() {
 
   if (joystick.GetRawButton(5) == true){
     intake.initializeMotor();
-    intake.solenoidForward();
-  }
-  
-  else {
+    intake.intakeSolenoidForward();
+  }else {
     intake.desinitializeMotor();
-    intake.solenoidReverse();
+    intake.intakeSolenoidReverse();
+    }
+
+  if (joystick.GetRawButton(4) == true){
+    intake.intakeSolenoidForward();
+    climber.climberSolenoidForward();
+  } else {
+    intake.intakeSolenoidReverse();
+    climber.climberSolenoidReverse();
+    }
+  
+  if (joystick.GetRawButton(1) && joystick.GetRawButton(6)){
+    climber.initializeRightClimberMotor();
+    climber.initializeLeftClimberMotor();
+  } else {
+    climber.desinitializeRightClimberMotor();
+    climber.desinitializeLeftClimberMotor();
+    }
+
+ if (joystick.GetRawButton(1) && joystick.GetRawButton(5)){
+    climber.reverseRightClimberMotor();
+    climber.reverseLeftClimberMotor();
+  } else {
+    climber.desinitializeRightClimberMotor();
+    climber.desinitializeLeftClimberMotor();
     }
   }
   
-  //add intake.solenoidReverse when clicked on controller
-
 void Robot::DisabledInit() {}
 
 void Robot::DisabledPeriodic() {}

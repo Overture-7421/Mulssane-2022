@@ -22,15 +22,11 @@ class Intake : public frc2::SubsystemBase {
     };
     
     //set doubleSolenoid Off, Forward or Reverse
-  void solenoidOff() {
-    intakeSolenoid.Set(frc::DoubleSolenoid::Value::kOff);
-    }; 
-
-  void solenoidForward() {
+  void intakeSolenoidForward() {
     intakeSolenoid.Set(frc::DoubleSolenoid::Value::kForward);
     };
 
-  void solenoidReverse() {
+  void intakeSolenoidReverse() {
     intakeSolenoid.Set(frc::DoubleSolenoid::Value::kReverse);
     };
     

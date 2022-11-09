@@ -1,6 +1,7 @@
 #pragma once
 #include <frc/TimedRobot.h>
 #include <Subsystems/Intake/Intake.h>
+#include "Subsystems/Climber/Climber.h"
 #include <frc/Joystick.h>
 
 class Robot : public frc::TimedRobot {
@@ -18,6 +19,7 @@ class Robot : public frc::TimedRobot {
 
   private:
   Intake intake;
+  Climber climber;
   frc::Joystick joystick{0};
   
 };
