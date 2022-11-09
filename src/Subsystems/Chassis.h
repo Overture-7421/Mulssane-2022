@@ -8,6 +8,7 @@
 #include <ctre/Phoenix.h>
 #include <frc/kinematics/DifferentialDriveKinematics.h>
 #include <iostream>
+#include <frc/controller/PIDController.h>
 
 class Chassis : public frc2::SubsystemBase {
  public:
@@ -41,22 +42,36 @@ class Chassis : public frc2::SubsystemBase {
 
     frc::DifferentialDriveWheelSpeeds wheelSpeeds = kinematics.ToWheelSpeeds(chassisSpeed);
 
-    wheelVoltage(wheelSpeeds.left.value(), wheelSpeeds.right.value());
+    getPID(wheelSpeeds.left.value(), wheelSpeeds.right.value());
   }
 
-  
-
-  void getEncoder(){
-    std::string leftData = std::to_string(getDistance(chassisLeftMaster.GetSelectedSensorPosition()));
-    std::string rightData = std::to_string(getDistance(chassisRightMaster.GetSelectedSensorPosition()));
-
-    std::cout << "Left: " << leftData << " Right: " << rightData << std::endl;
+  double getLeftSpeed(){
+    return getMeters(chassisLeftMaster.GetSelectedSensorVelocity() * 10);
   }
 
-  double getDistance(double position){
-      double distance = position / 2048 / 12 * 0.4787773;
-      return distance;
+  double getRightSpeed(){
+    return getMeters(chassisRightMaster.GetSelectedSensorVelocity() * 10);
   }
+
+  double getMeters(double codes){
+      double meters = codes / 2048 / 12 * 0.4787773;
+      return meters;
+  }
+
+  double getLeftDistance(){
+    return getMeters(chassisLeftMaster.GetSelectedSensorPosition());
+  }
+
+  double getRightDistance(){
+    return getMeters(chassisRightMaster.GetSelectedSensorPosition());
+  }
+
+  void getPID(double leftMPS, double rightMPS){
+     double leftPID =  LeftPIDcontroller.Calculate(getLeftSpeed(), leftMPS);
+     double rightPID =  RightPIDcontroller.Calculate(getRightSpeed(), rightMPS);
+    wheelVoltage(leftPID, rightPID);
+  }
+
 
   /**
    * Will be called periodically whenever the CommandScheduler runs.
@@ -77,4 +92,7 @@ class Chassis : public frc2::SubsystemBase {
   WPI_TalonFX rightSlave_2{13}; 
    
   frc::DifferentialDriveKinematics kinematics{0.69_m};
+
+  frc2::PIDController LeftPIDcontroller{0, 0, 0};
+  frc2::PIDController RightPIDcontroller{0, 0, 0};
 };

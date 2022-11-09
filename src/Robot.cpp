@@ -3,6 +3,7 @@
 #ifndef RUNNING_FRC_TESTS
 #include <frc/DriverStation.h>
 #include <frc/livewindow/LiveWindow.h>
+#include <frc/smartdashboard/SmartDashboard.h>
 
 void Robot::RobotInit()
 { 
@@ -29,8 +30,9 @@ void Robot::TeleopInit()
 void Robot::TeleopPeriodic()
 {
   chassis.setSpeed(-joystick.GetRawAxis(1) * 8, -joystick.GetRawAxis(4) * 2 * M_PI);
-  
-  chassis.getEncoder();
+
+  frc::SmartDashboard::PutNumber("LeftSpeed", chassis.getLeftSpeed());
+  frc::SmartDashboard::PutNumber("RightSpeed", chassis.getRightSpeed());
 }
 
 
