@@ -6,7 +6,9 @@
 
 #include <iostream>
 
-void Robot::RobotInit() {}
+void Robot::RobotInit() {
+  intake.invertIntakeMotor();
+}
 
 void Robot::RobotPeriodic() { frc2::CommandScheduler::GetInstance().Run(); }
 
@@ -20,15 +22,18 @@ void Robot::TeleopInit()
 }
 
 void Robot::TeleopPeriodic() {
+std::cout << climber.getSwitch() << std::endl;
 
+//Intake 
   if (joystick.GetRawButton(5) == true){
-    intake.initializeMotor();
     intake.intakeSolenoidForward();
+    intake.initializeMotor();
   }else {
-    intake.desinitializeMotor();
     intake.intakeSolenoidReverse();
+    intake.desinitializeMotor();
     }
 
+//Climber Up
   if (joystick.GetRawButton(4) == true){
     intake.intakeSolenoidForward();
     climber.climberSolenoidForward();
@@ -37,6 +42,7 @@ void Robot::TeleopPeriodic() {
     climber.climberSolenoidReverse();
     }
   
+  //Winches
   if (joystick.GetRawButton(1) && joystick.GetRawButton(6)){
     climber.initializeRightClimberMotor();
     climber.initializeLeftClimberMotor();
