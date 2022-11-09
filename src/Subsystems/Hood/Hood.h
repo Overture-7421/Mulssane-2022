@@ -13,24 +13,32 @@ class Hood : public frc2::SubsystemBase {
   Hood();
 
   void VoltageMotor(double x){
-    hoodMotor.SetVoltage(units::volt_t(x));
+    speed = x;
     }
 
-  /**
-   * Will be called periodically whenever the CommandScheduler runs.
-   */
-  void Periodic() override;
-
-   bool getSwitch(){
+    bool getSwitch(){
     if (!hoodSwitch.Get()){
       return true;
       }
       return false;
       }
+    
+  /**
+   * Will be called periodically whenever the CommandScheduler runs.
+   */
+  void Periodic() override{
+
+   if (speed < 0 and getSwitch()){
+     hoodMotor.SetVoltage(0_V);
+   } else{
+     hoodMotor.SetVoltage(units::volt_t(speed));
+   }
+  }
 
  private:
  frc::DigitalInput hoodSwitch {2};
  WPI_TalonSRX hoodMotor {9};
+ double speed = 0;
 
   // Components (e.g. motor controllers and sensors) should generally be
   // declared private and exposed only through public methods.

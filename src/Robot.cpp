@@ -23,10 +23,6 @@ void Robot::TeleopPeriodic() {
   buttonX = Joystick.GetRawButton(3);
   buttonY = Joystick.GetRawButton(4);
 
-  if (hood.getSwitch()){
-    buttonY = false;
-  }
-
   if (buttonX) {
     hood.VoltageMotor(4);
   } else if (buttonY) {
