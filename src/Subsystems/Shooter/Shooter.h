@@ -12,8 +12,12 @@ class Shooter : public frc2::SubsystemBase {
  public:
   Shooter();
 
-  void Shoot() {shooter_Left.Set(-.5);
-                        shooter_Right.Set(.5); }
+  void Shoot() {
+    
+    shooter_Left.Set(-.5);
+    shooter_Right.Set(.5); 
+    
+  }
   /**
    * Will be called periodically whenever the CommandScheduler runs.
    */

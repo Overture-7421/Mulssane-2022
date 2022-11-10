@@ -16,16 +16,18 @@ class Storage : public frc2::SubsystemBase {
     
   Position1.Set(-0.5);
   Position2.Set(0.5);
-  Omnis.Set(0.5);    };
+  Omnis.Set(0.5);    
+  
+  };
   
   void StopAll() {
     Position1.Set(0);
     Position2.Set(0);
-    Omnis.Set(0);    }
+    Omnis.Set(0);   
+   }
 
   void Detect() {
- 
-  if(!linput.Get(5)) {
+  if(!input.Get(5)) {
         std::cout << 1;
     } else {
        std::cout << 0;
@@ -43,8 +45,7 @@ WPI_VictorSPX Position2 {7};
 WPI_TalonSRX Position1 {5};
 WPI_VictorSPX Omnis {4};
 WPI_VictorSPX Feeder {10};
-frc::DigitalInput trigger{5}; // buscar puerto
-
+frc::DigitalInput input{5};
 
   // Components (e.g. motor controllers and sensors) should generally be
   // declared private and exposed only through public methods.
