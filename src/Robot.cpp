@@ -28,7 +28,6 @@ void Robot::TeleopInit()
 
   frc::SmartDashboard::PutNumber("Left Kp", 0);
   frc::SmartDashboard::PutNumber("Right Kp", 0);
-  frc::SmartDashboard::PutNumber("Left Kp", 0);
   frc::SmartDashboard::PutNumber("Left Ki", 0);
   frc::SmartDashboard::PutNumber("Right Ki", 0);
   frc::SmartDashboard::PutNumber("Left Kd", 0);

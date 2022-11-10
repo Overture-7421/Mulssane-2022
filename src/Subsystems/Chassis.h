@@ -9,6 +9,8 @@
 #include <frc/kinematics/DifferentialDriveKinematics.h>
 #include <iostream>
 #include <frc/controller/PIDController.h>
+#include <frc/controller/SimpleMotorFeedforward.h>
+#include <frc/filter/SlewRateLimiter.h>
 
 class Chassis : public frc2::SubsystemBase {
  public:
@@ -36,13 +38,8 @@ class Chassis : public frc2::SubsystemBase {
   }
 
   void setSpeed(double linearSpeed, double angularSpeed) {
-    frc::ChassisSpeeds chassisSpeed;
-    chassisSpeed.vx = units::meters_per_second_t(linearSpeed);
-    chassisSpeed.omega = units::radians_per_second_t(angularSpeed);
-
-    frc::DifferentialDriveWheelSpeeds wheelSpeeds = kinematics.ToWheelSpeeds(chassisSpeed);
-
-    getPID(wheelSpeeds.left.value(), wheelSpeeds.right.value());
+    this->linearSpeed = linearSpeed;
+    this->angularSpeed = angularSpeed;
   }
 
   double getLeftSpeed(){
@@ -67,8 +64,8 @@ class Chassis : public frc2::SubsystemBase {
   }
 
   void getPID(double leftMPS, double rightMPS){
-     double leftPID =  LeftPIDcontroller.Calculate(getLeftSpeed(), leftMPS) + leftMPS * leftF;
-     double rightPID =  RightPIDcontroller.Calculate(getRightSpeed(), rightMPS) + rightMPS * rightF;
+     double leftPID =  LeftPIDcontroller.Calculate(getLeftSpeed(), leftMPS) + feedforward.Calculate(units::meters_per_second_t(leftMPS)).value();
+     double rightPID =  RightPIDcontroller.Calculate(getRightSpeed(), rightMPS) + feedforward.Calculate(units::meters_per_second_t(rightMPS)).value();
     wheelVoltage(leftPID, rightPID);
   }
 
@@ -85,7 +82,21 @@ class Chassis : public frc2::SubsystemBase {
   /**
    * Will be called periodically whenever the CommandScheduler runs.
    */
-  void Periodic() override;
+  void Periodic() override {
+
+    frc::ChassisSpeeds chassisSpeed;
+
+    double srl = slewRateLinear.Calculate(units::meter_t(linearSpeed)).value();
+    double sra = slewRateAngular.Calculate(units::radian_t(angularSpeed)).value();
+
+    chassisSpeed.vx = units::meters_per_second_t(srl);
+    chassisSpeed.omega = units::radians_per_second_t(sra);
+
+    frc::DifferentialDriveWheelSpeeds wheelSpeeds = kinematics.ToWheelSpeeds(chassisSpeed);
+
+    getPID(wheelSpeeds.left.value(), wheelSpeeds.right.value());
+
+  }
 
 
 
@@ -99,7 +110,7 @@ class Chassis : public frc2::SubsystemBase {
   WPI_TalonFX chassisRightMaster{11};
   WPI_TalonFX rightSlave_1{12}; 
   WPI_TalonFX rightSlave_2{13}; 
-   
+  
   frc::DifferentialDriveKinematics kinematics{0.69_m};
 
   frc2::PIDController LeftPIDcontroller{0, 0, 0};
@@ -107,4 +118,12 @@ class Chassis : public frc2::SubsystemBase {
 
   double leftF = 2.9;
   double rightF = 2.75;
+
+  double linearSpeed = 0;
+  double angularSpeed = 0;
+
+  frc::SimpleMotorFeedforward<units::meter> feedforward{0.59048_V, 2.5791_V / 1_mps, 0.62737_V / 1_mps_sq};
+
+  frc::SlewRateLimiter<units::meter> slewRateLinear{4.5_m / 1_s};
+  frc::SlewRateLimiter<units::radian> slewRateAngular{12_rad / 1_s};
 };

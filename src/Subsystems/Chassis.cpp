@@ -3,8 +3,3 @@
 // the WPILib BSD license file in the root directory of this project.
 
 #include "Chassis.h"
-
-
-// This method will be called once per scheduler run
-void Chassis::Periodic() {  
-}

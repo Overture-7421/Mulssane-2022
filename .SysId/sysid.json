@@ -1,6 +1,6 @@
 {
   "SysId": {
-    "Analysis Type": "General Mechanism",
+    "Analysis Type": "Drivetrain",
     "AnalyzerJSONLocation": "C:\\Users\\rssq2\\Desktop\\sysid_data20220126-172307.json",
     "NetworkTables Settings": {
       "serverTeam": "7421"
