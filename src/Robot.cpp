@@ -3,11 +3,35 @@
 #include <frc/Joystick.h>
 #include <frc/smartdashboard/SmartDashboard.h>
 #include <frc2/command/CommandScheduler.h>
-
+#include <Commands/Common/SetIntake/SetIntake.h>
+#include <Commands/Common/SetClimber/SetClimber.h>
+#include <frc2/command/SequentialCommandGroup.h>
+#include <frc2/command/WaitCommand.h>
 #include <iostream>
 
-void Robot::RobotInit() {
-  intake.invertIntakeMotor();
+void Robot::RobotInit() { 
+  
+  //open intake
+  intakeButton.WhenPressed(SetIntake(&intake, true, 12)).WhenReleased(SetIntake(&intake, false, 0));
+
+  //open climber
+  climberButton.WhenPressed(
+    frc2::SequentialCommandGroup(
+      SetIntake(&intake, true, 0),
+      frc2::WaitCommand(.2_s),
+      SetClimber(&climber, true, 0)
+    )
+  ).WhenReleased(
+    frc2::SequentialCommandGroup(
+      SetClimber(&climber, false, 0),
+      frc2::WaitCommand(.2_s),
+      SetIntake(&intake, false, 0)
+    )
+
+  );
+  
+
+
 }
 
 void Robot::RobotPeriodic() { frc2::CommandScheduler::GetInstance().Run(); }
@@ -16,15 +40,17 @@ void Robot::AutonomousInit() {}
 
 void Robot::AutonomousPeriodic() {}
 
-void Robot::TeleopInit() 
-{
+void Robot::TeleopInit() {
   frc2::CommandScheduler::GetInstance().CancelAll();
+  // climber.reverseRightClimberMotor();
 }
 
 void Robot::TeleopPeriodic() {
+
+  /*
 std::cout << climber.getSwitch() << std::endl;
 
-//Intake 
+//Intake
   if (joystick.GetRawButton(5) == true){
     intake.intakeSolenoidForward();
     intake.initializeMotor();
@@ -41,7 +67,7 @@ std::cout << climber.getSwitch() << std::endl;
     intake.intakeSolenoidReverse();
     climber.climberSolenoidReverse();
     }
-  
+
   //Winches
   if (joystick.GetRawButton(1) && joystick.GetRawButton(6)){
     climber.initializeRightClimberMotor();
@@ -58,8 +84,10 @@ std::cout << climber.getSwitch() << std::endl;
     climber.desinitializeRightClimberMotor();
     climber.desinitializeLeftClimberMotor();
     }
-  }
-  
+
+  */
+}
+
 void Robot::DisabledInit() {}
 
 void Robot::DisabledPeriodic() {}

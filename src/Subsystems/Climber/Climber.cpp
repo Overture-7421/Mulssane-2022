@@ -4,6 +4,5 @@
 
 #include "Climber.h"
 
-Climber::Climber() = default;
 
 // This method will be called once per scheduler run

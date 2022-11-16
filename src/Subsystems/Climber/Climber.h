@@ -11,59 +11,27 @@
 
 class Climber : public frc2::SubsystemBase {
  public:
-  Climber();
-  void invertClimberMotors() {
+  Climber(){
     rightClimberMotor.SetInverted(true);
     leftClimberMotor.SetInverted(true);
-  };
+  }
 
-  void initializeRightClimberMotor() {
-    rightClimberMotor.Set(VictorSPXControlMode::PercentOutput, 1);  // Pending to define speed...
-  };
-  void initializeLeftClimberMotor() {
-    leftClimberMotor.Set(VictorSPXControlMode::PercentOutput, 1);  // Pending to define speed...
-  };
-
-  void desinitializeRightClimberMotor() {
-    rightClimberMotor.Set(VictorSPXControlMode::PercentOutput, 0);  // Pending to define speed...
-  };
-  void desinitializeLeftClimberMotor() {
-    leftClimberMotor.Set(VictorSPXControlMode::PercentOutput, 0);  // Pending to define speed...
-  };
-  void reverseRightClimberMotor() {
-    rightClimberMotor.Set(VictorSPXControlMode::PercentOutput, -1);  // Pending to define speed...
-  };
-  void reverseLeftClimberMotor() {
-    leftClimberMotor.Set(VictorSPXControlMode::PercentOutput, -1);  // Pending to define speed...
-  };
-  void climberSolenoidForward() {
-    climberSolenoid.Set(frc::DoubleSolenoid::Value::kForward);
-  };
-  void climberSolenoidReverse() {
-    climberSolenoid.Set(frc::DoubleSolenoid::Value::kReverse);
-  };
-  
-  //Limit Switch
-
-  bool getSwitch(){
-    if (climberSwitch.Get()){
-      return true;
+  //climber solenoids
+  void setPistons(bool state) {
+    if (state) {
+      climberSolenoid.Set(frc::DoubleSolenoid::Value::kForward);
     } else {
-      return false;
+      climberSolenoid.Set(frc::DoubleSolenoid::Value::kReverse);
     }
   }
 
-  void climberLimitswitch() {
-    if (speed < 0 and getSwitch()){
-      rightClimberMotor.SetVoltage(0_V);
-      leftClimberMotor.SetVoltage(0_V);
 
-   } else{
-     rightClimberMotor.SetVoltage(units::volt_t(speed));
-     leftClimberMotor.SetVoltage(units::volt_t(speed));
-
-   }
+  //climber motors
+  void setMotor(double voltage) {
+    rightClimberMotor.SetVoltage(units::volt_t(voltage));
+    leftClimberMotor.SetVoltage(units::volt_t(voltage));
   }
+  
   void Periodic() override{};
 
  private:
