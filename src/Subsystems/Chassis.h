@@ -35,7 +35,7 @@ class Chassis : public frc2::SubsystemBase {
     chassisLeftMaster.SetSelectedSensorPosition(0);
     chassisRightMaster.SetSelectedSensorPosition(0);
   }
-
+  
   //Receives doubles and sets it as the voltage.
   void wheelVoltage(double leftVoltage, double rightVoltage) {
     chassisLeftMaster.SetVoltage(units::volt_t(leftVoltage));
