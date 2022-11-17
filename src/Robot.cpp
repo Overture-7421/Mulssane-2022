@@ -12,6 +12,16 @@ void Robot::RobotInit()
 void Robot::RobotPeriodic()
 {
   frc2::CommandScheduler::GetInstance().Run();
+  frc::SmartDashboard::PutNumber("backLeftModule", backLeftModule.returnPosition());
+  frc::SmartDashboard::PutNumber("backRightModule", backRightModule.returnPosition());
+  frc::SmartDashboard::PutNumber("frontLeftModule", frontLeftModule.returnPosition());
+  frc::SmartDashboard::PutNumber("frontRightModule", frontRightModule.returnPosition());
+
+
+  backRightModule.Periodic();
+  backLeftModule.Periodic();
+  frontRightModule.Periodic();
+  frontLeftModule.Periodic();
 }
 
 void Robot::AutonomousInit()
@@ -24,18 +34,30 @@ void Robot::AutonomousPeriodic()
 
 void Robot::TeleopInit()
 {
- 
+  frc::SmartDashboard::PutNumber("Kd", 0);
+  frc::SmartDashboard::PutNumber("Kp", 0);
+  frc::SmartDashboard::PutNumber("Ki", 0);
+  frc::SmartDashboard::PutNumber("f", 0);
+
+
+ frc::SmartDashboard::PutNumber("TargetAngle", 0.0);
 }
 
 void Robot::TeleopPeriodic()
-{
-  double yAxis = -joystick.GetRawAxis(1) * 12;
-  double xAxis = -joystick.GetRawAxis(0) * 12;
+{ 
+  double kP = frc::SmartDashboard::GetNumber("Kp", 0);
+  double kI = frc::SmartDashboard::GetNumber("Ki", 0);
+  double kD = frc::SmartDashboard::GetNumber("Kd", 0);
+  double f = frc::SmartDashboard::GetNumber("f", 0);
 
+  //swerve.setPIDvalues(kP, kI, kD, f);
 
-  swerve.SetVoltage(xAxis, yAxis);
-
-   frc::SmartDashboard::PutNumber("CANCoder Position", swerve.returnPosition());
+  double targetAngle = frc::SmartDashboard::GetNumber("TargetAngle", 0.0);
+  backRightModule.setAngle(targetAngle);
+  backLeftModule.setAngle(targetAngle);
+  frontRightModule.setAngle(targetAngle);
+  frontLeftModule.setAngle(targetAngle);
+   
 }
 
 

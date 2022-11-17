@@ -1,7 +1,7 @@
 #pragma once
 
 #include <frc/TimedRobot.h>
-#include <Subsystems/Swerve1.h>
+#include <Subsystems/SwerveModule.h>
 #include <frc/Joystick.h>
 
 
@@ -21,6 +21,9 @@ public:
  
 
   private:
-  Swerve1 swerve;
+  SwerveModule backRightModule{1, 2, 9, 37.70507812500001};
+  SwerveModule backLeftModule{3, 4, 10, 0};
+  SwerveModule frontRightModule{5, 6, 11, 0};
+  SwerveModule frontLeftModule{7, 8, 12, 0};
   frc::Joystick joystick {0};
 };
