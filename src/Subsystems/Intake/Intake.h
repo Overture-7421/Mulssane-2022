@@ -5,16 +5,14 @@
 
 class Intake : public frc2::SubsystemBase {
  public:
-  Intake(){
-    intakeMotor.SetInverted(true);
-  };
+  Intake() { intakeMotor.SetInverted(true); };
 
-//intake motor
-void setMotor(double voltage) {
-  intakeMotor.SetVoltage(units::volt_t(voltage));
-}
+  // intake motor
+  void setMotor(double voltage) {
+    intakeMotor.SetVoltage(units::volt_t(voltage));
+  }
 
-//intake solenoids
+  // intake solenoids
   void setPistons(bool state) {
     if (state) {
       intakeSolenoid.Set(frc::DoubleSolenoid::Value::kForward);
@@ -22,8 +20,7 @@ void setMotor(double voltage) {
       intakeSolenoid.Set(frc::DoubleSolenoid::Value::kReverse);
     }
   }
- 
- 
+
   void Periodic() override;
 
  private:

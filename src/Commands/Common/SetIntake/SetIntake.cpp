@@ -4,11 +4,11 @@
 
 #include "SetIntake.h"
 
-SetIntake::SetIntake(Intake* intake, bool pistonState, double voltage){
+SetIntake::SetIntake(Intake* intake, bool pistonState, double voltage) {
   this->pistonState = pistonState;
   this->voltage = voltage;
   this->intake = intake;
-  
+
   // Use addRequirements() here to declare subsystem dependencies.
   AddRequirements(intake);
 }
@@ -18,14 +18,12 @@ void SetIntake::Initialize() {}
 
 // Called repeatedly when this Command is scheduled to run
 void SetIntake::Execute() {
-intake->setPistons(pistonState);
-intake->setMotor(voltage);
+  intake->setPistons(pistonState);
+  intake->setMotor(voltage);
 }
 
 // Called once the command ends or is interrupted.
 void SetIntake::End(bool interrupted) {}
 
 // Returns true when the command should end.
-bool SetIntake::IsFinished() {
-  return true;
-}
+bool SetIntake::IsFinished() { return true; }

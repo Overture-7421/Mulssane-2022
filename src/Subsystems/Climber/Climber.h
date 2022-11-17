@@ -5,18 +5,18 @@
 #pragma once
 
 #include <ctre/Phoenix.h>
+#include <frc/DigitalInput.h>
 #include <frc/DoubleSolenoid.h>
 #include <frc2/command/SubsystemBase.h>
-#include <frc/DigitalInput.h>
 
 class Climber : public frc2::SubsystemBase {
  public:
-  Climber(){
+  Climber() {
     rightClimberMotor.SetInverted(true);
     leftClimberMotor.SetInverted(true);
   }
 
-  //climber solenoids
+  // climber solenoids
   void setPistons(bool state) {
     if (state) {
       climberSolenoid.Set(frc::DoubleSolenoid::Value::kForward);
@@ -25,19 +25,18 @@ class Climber : public frc2::SubsystemBase {
     }
   }
 
-
-  //climber motors
+  // climber motors
   void setMotor(double voltage) {
     rightClimberMotor.SetVoltage(units::volt_t(voltage));
     leftClimberMotor.SetVoltage(units::volt_t(voltage));
   }
-  
+
   void Periodic() override{};
 
  private:
   WPI_VictorSPX rightClimberMotor{10};
   WPI_VictorSPX leftClimberMotor{6};
-  frc::DigitalInput climberSwitch {3};
+  frc::DigitalInput climberSwitch{3};
 
   frc::DoubleSolenoid climberSolenoid{frc::PneumaticsModuleType::CTREPCM, 3, 2};
   double speed = 0;

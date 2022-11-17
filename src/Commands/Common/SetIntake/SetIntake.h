@@ -4,9 +4,9 @@
 
 #pragma once
 
+#include <Subsystems/Intake/Intake.h>
 #include <frc2/command/CommandBase.h>
 #include <frc2/command/CommandHelper.h>
-#include <Subsystems/Intake/Intake.h>
 /**
  * An example command.
  *
@@ -14,8 +14,7 @@
  * directly; this is crucially important, or else the decorator functions in
  * Command will *not* work!
  */
-class SetIntake
-    : public frc2::CommandHelper<frc2::CommandBase, SetIntake> {
+class SetIntake : public frc2::CommandHelper<frc2::CommandBase, SetIntake> {
  public:
   SetIntake(Intake* intake, bool pistonState, double voltage);
 
@@ -27,10 +26,8 @@ class SetIntake
 
   bool IsFinished() override;
 
-private:
-bool pistonState;
-double voltage;
-Intake* intake;
-
-
+ private:
+  bool pistonState;
+  double voltage;
+  Intake* intake;
 };

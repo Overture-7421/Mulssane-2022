@@ -4,9 +4,9 @@
 
 #pragma once
 
+#include <Subsystems/Climber/Climber.h>
 #include <frc2/command/CommandBase.h>
 #include <frc2/command/CommandHelper.h>
-#include <Subsystems/Climber/Climber.h>
 
 /**
  * An example command.
@@ -15,10 +15,9 @@
  * directly; this is crucially important, or else the decorator functions in
  * Command will *not* work!
  */
-class SetClimber
-    : public frc2::CommandHelper<frc2::CommandBase, SetClimber> {
+class SetClimber : public frc2::CommandHelper<frc2::CommandBase, SetClimber> {
  public:
-  SetClimber(Climber* climber, bool pistonState, double voltage);  
+  SetClimber(Climber* climber, bool pistonState, double voltage);
 
   void Initialize() override;
 
@@ -28,8 +27,8 @@ class SetClimber
 
   bool IsFinished() override;
 
-private:
-bool pistonState;
-double voltage;
-Climber* climber;
+ private:
+  bool pistonState;
+  double voltage;
+  Climber* climber;
 };

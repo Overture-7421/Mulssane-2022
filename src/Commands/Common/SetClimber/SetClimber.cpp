@@ -10,7 +10,6 @@ SetClimber::SetClimber(Climber* climber, bool pistonState, double voltage) {
   this->climber = climber;
   // Use addRequirements() here to declare subsystem dependencies.
   AddRequirements(climber);
-
 }
 
 // Called when the command is initially scheduled.
@@ -18,14 +17,12 @@ void SetClimber::Initialize() {}
 
 // Called repeatedly when this Command is scheduled to run
 void SetClimber::Execute() {
-climber->setPistons(pistonState);
-climber->setMotor(voltage);
+  climber->setPistons(pistonState);
+  climber->setMotor(voltage);
 }
 
 // Called once the command ends or is interrupted.
 void SetClimber::End(bool interrupted) {}
 
 // Returns true when the command should end.
-bool SetClimber::IsFinished() {
-  return true;
-}
+bool SetClimber::IsFinished() { return true; }

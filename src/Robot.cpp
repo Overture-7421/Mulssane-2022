@@ -1,53 +1,38 @@
 #include "Robot.h"
 
+#include <Commands/Common/SetClimber/SetClimber.h>
+#include <Commands/Common/SetIntake/SetIntake.h>
 #include <frc/Joystick.h>
 #include <frc/smartdashboard/SmartDashboard.h>
 #include <frc2/command/CommandScheduler.h>
-#include <Commands/Common/SetIntake/SetIntake.h>
-#include <Commands/Common/SetClimber/SetClimber.h>
 #include <frc2/command/SequentialCommandGroup.h>
 #include <frc2/command/WaitCommand.h>
+
 #include <iostream>
 
-void Robot::RobotInit() { 
-  
-  //open intake
-  intakeButton.WhenActive(SetIntake(&intake, true, 12)).WhenInactive(SetIntake(&intake, false, 0));
+void Robot::RobotInit() {
+  // open intake
+  intakeButton.WhenActive(SetIntake(&intake, true, 12))
+      .WhenInactive(SetIntake(&intake, false, 0));
 
-  //open climber
-  climberButton.WhenPressed(
-    frc2::SequentialCommandGroup(
-      SetIntake(&intake, true, 0),
-      frc2::WaitCommand(.2_s),
-      SetClimber(&climber, true, 0)
-    )
-  ).WhenReleased(
-    frc2::SequentialCommandGroup(
-      SetClimber(&climber, false, 0),
-      frc2::WaitCommand(.2_s),
-      SetIntake(&intake, false, 0)
-    )
-  );
-  
-  climberMotorsTriggerRight.WhenActive(
-    frc2::SequentialCommandGroup(
-      SetClimber(&climber, false, 12),
-      SetIntake(&intake, true, 0)
-    )
-  ).WhenInactive(
-    frc2::SequentialCommandGroup(
-      SetClimber(&climber, false, 0),
-      SetIntake(&intake, false, 0)
-    )
-  );
-  
-  climberMotorsTriggerLeft.WhenActive(
-    SetClimber(&climber, false, -12)
-  ).WhenInactive(
-    SetClimber(&climber, false, 0)
-  );
+  // open climber
+  climberButton
+      .WhenPressed(frc2::SequentialCommandGroup(SetIntake(&intake, true, 0),
+                                                frc2::WaitCommand(.2_s),
+                                                SetClimber(&climber, true, 0)))
+      .WhenReleased(frc2::SequentialCommandGroup(SetClimber(&climber, false, 0),
+                                                 frc2::WaitCommand(.2_s),
+                                                 SetIntake(&intake, false, 0)));
+
+  climberMotorsTriggerRight
+      .WhenActive(frc2::SequentialCommandGroup(SetClimber(&climber, false, 12),
+                                               SetIntake(&intake, true, 0)))
+      .WhenInactive(frc2::SequentialCommandGroup(SetClimber(&climber, false, 0),
+                                                 SetIntake(&intake, false, 0)));
+
+  climberMotorsTriggerLeft.WhenActive(SetClimber(&climber, false, -12))
+      .WhenInactive(SetClimber(&climber, false, 0));
 }
-
 
 void Robot::RobotPeriodic() { frc2::CommandScheduler::GetInstance().Run(); }
 
@@ -61,7 +46,6 @@ void Robot::TeleopInit() {
 }
 
 void Robot::TeleopPeriodic() {
-
   /*
 std::cout << climber.getSwitch() << std::endl;
 
