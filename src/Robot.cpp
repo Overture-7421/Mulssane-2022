@@ -12,7 +12,7 @@
 void Robot::RobotInit() { 
   
   //open intake
-  intakeButton.WhenPressed(SetIntake(&intake, true, 12)).WhenReleased(SetIntake(&intake, false, 0));
+  intakeButton.WhenActive(SetIntake(&intake, true, 12)).WhenInactive(SetIntake(&intake, false, 0));
 
   //open climber
   climberButton.WhenPressed(
@@ -27,12 +27,27 @@ void Robot::RobotInit() {
       frc2::WaitCommand(.2_s),
       SetIntake(&intake, false, 0)
     )
-
   );
   
-
-
+  climberMotorsTriggerRight.WhenActive(
+    frc2::SequentialCommandGroup(
+      SetClimber(&climber, false, 12),
+      SetIntake(&intake, true, 0)
+    )
+  ).WhenInactive(
+    frc2::SequentialCommandGroup(
+      SetClimber(&climber, false, 0),
+      SetIntake(&intake, false, 0)
+    )
+  );
+  
+  climberMotorsTriggerLeft.WhenActive(
+    SetClimber(&climber, false, -12)
+  ).WhenInactive(
+    SetClimber(&climber, false, 0)
+  );
 }
+
 
 void Robot::RobotPeriodic() { frc2::CommandScheduler::GetInstance().Run(); }
 

@@ -4,6 +4,7 @@
 #include "Subsystems/Climber/Climber.h"
 #include <frc/Joystick.h>
 #include <frc2/command/button/JoystickButton.h>
+#include <frc2/command/button/Trigger.h>
 
 class Robot : public frc::TimedRobot {
   public:
@@ -22,8 +23,10 @@ class Robot : public frc::TimedRobot {
   Intake intake;
   Climber climber;
   frc::Joystick joystick{0};
-  frc2::JoystickButton intakeButton{&joystick, 5};
+  frc2::Trigger intakeButton {[joystick = &joystick] {return joystick->GetRawButton(5) & !joystick->GetRawButton(1);}};
   frc2::JoystickButton climberButton{&joystick, 4};
+  frc2::Trigger climberMotorsTriggerRight {[joystick = &joystick] {return joystick->GetRawButton(1) & joystick->GetRawButton(6);}};
+  frc2::Trigger climberMotorsTriggerLeft {[joystick = &joystick] {return joystick->GetRawButton(1) & joystick->GetRawButton(5);}};
 
   
 };
