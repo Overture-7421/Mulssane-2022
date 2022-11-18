@@ -21,9 +21,9 @@ public:
  
 
   private:
-  SwerveModule backRightModule{1, 2, 9, 37.70507812500001};
-  SwerveModule backLeftModule{3, 4, 10, 0};
-  SwerveModule frontRightModule{5, 6, 11, 0};
-  SwerveModule frontLeftModule{7, 8, 12, 0};
+  SwerveModule backRightModule{1, 2, 9, -143.70507812500001};
+  SwerveModule backLeftModule{3, 4, 10, -70};
+  SwerveModule frontLeftModule{5, 6, 11, -147.5};
+  SwerveModule frontRightModule{7, 8, 12, -160};
   frc::Joystick joystick {0};
 };

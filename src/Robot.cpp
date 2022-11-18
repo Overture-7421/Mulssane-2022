@@ -34,9 +34,9 @@ void Robot::AutonomousPeriodic()
 
 void Robot::TeleopInit()
 {
+  frc::SmartDashboard::PutNumber("Kp", 0.125);
+  frc::SmartDashboard::PutNumber("Ki", 0.5);
   frc::SmartDashboard::PutNumber("Kd", 0);
-  frc::SmartDashboard::PutNumber("Kp", 0);
-  frc::SmartDashboard::PutNumber("Ki", 0);
   frc::SmartDashboard::PutNumber("f", 0);
 
 
@@ -51,12 +51,17 @@ void Robot::TeleopPeriodic()
   double f = frc::SmartDashboard::GetNumber("f", 0);
 
   //swerve.setPIDvalues(kP, kI, kD, f);
-
-  double targetAngle = frc::SmartDashboard::GetNumber("TargetAngle", 0.0);
+  double targetAngle = joystick.GetDirectionDegrees() ;
+  //double targetAngle = frc::SmartDashboard::GetNumber("TargetAngle", 0.0);
   backRightModule.setAngle(targetAngle);
   backLeftModule.setAngle(targetAngle);
   frontRightModule.setAngle(targetAngle);
   frontLeftModule.setAngle(targetAngle);
+
+  backRightModule.SetWheelVoltage(-joystick.GetRawAxis(5) * 3);
+  backLeftModule.SetWheelVoltage(-joystick.GetRawAxis(5) * 3);
+  frontRightModule.SetWheelVoltage(-joystick.GetRawAxis(5) * 3);
+  frontLeftModule.SetWheelVoltage(-joystick.GetRawAxis(5) * 3);
    
 }
 
