@@ -12,6 +12,9 @@ class SwerveModule {
  public:
   SwerveModule(int rotatorID, int wheelID, int canCoderID, double offSet) : rotator(rotatorID), wheel(wheelID), canCoder(canCoderID){
     canCoder.ConfigAbsoluteSensorRange(AbsoluteSensorRange::Signed_PlusMinus180);
+
+    rotator.ConfigFactoryDefault();
+    wheel.ConfigFactoryDefault();
     rotatorPID.EnableContinuousInput(-180, 180);
     canCoder.ConfigSensorDirection(false);
     rotator.SetInverted(true);
