@@ -15,7 +15,12 @@
 class SwerveChassis : public frc2::SubsystemBase
 {
 public:
-  SwerveChassis();
+  SwerveChassis(){
+       backRightModule.setPIDvalues(0.09, 0.5, 0, 0);
+    backLeftModule.setPIDvalues(0.09, 0.5, 0, 0);
+    frontRightModule.setPIDvalues(0.09, 0.5, 0, 0);
+    frontLeftModule.setPIDvalues(0.09, 0.5, 0, 0);
+  }
 
   void setTargetAngle(double targetAngle)
   {
@@ -51,28 +56,29 @@ public:
     chassisSpeed.vy = units::meters_per_second_t(linearY);
     chassisSpeed.omega = units::radians_per_second_t(angular);
 
-    frc::SwerveDriveKinematics wheelSpeeds = kinematics.ToSwerveModuleStates(chassisSpeed);
+    wpi::array<frc::SwerveModuleState, 4> desiredStates = kinematics.ToSwerveModuleStates(chassisSpeed);
 
-    backRightModule.setPIDvalues(0.125, 0.5, 0, 0);
-    backLeftModule.setPIDvalues(0.125, 0.5, 0, 0);
-    frontRightModule.setPIDvalues(0.125, 0.5, 0, 0);
-    frontLeftModule.setPIDvalues(0.125, 0.5, 0, 0);
+    frontLeftModule.setAngle(desiredStates[0].angle.Degrees().value());
+    frontRightModule.setAngle(desiredStates[1].angle.Degrees().value());
+    backRightModule.setAngle(desiredStates[2].angle.Degrees().value());
+    backLeftModule.setAngle(desiredStates[3].angle.Degrees().value());
 
-    backRightModule.setAngle(targetAngle);
-    backLeftModule.setAngle(targetAngle);
-    frontRightModule.setAngle(targetAngle);
-    frontLeftModule.setAngle(targetAngle);
-
-    backRightModule.SetWheelVoltage(wheelVoltage);
-    backLeftModule.SetWheelVoltage(wheelVoltage);
-    frontRightModule.SetWheelVoltage(wheelVoltage);
-    frontLeftModule.SetWheelVoltage(wheelVoltage);
+    frontLeftModule.SetWheelVoltage(desiredStates[0].speed.value()); 
+    frontRightModule.SetWheelVoltage(desiredStates[1].speed.value());
+    backRightModule.SetWheelVoltage(desiredStates[2].speed.value());
+    backLeftModule.SetWheelVoltage(desiredStates[3].speed.value());
+    frc::SmartDashboard::PutNumber("frontLeftSpeed", desiredStates[0].speed.value());
+    frc::SmartDashboard::PutNumber("frontRightSpeed", desiredStates[1].speed.value());
+    frc::SmartDashboard::PutNumber("LinearX", linearX);
+    frc::SmartDashboard::PutNumber("LinearY", linearY);
+    frc::SmartDashboard::PutNumber("Angular", angular);
 
     backRightModule.Periodic();
     backLeftModule.Periodic();
     frontLeftModule.Periodic();
     frontRightModule.Periodic();
   }
+  
 
 private:
   // Components (e.g. motor controllers and sensors) should generally be
@@ -91,9 +97,9 @@ private:
 
   std::array<frc::Translation2d, 4> modulePos{
     frc::Translation2d(10.36_in, 10.36_in), //front left
-    frc::Translation2d(10.36_in, -10.36_m), //front right
-    frc::Translation2d(-10.36_m, -10.36_m), //back right
-    frc::Translation2d(-10.36_m, 10.36_m)  //back left
+    frc::Translation2d(10.36_in, -10.36_in), //front right
+    frc::Translation2d(-10.36_in, -10.36_in), //back right
+    frc::Translation2d(-10.36_in, 10.36_in)  //back left
   };
 
   frc::SwerveDriveKinematics<4> kinematics{modulePos};

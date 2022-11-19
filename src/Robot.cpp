@@ -31,9 +31,7 @@ void Robot::TeleopInit()
 
 void Robot::TeleopPeriodic()
 { 
-  swerveChassis.setTargetAngle(-joystick.GetDirectionDegrees());
-
-swerveChassis.setSpeed(0, 0, 0);
+  swerveChassis.setSpeed(-joystick.GetRawAxis(1)*5,-joystick.GetRawAxis(0)*5,-joystick.GetRawAxis(4)*9);
 
 }
 
