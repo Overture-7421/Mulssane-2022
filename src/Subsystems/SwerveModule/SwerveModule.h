@@ -7,6 +7,7 @@
 #include <frc2/command/SubsystemBase.h>
 #include <ctre/Phoenix.h>
 #include <frc/controller/PIDController.h>
+#include <frc/kinematics/SwerveModuleState.h>
 
 class SwerveModule {
  public:
@@ -22,6 +23,15 @@ class SwerveModule {
     this->offSet = offSet;
   }
   
+  double getSpeed(){
+    return getMeters(wheel.GetSelectedSensorVelocity() * 10);
+  }
+
+  double getMeters(double codes){
+      double meters = codes / 2048 / 6.75 * 0.319024;
+      return meters;
+  }
+
   void SetRotatorVoltage(double rotatorVoltage) {
     rotator.SetVoltage(units::volt_t(rotatorVoltage));
   }
@@ -30,16 +40,26 @@ class SwerveModule {
     wheel.SetVoltage(units::volt_t(wheelVoltage));
   }
 
-  double returnPosition(){
+  double getAngle(){
     return frc::Rotation2d(units::degree_t(canCoder.GetAbsolutePosition())).RotateBy(units::degree_t(offSet)).Degrees().value();
   }  
 
   double getPID(double setPoint){
-    return rotatorPID.Calculate(returnPosition(), setPoint);
+    return rotatorPID.Calculate(getAngle(), setPoint);
   }
 
   void setAngle(double angle){
     this->angle = angle;
+  }
+
+
+  frc::SwerveModuleState getState(){
+    frc::SwerveModuleState state;
+
+    state.angle = units::degree_t(getAngle());
+    state.speed = units::meters_per_second_t(getSpeed());
+
+    return state; 
   }
 
   /**
