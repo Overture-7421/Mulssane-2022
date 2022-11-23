@@ -19,6 +19,7 @@ void Robot::TeleopInit() { frc2::CommandScheduler::GetInstance().CancelAll(); }
 void Robot::TeleopPeriodic() {
   std::cout << hood.getSwitch() << std::endl;
   
+  std::cout << hood.getPosition() << std:: endl;
 
   buttonX = Joystick.GetRawButton(3);
   buttonY = Joystick.GetRawButton(4);

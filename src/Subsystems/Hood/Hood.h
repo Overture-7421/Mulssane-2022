@@ -7,10 +7,13 @@
 #include <frc2/command/SubsystemBase.h>
 #include <frc/DigitalInput.h>
 #include <ctre/Phoenix.h>
+#include <frc/controller/PIDController.h>
 
 class Hood : public frc2::SubsystemBase {
  public:
-  Hood();
+  Hood(){
+    hoodMotor.SetSensorPhase(true);  
+  }
 
   void VoltageMotor(double x){
     speed = x;
@@ -23,6 +26,14 @@ class Hood : public frc2::SubsystemBase {
       return false;
       }
     
+  double getPosition(){
+   return hoodMotor.GetSelectedSensorPosition();
+  }
+
+  /*hoodMotor.Config_kP(0, );
+  hoodMotor.Config_kI();
+  hoodMotor.Config_kD();*/
+
   /**
    * Will be called periodically whenever the CommandScheduler runs.
    */
@@ -33,12 +44,18 @@ class Hood : public frc2::SubsystemBase {
    } else{
      hoodMotor.SetVoltage(units::volt_t(speed));
    }
+
+   if (getSwitch()){
+     hoodMotor.SetSelectedSensorPosition(0);
+   }
   }
+
 
  private:
  frc::DigitalInput hoodSwitch {2};
  WPI_TalonSRX hoodMotor {9};
  double speed = 0;
+ frc2::PIDController pid{kP, kI, kD};
 
   // Components (e.g. motor controllers and sensors) should generally be
   // declared private and exposed only through public methods.
