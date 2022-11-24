@@ -12,6 +12,7 @@
 #include <frc/kinematics/ChassisSpeeds.h>
 #include <frc/kinematics/SwerveDriveKinematics.h>
 #include <frc/kinematics/SwerveDriveOdometry.h>
+#include <AHRS.h>
 
 class SwerveChassis : public frc2::SubsystemBase
 {
@@ -22,6 +23,22 @@ public:
     backLeftModule.setPIDvalues(0.09, 0.5, 0, 0);
     frontRightModule.setPIDvalues(0.09, 0.5, 0, 0);
     frontLeftModule.setPIDvalues(0.09, 0.5, 0, 0);
+
+    navx.Calibrate();
+    std::this_thread::sleep_for(std::chrono::seconds(1));
+    double startTime = frc::Timer::GetFPGATimestamp().value();
+    while (navx.IsCalibrating())
+    {
+      double timePassed = frc::Timer::GetFPGATimestamp().value() - startTime;
+      if (timePassed > 10)
+      {
+        break;
+      }
+
+      std::this_thread::sleep_for(std::chrono::milliseconds(10));
+    }
+
+    navx.ZeroYaw();
   }
 
   void setTargetAngle(double targetAngle)
@@ -45,7 +62,6 @@ public:
   {
     return odometry.GetPose();
   }
-
 
   /**
    * Will be called periodically whenever the CommandScheduler runs.
@@ -86,12 +102,11 @@ public:
     frontLeftModule.Periodic();
     frontRightModule.Periodic();
 
-
-    odometry.Update(frc::Rotation2d(0_deg), backRightModule.getState(), backLeftModule.getState(), frontLeftModule.getState(), frontRightModule.getState());
+    odometry.Update(frc::Rotation2d(units::degree_t(-navx.GetAngle())), backRightModule.getState(), backLeftModule.getState(), frontLeftModule.getState(), frontRightModule.getState());
 
     frc::SmartDashboard::PutNumber("OdometryX", getOdometry().X().value());
     frc::SmartDashboard::PutNumber("OdometryY", getOdometry().Y().value());
-    
+    frc::SmartDashboard::PutNumber("AnglenaveX", -navx.GetAngle());
   }
 
 private:
@@ -116,8 +131,8 @@ private:
       frc::Translation2d(-10.36_in, 10.36_in)   // back left
   };
 
+  AHRS navx{frc::SPI::Port::kMXP};
   frc::SwerveDriveKinematics<4> kinematics{modulePos};
 
   frc::SwerveDriveOdometry<4> odometry{kinematics, frc::Rotation2d(0_deg)};
-
 };
