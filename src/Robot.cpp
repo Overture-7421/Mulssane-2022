@@ -5,39 +5,39 @@
 #include <frc/livewindow/LiveWindow.h>
 #include <frc/smartdashboard/SmartDashboard.h>
 
-void Robot::RobotInit()
-{ 
+void Robot::RobotInit() {
 }
 
-void Robot::RobotPeriodic()
-{
+void Robot::RobotPeriodic() {
   frc2::CommandScheduler::GetInstance().Run();
-  
+
 
 }
 
-void Robot::AutonomousInit()
-{
+void Robot::AutonomousInit() {
+  swervePath.Schedule();
 }
 
-void Robot::AutonomousPeriodic()
-{
+void Robot::AutonomousPeriodic() {
 }
 
-void Robot::TeleopInit()
-{
-  
+void Robot::TeleopInit() {
+  swervePath.Cancel();
 }
 
-void Robot::TeleopPeriodic()
-{ 
-  swerveChassis.setSpeed(-joystick.GetRawAxis(1)*5,-joystick.GetRawAxis(0)*5,-joystick.GetRawAxis(4)*9);
+void Robot::TeleopPeriodic() {
+  frc::ChassisSpeeds chassisSpeeds = frc::ChassisSpeeds::FromFieldRelativeSpeeds(
+    units::meters_per_second_t{ -joystick.GetRawAxis(1) * 5 },
+    units::meters_per_second_t{ -joystick.GetRawAxis(0) * 5 },
+    units::radians_per_second_t(-joystick.GetRawAxis(4) * 9),
+    swerveChassis.getOdometry().Rotation());
+
+  swerveChassis.setSpeed(chassisSpeeds.vx.value(), chassisSpeeds.vy.value(), chassisSpeeds.omega.value());
 
 }
 
 
-void Robot::DisabledInit()
-{
+void Robot::DisabledInit() {
 }
 
 void Robot::DisabledPeriodic() {}
@@ -46,8 +46,7 @@ void Robot::TestInit() {}
 
 void Robot::TestPeriodic() {}
 
-int main()
-{
+int main() {
   // These warnings generate console prints that cause scheduling jitter
   frc::DriverStation::SilenceJoystickConnectionWarning(true);
   // This telemetry regularly causes loop overruns

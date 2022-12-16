@@ -12,13 +12,12 @@
 #include <frc/kinematics/ChassisSpeeds.h>
 #include <frc/kinematics/SwerveDriveKinematics.h>
 #include <frc/kinematics/SwerveDriveOdometry.h>
+#include <wpi/numbers>
 #include <AHRS.h>
 
-class SwerveChassis : public frc2::SubsystemBase
-{
+class SwerveChassis : public frc2::SubsystemBase {
 public:
-  SwerveChassis()
-  {
+  SwerveChassis() {
     backRightModule.setPIDvalues(0.09, 0.5, 0, 0);
     backLeftModule.setPIDvalues(0.09, 0.5, 0, 0);
     frontRightModule.setPIDvalues(0.09, 0.5, 0, 0);
@@ -27,11 +26,9 @@ public:
     navx.Calibrate();
     std::this_thread::sleep_for(std::chrono::seconds(1));
     double startTime = frc::Timer::GetFPGATimestamp().value();
-    while (navx.IsCalibrating())
-    {
+    while (navx.IsCalibrating()) {
       double timePassed = frc::Timer::GetFPGATimestamp().value() - startTime;
-      if (timePassed > 10)
-      {
+      if (timePassed > 10) {
         break;
       }
 
@@ -41,33 +38,14 @@ public:
     navx.ZeroYaw();
   }
 
-  void setTargetAngle(double targetAngle)
-  {
+  void setTargetAngle(double targetAngle) {
     this->targetAngle = targetAngle;
   }
 
-  void setSpeed(double linearX, double linearY, double angular)
-  {
+  void setSpeed(double linearX, double linearY, double angular) {
     this->linearX = linearX;
     this->linearY = linearY;
     this->angular = angular;
-  }
-
-  void setWheelVoltage(double wheelVoltage)
-  {
-    this->wheelVoltage = wheelVoltage;
-  }
-
-  const frc::Pose2d &getOdometry()
-  {
-    return odometry.GetPose();
-  }
-
-  /**
-   * Will be called periodically whenever the CommandScheduler runs.
-   */
-  void Periodic() override
-  {
 
     frc::ChassisSpeeds chassisSpeed;
 
@@ -82,6 +60,22 @@ public:
 
     wpi::array<frc::SwerveModuleState, 4> desiredStates = kinematics.ToSwerveModuleStates(chassisSpeed);
 
+    setModuleStates(desiredStates);
+  }
+
+  void setWheelVoltage(double wheelVoltage) {
+    this->wheelVoltage = wheelVoltage;
+  }
+
+  const frc::Pose2d& getOdometry() {
+    return odometry.GetPose();
+  }
+
+  const frc::SwerveDriveKinematics<4>& getKinematics() {
+    return kinematics;
+  }
+
+  void setModuleStates(wpi::array<frc::SwerveModuleState, 4> desiredStates) {
     frontLeftModule.setAngle(desiredStates[0].angle.Degrees().value());
     frontRightModule.setAngle(desiredStates[1].angle.Degrees().value());
     backRightModule.setAngle(desiredStates[2].angle.Degrees().value());
@@ -91,8 +85,12 @@ public:
     frontRightModule.SetWheelVoltage(desiredStates[1].speed.value());
     backRightModule.SetWheelVoltage(desiredStates[2].speed.value());
     backLeftModule.SetWheelVoltage(desiredStates[3].speed.value());
-    frc::SmartDashboard::PutNumber("frontLeftSpeed", desiredStates[0].speed.value());
-    frc::SmartDashboard::PutNumber("frontRightSpeed", desiredStates[1].speed.value());
+  }
+
+  /**
+   * Will be called periodically whenever the CommandScheduler runs.
+   */
+  void Periodic() override {
     frc::SmartDashboard::PutNumber("LinearX", linearX);
     frc::SmartDashboard::PutNumber("LinearY", linearY);
     frc::SmartDashboard::PutNumber("Angular", angular);
@@ -112,10 +110,10 @@ public:
 private:
   // Components (e.g. motor controllers and sensors) should generally be
   // declared private and exposed only through public methods.
-  SwerveModule backRightModule{1, 2, 9, -143.70507812500001};
-  SwerveModule backLeftModule{3, 4, 10, -70};
-  SwerveModule frontLeftModule{5, 6, 11, -147.5};
-  SwerveModule frontRightModule{7, 8, 12, -160};
+  SwerveModule backRightModule{ 1, 2, 9, -143.70507812500001 };
+  SwerveModule backLeftModule{ 3, 4, 10, -70 };
+  SwerveModule frontLeftModule{ 5, 6, 11, -147.5 };
+  SwerveModule frontRightModule{ 7, 8, 12, -160 };
 
   double wheelVoltage;
   double targetAngle;
@@ -131,8 +129,8 @@ private:
       frc::Translation2d(-10.36_in, 10.36_in)   // back left
   };
 
-  AHRS navx{frc::SPI::Port::kMXP};
-  frc::SwerveDriveKinematics<4> kinematics{modulePos};
+  AHRS navx{ frc::SPI::Port::kMXP };
+  frc::SwerveDriveKinematics<4> kinematics{ modulePos };
 
-  frc::SwerveDriveOdometry<4> odometry{kinematics, frc::Rotation2d(0_deg)};
+  frc::SwerveDriveOdometry<4> odometry{ kinematics, frc::Rotation2d(0_deg) };
 };

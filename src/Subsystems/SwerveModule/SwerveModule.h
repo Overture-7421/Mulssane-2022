@@ -10,8 +10,8 @@
 #include <frc/kinematics/SwerveModuleState.h>
 
 class SwerveModule {
- public:
-  SwerveModule(int rotatorID, int wheelID, int canCoderID, double offSet) : rotator(rotatorID), wheel(wheelID), canCoder(canCoderID){
+public:
+  SwerveModule(int rotatorID, int wheelID, int canCoderID, double offSet) : rotator(rotatorID), wheel(wheelID), canCoder(canCoderID) {
     canCoder.ConfigAbsoluteSensorRange(AbsoluteSensorRange::Signed_PlusMinus180);
 
     rotator.ConfigFactoryDefault();
@@ -20,46 +20,48 @@ class SwerveModule {
     canCoder.ConfigSensorDirection(false);
     rotator.SetInverted(true);
 
+    wheel.SetNeutralMode(NeutralMode::Brake);
+    rotator.SetNeutralMode(NeutralMode::Brake);
     this->offSet = offSet;
   }
-  
-  double getSpeed(){
+
+  double getSpeed() {
     return getMeters(wheel.GetSelectedSensorVelocity() * 10);
   }
 
-  double getMeters(double codes){
-      double meters = codes / 2048 / 6.75 * 0.319024;
-      return meters;
+  double getMeters(double codes) {
+    double meters = codes / 2048 / 6.75 * 0.319024;
+    return meters;
   }
 
   void SetRotatorVoltage(double rotatorVoltage) {
     rotator.SetVoltage(units::volt_t(rotatorVoltage));
   }
 
-  void SetWheelVoltage(double wheelVoltage){
+  void SetWheelVoltage(double wheelVoltage) {
     wheel.SetVoltage(units::volt_t(wheelVoltage));
   }
 
-  double getAngle(){
+  double getAngle() {
     return frc::Rotation2d(units::degree_t(canCoder.GetAbsolutePosition())).RotateBy(units::degree_t(offSet)).Degrees().value();
-  }  
+  }
 
-  double getPID(double setPoint){
+  double getPID(double setPoint) {
     return rotatorPID.Calculate(getAngle(), setPoint);
   }
 
-  void setAngle(double angle){
+  void setAngle(double angle) {
     this->angle = angle;
   }
 
 
-  frc::SwerveModuleState getState(){
+  frc::SwerveModuleState getState() {
     frc::SwerveModuleState state;
 
     state.angle = units::degree_t(getAngle());
     state.speed = units::meters_per_second_t(getSpeed());
 
-    return state; 
+    return state;
   }
 
   /**
@@ -69,19 +71,19 @@ class SwerveModule {
     SetRotatorVoltage(getPID(angle));
   }
 
-  void setPIDvalues(double kP, double kI, double kD, double f){
+  void setPIDvalues(double kP, double kI, double kD, double f) {
     rotatorPID.SetPID(kP, kI, kD);
     this->f = f;
   }
 
- private:
+private:
   // Components (e.g. motor controllers and sensors) should generally be
   // declared private and exposed only through public methods.
   WPI_TalonFX rotator;
   WPI_TalonFX wheel;
 
   CANCoder canCoder;
-  frc2::PIDController rotatorPID{0.125, 0.5, 0};
+  frc2::PIDController rotatorPID{ 0.125, 0.5, 0 };
 
   double angle = 0;
   double f = 0;
