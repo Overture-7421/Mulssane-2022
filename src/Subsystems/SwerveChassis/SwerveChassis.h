@@ -12,6 +12,9 @@
 #include <frc/kinematics/ChassisSpeeds.h>
 #include <frc/kinematics/SwerveDriveKinematics.h>
 #include <frc/kinematics/SwerveDriveOdometry.h>
+#include <frc/estimator/SwerveDrivePoseEstimator.h>
+#include <frc/smartdashboard/Field2d.h>
+
 #include <wpi/numbers>
 #include <AHRS.h>
 
@@ -36,6 +39,8 @@ public:
     }
 
     navx.ZeroYaw();
+
+    frc::SmartDashboard::PutData("Field", &field2d);
   }
 
   void setTargetAngle(double targetAngle) {
@@ -67,12 +72,16 @@ public:
     this->wheelVoltage = wheelVoltage;
   }
 
-  const frc::Pose2d& getOdometry() {
-    return odometry.GetPose();
+  frc::Pose2d getOdometry() {
+    return odometry.GetEstimatedPosition();
   }
 
   const frc::SwerveDriveKinematics<4>& getKinematics() {
     return kinematics;
+  }
+
+  void addVisionMeasurement(frc::Pose2d pose, units::second_t latency) {
+    odometry.AddVisionMeasurement(pose, frc::Timer::GetFPGATimestamp() - latency);
   }
 
   void setModuleStates(wpi::array<frc::SwerveModuleState, 4> desiredStates) {
@@ -105,6 +114,9 @@ public:
     frc::SmartDashboard::PutNumber("OdometryX", getOdometry().X().value());
     frc::SmartDashboard::PutNumber("OdometryY", getOdometry().Y().value());
     frc::SmartDashboard::PutNumber("AnglenaveX", -navx.GetAngle());
+
+
+    field2d.SetRobotPose(getOdometry());
   }
 
 private:
@@ -132,5 +144,7 @@ private:
   AHRS navx{ frc::SPI::Port::kMXP };
   frc::SwerveDriveKinematics<4> kinematics{ modulePos };
 
-  frc::SwerveDriveOdometry<4> odometry{ kinematics, frc::Rotation2d(0_deg) };
+  frc::SwerveDrivePoseEstimator<4> odometry{ frc::Rotation2d(0_deg), {0_m,0_m,{0_deg}}, kinematics, {0.6,0.6,0.6}, {0.5},{0.5,0.5,0.5} };
+
+  frc::Field2d field2d;
 };

@@ -1,5 +1,6 @@
 #pragma once
 #include "Subsystems/SwerveChassis/SwerveChassis.h"
+#include "Subsystems/VisionManager/VisionManager.h"
 #include "Commands/Common/FollowSwervePath/FollowSwervePath.h"
 
 #include <frc/TimedRobot.h>
@@ -23,6 +24,8 @@ public:
 
 private:
   SwerveChassis swerveChassis;
+  VisionManager visionManager {&swerveChassis};
+
   frc::Joystick joystick{ 0 };
   FollowSwervePath swervePath{ &swerveChassis, {
     {0_m,0_m,{0_deg}},
